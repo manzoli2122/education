@@ -9,4 +9,14 @@
  npm i ionicons
 
 
- 
+ npm install datatables.net
+
+
+ npm install datatables.net-bs
+
+
+npm install  izitoast
+
+
+npm install sweetalert2
+

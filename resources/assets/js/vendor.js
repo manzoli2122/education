@@ -22,14 +22,14 @@ if (token) {
 }
   
 
-//require('datatables.net');
-//require('datatables.net-bs');
+require('datatables.net');
+require('datatables.net-bs');
 
 
 
-//window.moment = require('moment');
-//window.moment.locale('pt-BR');
+window.moment = require('moment');
+window.moment.locale('pt-BR');
   
-//window.iziToast = require('izitoast');
-//window.swal = require('sweetalert2');
+window.iziToast = require('izitoast');
+window.swal = require('sweetalert2');
 window.select2 = require('select2');
