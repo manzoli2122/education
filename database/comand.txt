@@ -1,1 +1,12 @@
  
+
+ npm i admin-lte
+
+
+ npm i select2
+
+
+ npm i ionicons
+
+
+ 
