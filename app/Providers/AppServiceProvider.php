@@ -23,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            'App\Service\VueServiceInterface',
+            'App\Service\VueService'
+        );
+
+        $this->app->bind(
+            'App\Service\DisciplinaServiceInterface',
+            'App\Service\DisciplinaService'
+        );
     }
 }

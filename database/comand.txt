@@ -1,6 +1,6 @@
  
 
- npm i admin-lte
+ npm install --save admin-lte
 
 
  npm i select2
@@ -19,4 +19,12 @@ npm install  izitoast
 
 
 npm install sweetalert2
+
+
+
+npm install vue-router
+
+
+
+ npm install --save ionicons
 

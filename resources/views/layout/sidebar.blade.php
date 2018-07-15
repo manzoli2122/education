@@ -46,6 +46,8 @@
               </li>
             </ul>
           </li>
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
@@ -55,6 +57,26 @@
               </p>
             </a>
           </li>
+    
+          
+
+      
+
+         @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
+           <li class="nav-item">
+            <a href="{{ route('disciplina.index')}}" class="nav-link">
+              <i class="fa fa-book fa-lg fa-2x text-warning"></i>
+              <p>
+                Disciplina
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li> 
+        @endif 
+        
+
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

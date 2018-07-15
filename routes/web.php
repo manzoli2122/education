@@ -13,4 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+
+
+
+
+Route::post('disciplina/getDatatable', 'DisciplinaController@getDatatable')->name('disciplina.getDatatable');
+
+
+Route::resource('disciplina', 'DisciplinaController')->except(['create', 'edit']); 

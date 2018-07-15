@@ -1,0 +1,56 @@
+<template>  
+	<div>  
+		<crudHeader texto="Listagem das Disciplinas">
+			<li class="breadcrumb-item">
+				Disciplina  
+			</li>
+		</crudHeader> 
+		<div class="content">
+			<div class="container-fluid">
+				<crudCard>
+					<div class="card-body  table-responsive"> 
+						<datatable :config="config"> 
+							<th style="max-width:20px">ID</th>
+							<th pesquisavel>Nome</th>
+							<th>Descricao</th>  
+							<th class="text-center" style="width:140px">Ações</th>
+						</datatable> 
+					</div>    
+				</crudCard> 
+			</div> 
+		</div>  
+	</div>
+</template>
+
+<script>
+
+export default {
+
+	props:[
+	'url' 
+	],  
+
+	data() {
+		return {                
+			config: {
+				order: [[ 1, "asc" ]],
+				ajax: { 
+					url: this.url + '/getDatatable'
+				},
+				columns: [
+				{ data: 'id', name: 'id'  },
+				{ data: 'nome', name: 'nome' },
+				{ data: 'descricao', name: 'descricao' }, 
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center'}
+				],
+			} , 
+		}
+	},
+
+}
+
+</script>
+ 
+<style >
+
+</style>

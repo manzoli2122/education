@@ -23,7 +23,7 @@ if (token) {
   
 
 require('datatables.net');
-require('datatables.net-bs');
+require('datatables.net-bs4');
 
 
 
