@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('inicio');
 
 
 
@@ -23,6 +23,7 @@ Route::post('disciplina/getDatatable', 'DisciplinaController@getDatatable')->nam
 
 
 Route::resource('disciplina', 'DisciplinaController')->except(['create', 'edit']); 
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

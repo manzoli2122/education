@@ -33,7 +33,7 @@ class DisciplinaController extends VueController
             
         $this->service = $service;         
 
-        //$this->middleware('auth');
+        $this->middleware('auth');
         //$this->middleware('permissao:disciplinas')->except('disciplinas'); 
     }
 
