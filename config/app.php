@@ -150,6 +150,9 @@ return [
         /*
          * Package Service Providers...
          */
+        
+        App\Security\AALServiceProvider::class,
+
         Yajra\Datatables\DatatablesServiceProvider::class,
         /*
          * Application Service Providers...
@@ -208,6 +211,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        "AAL" => App\Security\AALFacade::class,
+
 
     ],
 

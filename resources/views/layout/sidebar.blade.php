@@ -25,19 +25,19 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           
-
-         @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
-           <li class="nav-item">
-            <a href="{{ route('disciplina.index')}}" class="nav-link">
-              <i class="fa fa-book fa-lg fa-2x text-warning"></i>
-              <p>
-                Disciplina
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> 
-        @endif 
-        
+          @perfil('Admin')
+           @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
+             <li class="nav-item">
+              <a href="{{ route('disciplina.index')}}" class="nav-link">
+                <i class="fa fa-book fa-lg fa-2x text-warning"></i>
+                <p>
+                  Disciplina
+                  <span class="right badge badge-danger">New</span>
+                </p>
+              </a>
+            </li> 
+            @endif 
+          @endperfil  
 
 
 
