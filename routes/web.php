@@ -43,6 +43,11 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 
 
 
+
+
+
+
+
     Route::any('perfil/{id}/usuario/pesquisar',       'Security\PerfilController@pesquisarUsuarios')->name('perfil.usuario.pesquisar');
     Route::get('perfil/{id}/usuario/{userId}/delete', 'Security\PerfilController@deleteUser')->name('perfil.usuario.delete');
     Route::post('perfil/{id}/usuario/cadastrar',      'Security\PerfilController@addUsuarios')->name('perfil.usuario.add');
@@ -61,3 +66,19 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 
     Route::post('perfil/getDatatable', 'Security\PerfilController@getDatatable')->name('perfil.getDatatable');  
     Route::resource('perfil', 'Security\PerfilController')->except(['create', 'edit']); 
+
+
+
+
+
+
+
+
+
+
+        Route::get('usuario/{id}/perfil/{perfilId}/delete', 'Security\UsuarioController@deletePerfil')->name('usuario.perfil.delete');
+        Route::post('usuario/{id}/perfil/cadastrar',        'Security\UsuarioController@addPerfil')->name('usuario.perfil.add');
+        Route::get('usuario/{id}/perfil/cadastrar',         'Security\UsuarioController@perfisParaAdd')->name('usuario.perfil.cadastrar'); 
+        Route::get('usuario/{id}/perfil',                   'Security\UsuarioController@perfis')->name('usuario.perfil'); 
+        Route::post('usuario/getDatatable',                 'Security\UsuarioController@getDatatable')->name('usuario.getDatatable');        
+        Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show']);

@@ -52,7 +52,7 @@
             @if(Route::getRoutes()->hasNamedRoute('permissao.index'))
             <li class="nav-item">
              <a href="{{ route('permissao.index')}}" class="nav-link active">
-               <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
+               <i class="nav-icon fa fa-unlock fa-lg fa-2x  "></i>
                <p>
                  Permissão
                  <span class="right badge badge-danger">New</span>
@@ -66,7 +66,7 @@
            @if(Route::getRoutes()->hasNamedRoute('perfil.index'))
            <li class="nav-item">
             <a href="{{ route('perfil.index')}}" class="nav-link active">
-              <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
+              <i class="nav-icon fa fa-id-card fa-lg fa-2x  "></i>
               <p>
                 Perfil
                  
@@ -74,6 +74,19 @@
             </a>
           </li>  
           @endif 
+
+
+          @if(Route::getRoutes()->hasNamedRoute('usuario.index'))
+          <li class="nav-item">
+           <a href="{{ route('usuario.index')}}" class="nav-link active">
+             <i class="nav-icon fa fa-users fa-lg fa-2x  "></i>
+             <p>
+               Usuário
+                
+             </p>
+           </a>
+         </li>  
+         @endif 
 
 
 

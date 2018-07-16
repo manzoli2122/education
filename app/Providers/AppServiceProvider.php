@@ -44,7 +44,10 @@ class AppServiceProvider extends ServiceProvider
             'App\Service\Security\PerfilService'
         );
 
-
+        $this->app->bind(
+            'App\Service\Security\UsuarioServiceInterface',
+            'App\Service\Security\UsuarioService'
+        );
 
     }
 }
