@@ -23,6 +23,11 @@ let routes = [
         path: '/:id/permissao',
         component: require('./paginas/Permissao')
     },  
+
+    {
+        path: '/:id/usuario',
+        component: require('./paginas/Usuario')
+    },  
     
 ];
 

@@ -20,7 +20,7 @@
 						</section>  
 					</div> 
 					<div class="card-footer text-right">
-						<crudBotaoVoltar/>  
+						<crudBotaoVoltar url="/" />  
 						<crudBotaoExcluir :url="url + '/' + $route.params.id"></crudBotaoExcluir>
 					</div>    
 				</crudCard> 

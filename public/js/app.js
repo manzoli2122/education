@@ -1238,7 +1238,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "router-link",
-    { staticClass: "btn btn-secondary", attrs: { to: "/", exact: "" } },
+    { staticClass: "btn btn-secondary", attrs: { to: _vm.url, exact: "" } },
     [_c("i", { staticClass: "fa fa-reply" }), _vm._v(" Voltar\n")]
   )
 }
@@ -1283,7 +1283,7 @@ var render = function() {
           "div",
           { staticClass: "card-footer text-right" },
           [
-            _c("crudBotaoVoltar"),
+            _c("crudBotaoVoltar", { attrs: { url: "/" } }),
             _vm._v(" "),
             _c("crudBotaoSalvar", {
               attrs: { disabled: _vm.form.errors.any() }

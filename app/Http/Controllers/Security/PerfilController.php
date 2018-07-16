@@ -77,11 +77,28 @@ class PerfilController extends VueController
 
 
         public function usuarios($id)
-        {            
+        {      
+            try {  
+                if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                    return response()->json('Item não encontrado.', 404 );    
+                }                   
+                return response()->json( $model->usuarios , 200);
+            }         
+            catch(Exception $e) {           
+                return response()->json( 'Erro interno', 500);    
+            } 
+        }
+
+
+
+
+        public function usuarios_ori($id)
+        {     
             $model = $this->model->find($id);
             $users = $model->usuarios()->get();
             return view("{$this->view}.usuarios", compact('model','users'));
         }
+         
 
 
 
@@ -153,9 +170,7 @@ class PerfilController extends VueController
             catch(Exception $e) {           
                 return response()->json( 'Erro interno', 500);    
             }
-            
-            
-
+             
            // $model = $this->model->find($id);           
           //  return view("{$this->view}.permissoes", compact('model'));
         }

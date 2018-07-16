@@ -5,7 +5,7 @@
 				 <slot></slot>
 			</div>
 			<div class="card-footer text-right">
-				<crudBotaoVoltar/>  
+				<crudBotaoVoltar url="/"/>  
 				<crudBotaoSalvar :disabled="form.errors.any()" /> 
 			</div>
 		</crudCard> 

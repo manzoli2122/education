@@ -6,9 +6,8 @@
 			</li>
             <li class="breadcrumb-item">
 				<router-link   :to="'/show/'+ $route.params.id" exact><a>{{model.nome}} </a></router-link> 
-			</li>
-			<!-- <li class="breadcrumb-item active">{{model.nome}}</li> -->
-            <li class="breadcrumb-item active">Permissões</li>
+			</li> 
+            <li class="breadcrumb-item active">Usuario</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid"> 
@@ -18,11 +17,13 @@
                     </div>
 					<div class="card-body">
  
-						<section v-for="permissao in permissoes" :key="permissao.id" class="row">    
-							<div class="col-12 col-sm-12 ">
-								<h4>  {{permissao.nome}} </h4>
+						<section v-for="usuario in usuarios" :key="usuario.id" class="row">    
+							<div class="col-6 col-sm-6 ">
+								<h4>  {{usuario.name}} </h4>
 							</div>     
-							 
+							<div class="col-6 col-sm-6 ">
+								<h4>  {{usuario.email}} </h4>
+							</div> 
 						</section>  
  
 					</div> 
@@ -52,7 +53,7 @@ export default {
 	data() {
 		return {                
             model:'', 
-            permissoes:'',
+            usuarios:'',
 		}
 	},
 
@@ -78,12 +79,12 @@ export default {
          }); 
          
 
-        axios.get(this.url + '/' + this.$route.params.id +'/permissao')
+        axios.get(this.url + '/' + this.$route.params.id +'/usuario')
  		.then(response => {
- 			this.permissoes = response.data ;
+ 			this.usuarios = response.data ;
  		})
  		.catch(error => {
- 			toastErro('Não foi possivel achar a Permissoes' , error.response.data);
+ 			toastErro('Não foi possivel achar a Usuarios' , error.response.data);
          }); 
          
 

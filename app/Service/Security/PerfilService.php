@@ -26,7 +26,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         ->addColumn('action', function($linha) {
             return  '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-datatable btn-sm" title="Editar" style="margin-left: 10px;"><i class="fa fa-pencil"></i></a>'
                     . '<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-datatable btn-sm" title="Visualizar" style="margin-left: 10px;"><i class="fa fa-search"></i></a>'
-                    . '<a href="#/'.$linha->id .'/permissao" class="btn btn-warning btn-sm" title="Permissões" style="margin-left: 10px;"> <i class="fa fa-unlock"></i> Permissões </a> ' 
+                    //. '<a href="#/'.$linha->id .'/permissao" class="btn btn-warning btn-sm" title="Permissões" style="margin-left: 10px;"> <i class="fa fa-unlock"></i> Permissões </a> ' 
+                   // . '<a href="#/'.$linha->id .'/usuario" class="btn btn-secondary btn-sm" title="Usuários"> <i class="fa fa-users"></i> Usuários </a> '
             ;
         })->make(true);
         return $result ; 

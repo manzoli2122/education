@@ -1,5 +1,5 @@
 <template>  
-	<router-link  to="/" exact  class="btn btn-secondary">
+	<router-link  :to="url" exact  class="btn btn-secondary">
 		<i class="fa fa-reply"></i> Voltar
 	</router-link>	
 </template>

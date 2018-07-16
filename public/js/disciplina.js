@@ -800,7 +800,7 @@ var render = function() {
                 "div",
                 { staticClass: "card-footer text-right" },
                 [
-                  _c("crudBotaoVoltar"),
+                  _c("crudBotaoVoltar", { attrs: { url: "/" } }),
                   _vm._v(" "),
                   _c("crudBotaoExcluir", {
                     attrs: { url: _vm.url + "/" + _vm.$route.params.id }
