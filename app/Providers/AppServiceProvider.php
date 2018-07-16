@@ -33,5 +33,18 @@ class AppServiceProvider extends ServiceProvider
             'App\Service\DisciplinaServiceInterface',
             'App\Service\DisciplinaService'
         );
+
+        $this->app->bind(
+            'App\Service\Security\PermissaoServiceInterface',
+            'App\Service\Security\PermissaoService'
+        );
+
+        $this->app->bind(
+            'App\Service\Security\PerfilServiceInterface',
+            'App\Service\Security\PerfilService'
+        );
+
+
+
     }
 }

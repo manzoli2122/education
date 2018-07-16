@@ -21,6 +21,10 @@ class Perfil extends Model //implements AALPerfilInterface
     protected $fillable = [
             'nome', 'descricao', 
     ];
+
+    protected $hidden = [
+        'deleted_at' ,     'updated_at' ,  
+    ];
         
     public function rules($id = '')
     {

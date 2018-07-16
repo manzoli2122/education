@@ -15,7 +15,7 @@
 	<!-- font-awesome  ionicons --> 
 	<link href="{{ mix('css/fonts.css') }}" rel="stylesheet" type="text/css"/>
 	<!-- template --> 
-	<link href="{{ mix('css/adminlte.css') }}" rel="stylesheet" type="text/css"/> 
+	<link href="css/adminlte.css" rel="stylesheet" type="text/css"/> 
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> 
 	@stack('styles')
@@ -50,7 +50,7 @@
 	<script src="{{ mix('js/vendor.js') }}" type="text/javascript"></script>
 
 	<!-- AdminLTE App  -->
-	<script src="{{ mix('js/adminlte.js') }}" type="text/javascript"></script>
+	<script src="js/adminlte.js" type="text/javascript"></script>
  
 	<script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
 

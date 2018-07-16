@@ -19,6 +19,12 @@ class Permissao extends Model //implements AALPermissaoInterface
     protected $fillable = [
             'nome', 'descricao', 
     ];
+
+    protected $hidden = [
+        'deleted_at' ,     'updated_at' ,  'created_at' , 'pivot'
+    ];
+
+    
         
     public function rules($id = '')
     {

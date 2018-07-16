@@ -4,19 +4,19 @@ Vue.use(VueRouter);
 let routes = [
     {
         path: '/',
-        component: require('./paginas/IndexDisciplina')
+        component: require('./paginas/Index')
     },
     {
         path: '/create',
-        component: require('./paginas/CadastroDisciplina')
+        component: require('./paginas/Cadastro')
     },   
     {
         path: '/show/:id',
-        component: require('./paginas/ShowDisciplina')
+        component: require('./paginas/Show')
     },  
     {
         path: '/edit/:id',
-        component: require('./paginas/EditDisciplina')
+        component: require('./paginas/Edit')
     },  
     
 ];

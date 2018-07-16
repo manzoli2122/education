@@ -1,8 +1,8 @@
 <template>  
 	<div>  
-		<crudHeader texto="Listagem das Disciplinas">
+		<crudHeader texto="Listagem das Perfis">
 			<li class="breadcrumb-item">
-				Disciplina  
+				Perfil  
 			</li>
 		</crudHeader> 
 		<div class="content">
@@ -13,7 +13,7 @@
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th>Descricao</th>  
-							<th class="text-center" style="width:140px">Ações</th>
+							<th class="text-center" style="width:200px">Ações</th>
 						</datatable> 
 					</div>    
 				</crudCard> 
