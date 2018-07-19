@@ -8,6 +8,7 @@ use Config;
 use InvalidArgumentException;
 use Cache;
 
+use DB;
 
 class User extends Authenticatable
 {
@@ -128,6 +129,17 @@ class User extends Authenticatable
 
     
     
+    public function getPerfilDatatable($id)
+    { 
+        return DB::table('perfils')->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
+                ->where('perfils_users.user_id' , $id )
+                ->select([ 'perfils.id', 'perfils.nome', 'perfils.descricao' ]); 
+    }
+    
+
+
+
+
    
     public function usuarios_sem_perfil($perfil_id)
     {

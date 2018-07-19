@@ -21,9 +21,13 @@ let routes = [
     
     {
         path: '/:id/perfil',
-        component: require('./paginas/Perfil')
+        component: require('./paginas/Perfil') 
     },  
 
+    {
+        path: '/:id/perfil/adicionar',
+        component: require('./paginas/AdicionarPerfil')
+    }, 
      
     
 ];

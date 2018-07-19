@@ -154,10 +154,10 @@ class Perfil extends Model //implements AALPerfilInterface
         }
         
         
-        return $this->whereNotIn('id', function($query) use ($id){
+        return $this->whereNotIn('id', function($query) use ($usuario_id){
                     $query->select("perfils_users.perfil_id");
                     $query->from("perfils_users");
-                    $query->whereRaw("perfils_users.user_id = {$id} ");
+                    $query->whereRaw("perfils_users.user_id = {$usuario_id} ");
                 })
                 ->where('nome', '<>' , 'Admin')
                 ->orderBy('nome')

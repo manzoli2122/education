@@ -30,6 +30,7 @@ class PermissaoController extends VueController
         
         $this->model = $permissao ;
         
+        $this->middleware('auth');
         //$this->middleware('permissao:permissoes');
        
     }

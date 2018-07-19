@@ -28,7 +28,7 @@ Vue.component('crudFormElemento', require('./components/core/crud/ElementoForm.v
 Vue.component('Formulario', require('./components/core/crud/Formulario.vue'));
 
 
-
+Vue.component('select2', require('./components/core/SelectComponente.vue'));
 
 
 
@@ -80,6 +80,7 @@ window.datatablePadrao = function(seletorTabela, configEspecifica,
             if (e.type === 'change' || e.which === 13) {
                 dataTable
                     .column(colIdx)
+                     
                     .search(this.value)
                     .draw(); 
                 e.stopPropagation();
@@ -129,6 +130,34 @@ window.alertErro = function(titulo, texto = "", posicao = "center", funcao = fun
 
 window.toastErro = function(titulo, texto = "", funcao = function() {}) {
     alertErro(titulo, texto, 'bottomRight', funcao);
+}
+
+
+
+
+
+
+window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = function() {}) {
+    iziToast.show({
+        theme: 'dark',
+        timeout: 2000,
+        position: posicao,
+        color: '#00A65A',
+        title: titulo,
+        titleColor: '#fff',
+        titleSize: '14',
+        message: texto,
+        messageColor: '#fff',
+        
+        icon: 'fa fa-check',
+        iconColor: '#fff',
+        closeOnEscape: true,
+        onClosed: funcao
+    });
+}
+
+window.toastSucesso = function(titulo, texto = "", funcao = function() {}) {
+    alertSucesso(titulo, texto, 'bottomRight', funcao);
 }
 
 

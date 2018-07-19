@@ -10,12 +10,14 @@
 	<!--meta http-equiv="refresh" content="120"--> 
 	<meta name="theme-color" content="#00a65a">
 	<title> SGPM-EDU </title>
+	<link href="{{ mix('css/select2.css') }}" rel="stylesheet" type="text/css"/>
 	<!--  Bootstrap -->
 	<link href="{{ mix('css/bootstrap.css') }}" rel="stylesheet" type="text/css"/> 
 	<!-- font-awesome  ionicons --> 
 	<link href="{{ mix('css/fonts.css') }}" rel="stylesheet" type="text/css"/>
 	<!-- template --> 
 	<link href="css/adminlte.css" rel="stylesheet" type="text/css"/> 
+	
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> 
 	@stack('styles')

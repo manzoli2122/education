@@ -36,11 +36,53 @@ class UsuarioController extends VueController
         
         $this->model = $user ;
         
+        $this->middleware('auth');
+
         //$this->middleware('permissao:permissoes');
        
     }
 
  
+
+    public function adicionarPerfilAoUsuario(Request $request , $userId)
+    {        
+        $model = $this->model->find($userId);  
+        if( $request->get('perfil') != '' ){ 
+            $perfil = $this->perfil->find($request->get('perfil')); 
+            if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
+                $model->attachPerfil($request->get('perfil')); 
+        }  
+        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
+    }
+
+
+
+    
+
+    public function excluirPerfilDoUsuario( $userId , $perfilId )
+    {        
+        $model = $this->model->find($userId);
+        $perfil = $this->perfil->find($perfilId);
+        if( $perfil->nome == 'Admin' and ! Auth::user()->hasPerfil('Admin'))
+            return response()->json( 'Voce não tem permissão para isso' , 500);
+            //return redirect()->route("{$this->route}.perfis" ,$id)->with(['error' => 'Perfil não pode ser Removido']);
+        $model->detachPerfil($perfilId); 
+        
+        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200);
+        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfil Removido com sucesso']);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
@@ -59,18 +101,109 @@ class UsuarioController extends VueController
             })->make(true);
     }
 
+
+
+
+
+
+
+    
+    public function getDatatable( Request $request ){
+        try {            
+            return  $this->service->BuscarDataTable( $request);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        } 
+    }
+
+
+
 */
     
-    public function perfis($id)
-    {        
+
+
+
+
+    public function perfis_ori2($id)
+    {      
+        try {  
+            if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            }                   
+            return response()->json( $model->perfis , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( 'Erro interno', 500);    
+        } 
+ 
+    }
+
+    
+    
+
+    public function perfis_ori($id)
+    {      
         $model = $this->user->find($id);
         return view("{$this->view}.perfis", compact('model'));
+    }
+
+ 
+
+
+
+
+
+    
+
+    public function perfisParaAdd($id)
+    {    
+        try {  
+            if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            }                   
+            return response()->json( $this->perfil->perfils_sem_usuario($id, Auth::user()->hasPerfil('Admin')) , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( 'Erro interno', 500);    
+        }  
+         
     }
     
 
 
 
-    public function perfisParaAdd($id)
+
+    
+    
+    public function perfis( Request $request , $id )
+    {     
+        try {            
+            return  $this->service->BuscarPerfilDataTable( $request , $id);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }  
+
+
+        /*
+        try {  
+            if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            }                   
+            return response()->json( $model->perfis , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( 'Erro interno', 500);    
+        } 
+        */
+
+    }
+
+
+
+
+    public function perfisParaAdd_ori($id)
     {    
         $model = $this->user->find($id);
         $perfis = $this->perfil->perfils_sem_usuario($id, Auth::user()->hasPerfil('Admin'));
@@ -81,7 +214,39 @@ class UsuarioController extends VueController
 
 
 
+
+
+    
     public function addPerfil(Request $request , $id)
+    {        
+        $model = $this->model->find($id);
+        
+        
+        
+        
+        
+        if( $request->get('perfil') != '' ){
+            
+            $perfil = $this->perfil->find($request->get('perfil'));
+            
+            if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
+                $model->attachPerfil($request->get('perfil'));
+            
+            
+             
+        }
+
+        return response()->json('Feito' , 200);
+
+        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfis vinculados com sucesso']);
+    }
+    
+
+
+
+
+
+    public function addPerfil_ori(Request $request , $id)
     {        
         $model = $this->user->find($id);
         if($request->get('perfis') != ''){
@@ -97,14 +262,25 @@ class UsuarioController extends VueController
 
 
 
+
+
+
+
+
+
+
+
     public function deletePerfil($id,$perfilId)
     {        
-        $model = $this->user->find($id);
+        $model = $this->model->find($id);
         $perfil = $this->perfil->find($perfilId);
         if( $perfil->nome == 'Admin' and ! Auth::user()->hasPerfil('Admin'))
-            return redirect()->route("{$this->route}.perfis" ,$id)->with(['error' => 'Perfil não pode ser Removido']);
-        $model->detachPerfil($perfilId);   
-        return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfil Removido com sucesso']);
+            return response()->json( 'Voce não tem permissão para isso' , 500);
+            //return redirect()->route("{$this->route}.perfis" ,$id)->with(['error' => 'Perfil não pode ser Removido']);
+        $model->detachPerfil($perfilId); 
+        
+        return response()->json('Feito' , 200);
+        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfil Removido com sucesso']);
     }
 
  

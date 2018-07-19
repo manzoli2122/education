@@ -44,6 +44,7 @@ class PerfilController extends VueController
         
         $this->user = $user;
 
+        $this->middleware('auth');
 
         //$this->middleware('permissao:perfis');  
       

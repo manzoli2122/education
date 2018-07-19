@@ -1,13 +1,18 @@
 <template>  
-	<div>   
-		<table class="table table-bordered table-striped  table-hover " id="datatable">
-			<thead>     
-				<tr>
-					<slot></slot>
-				</tr>
-			</thead>  
-		</table> 
-	</div>
+	<crudCard>
+		<div class="card-body  table-responsive">  
+            <table class="table table-bordered table-striped  table-hover " id="datatable">
+                <thead>     
+                    <tr>
+                        <th style="max-width:20px">ID</th>
+                        <th pesquisavel>Nome</th>
+                        <th>Descrição</th>  
+                        <th class="text-center" style="width:200px">Ações</th>
+                    </tr>
+                </thead>  
+            </table> 
+        </div>    
+	</crudCard> 
 </template>
 
 <script>
@@ -15,17 +20,60 @@
 export default {
 
 	props:[
-	  'config'
+	  'url' , 'perfis'
 	],  
+
+	 watch: { 
+	 	perfis: function (newteste, oldteste) {
+			  this.datatable.ajax.reload();
+	 	}
+	 },
+
+
+
+
+	data() {
+		return {                
+			config: {
+				order: [[ 1, "asc" ]],
+				ajax: { 
+					url: this.url + '/' + this.$route.params.id + '/perfil'
+				},
+				columns: [
+				{ data: 'id', name: 'id'  },
+				{ data: 'nome', name: 'nome' },
+				{ data: 'descricao', name: 'descricao' }, 
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+				],
+			} ,  
+			datatable:'', 
+		}
+	},
 
 	methods: { 
 		modelIndexDataTableFunction(  config ) { 
-			var dataTable = datatablePadrao('#datatable', config ); 
-		} 
+			this.datatable = datatablePadrao('#datatable', config ); 
+			var vm = this ; 
+			this.datatable.on('draw', function () {
+				$('[btn-excluir]').click(function (){
+					let id =  $(this).data('id');
+					
+					axios.get( vm.url + '/' + vm.$route.params.id + '/delete/perfil/'   + id   )
+					.then(response => { 
+						vm.$emit('perfilRemovido' , response.data )
+					})
+					.catch(error => {
+						toastErro('Não foi possivel achar a Perfil' , error.response.data);
+					});  
+					
+				});
+        	});
+		} ,
+
 	},
 
 	mounted() {
-		this.modelIndexDataTableFunction(  this.config);
+		this.modelIndexDataTableFunction(  this.config );
 	}
 
 }

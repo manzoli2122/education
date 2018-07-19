@@ -1,98 +1,96 @@
 <template>             
-	<div> 
-		<crudHeader :texto="model.nome">
+	 <div>  
+		<crudHeader :texto="'Perfis do ' + usuario.name ">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Usuário </a></router-link> 
 			</li>
-            <li class="breadcrumb-item">
-				<router-link   :to="'/show/'+ $route.params.id" exact><a>{{model.nome}} </a></router-link> 
-			</li>
-			<!-- <li class="breadcrumb-item active">{{model.nome}}</li> -->
-            <li class="breadcrumb-item active">Permissões</li>
+			<li class="breadcrumb-item active">{{usuario.name}}</li>
+			<li class="breadcrumb-item"> Perfis </li>
 		</crudHeader> 
 		<div class="content">
-			<div class="container-fluid"> 
-				<crudCard>
-                    <div class="card-header">
-                        <h4 class="text-center"> Permissões </h4>
-                    </div>
-					<div class="card-body">
- 
-						<section v-for="permissao in permissoes" :key="permissao.id" class="row">    
-							<div class="col-12 col-sm-12 ">
-								<h4>  {{permissao.nome}} </h4>
-							</div>     
-							 
-						</section>  
- 
-					</div> 
- 
-					<div class="card-footer text-right">
-						<crudBotaoVoltar :url="'/show/' + $route.params.id" />  
-						<!-- <crudBotaoExcluir :url="url + '/' + $route.params.id"></crudBotaoExcluir> -->
-					</div>    
+			<div class="container-fluid">  
 
-
-
-				</crudCard> 
+				<perfilDatatable :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatable>  
+ 
+				<formAdicionarPerfil  v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
+ 
 			</div> 
-		</div>   
+		</div>  
 	</div>
 </template>
 
 
 <script>
- 
-export default {
+  
+Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue')); 
+Vue.component('perfilDatatable', require('./_perfilDatatable.vue'));
 
-	props:[
+export default {
+ 
+	props:[ 
 	'url' 
-	], 
+	],  
 
 	data() {
-		return {                
-            model:'', 
-            permissoes:'',
+		return {    
+			usuario:'',
+			perfis:'',  
 		}
 	},
+ 
+ 	created() { 
+		axios.get(this.url + '/' + this.$route.params.id)
+			.then(response => {
+				this.usuario = response.data;
+			})
+			.catch(error => {
+				toastErro('Não foi possivel achar o Usuário', error.response.data);
+				alertProcessandoHide();
+			}); 
+		//this.buscarPerfilParaAdicionar();
+		axios.get(this.url + "/" + this.$route.params.id + "/perfil/cadastrar")
+	 				.then(response => {
+	 					this.perfis = response.data;
+	 				})
+	 				.catch(error => {
+	 					toastErro("Não foi possivel achar a Perfil", error.response.data);
+					 });  
+	 }, 
 
-	watch: {
-		model: function (newmodel, oldmodel) {
-            alertProcessandoHide();
-        }
-    },   
 
 
 
 
-    created() {
- 		alertProcessando();
- 		axios.get(this.url + '/' + this.$route.params.id )
- 		.then(response => {
- 			this.model = response.data ;
- 		})
- 		.catch(error => {
- 			//console.log(error.response);
- 			toastErro('Não foi possivel achar o Usuário' , error.response.data);
- 			alertProcessandoHide();
-         }); 
-         
+	 methods: {
 
-        axios.get(this.url + '/' + this.$route.params.id +'/permissao')
- 		.then(response => {
- 			this.permissoes = response.data ;
- 		})
- 		.catch(error => {
- 			toastErro('Não foi possivel achar a Permissoes' , error.response.data);
-         }); 
-         
 
- 	}, 
+	 		buscarPerfilParaAdicionar(event) {
+				 this.perfis = event;
 
+/*
+	 			axios.get(this.url + "/" + this.$route.params.id + "/perfil/cadastrar")
+	 				.then(response => {
+	 					this.perfis = response.data;
+	 				})
+	 				.catch(error => {
+	 					toastErro("Não foi possivel achar a Perfil", error.response.data);
+					 });  
+					 */
+			 },
+			 
+
+
+			perfilAdicionado(event) {
+				this.perfis = event;
+	 		},
+
+
+ 
+	},
+	   
  }
  
  </script>
  
- <style scoped>
- 
+ <style scoped> 
  </style>

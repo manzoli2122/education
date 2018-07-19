@@ -21,6 +21,9 @@
       @endif
 
 
+
+ 
+
       
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -47,46 +50,75 @@
               </a>
             </li>  
             @endif 
-            
+             
 
-            @if(Route::getRoutes()->hasNamedRoute('permissao.index'))
-            <li class="nav-item">
-             <a href="{{ route('permissao.index')}}" class="nav-link active">
-               <i class="nav-icon fa fa-unlock fa-lg fa-2x  "></i>
-               <p>
-                 Permissão
-                 <span class="right badge badge-danger">New</span>
-               </p>
-             </a>
-           </li>  
-           @endif 
+            <li class="nav-item has-treeview ">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-lock"></i>
+                <p>
+                  Segurança
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                 
+                
+                @if(Route::getRoutes()->hasNamedRoute('permissao.index'))
+                    <li class="nav-item">
+                    <a href="{{ route('permissao.index')}}" class="nav-link ">
+                      <i class="nav-icon fa fa-unlock fa-lg fa-2x  "></i>
+                      <p>
+                        Permissão
+                        <span class="right badge badge-danger">New</span>
+                      </p>
+                    </a>
+                  </li>  
+                  @endif 
+
+                  @if(Route::getRoutes()->hasNamedRoute('perfil.index'))
+                  <li class="nav-item">
+                    <a href="{{ route('perfil.index')}}" class="nav-link ">
+                      <i class="nav-icon fa fa-id-card fa-lg fa-2x  "></i>
+                      <p>
+                        Perfil
+                        
+                      </p>
+                    </a>
+                  </li>  
+                  @endif 
+
+
+                  @if(Route::getRoutes()->hasNamedRoute('usuario.index'))
+                  <li class="nav-item">
+                  <a href="{{ route('usuario.index')}}" class="nav-link ">
+                    <i class="nav-icon fa fa-users fa-lg fa-2x  "></i>
+                    <p>
+                      Usuário
+                        
+                    </p>
+                  </a>
+                </li>  
+                @endif 
+
+
+                
+                 
+              </ul>
+            </li>
+      
+
+
+
+
+
+
+
+
+            
 
 
            
-           @if(Route::getRoutes()->hasNamedRoute('perfil.index'))
-           <li class="nav-item">
-            <a href="{{ route('perfil.index')}}" class="nav-link active">
-              <i class="nav-icon fa fa-id-card fa-lg fa-2x  "></i>
-              <p>
-                Perfil
-                 
-              </p>
-            </a>
-          </li>  
-          @endif 
-
-
-          @if(Route::getRoutes()->hasNamedRoute('usuario.index'))
-          <li class="nav-item">
-           <a href="{{ route('usuario.index')}}" class="nav-link active">
-             <i class="nav-icon fa fa-users fa-lg fa-2x  "></i>
-             <p>
-               Usuário
-                
-             </p>
-           </a>
-         </li>  
-         @endif 
+           
 
 
 

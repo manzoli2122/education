@@ -41,7 +41,7 @@ export default {
 				{ data: 'id', name: 'id'  },
 				{ data: 'name', name: 'name' },
 				{ data: 'email', name: 'email' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center'}
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
 		}
