@@ -7,6 +7,7 @@ use App\Models\Perfil;
 use App\Models\Security\LogUsuarioPerfil;
 use App\Service\VueService;
 use Auth;
+use Yajra\DataTables\DataTables;
 
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
@@ -15,10 +16,12 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     protected $model; 
     protected $perfil; 
     protected $log;
+    protected $dataTable;
     protected $route = "user";
 
 
-    public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log){        
+    public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log , DataTables $dataTable){        
+        $this->dataTable = $dataTable ;   
         $this->model = $user ;   
         $this->perfil = $perfil ;
         $this->log = $log ;    
@@ -66,13 +69,19 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
     public function  BuscarPerfilDataTableLog( $request , $id ){
         
-        $models = $this->log->getDatatable($id);          
-        $result = \Yajra\DataTables\DataTables::of($models) 
-        ->addColumn('title', function (LogUsuarioPerfil $user) {
-            return $user->usuario ?  $user->usuario->name  : '';
-        })
-        ->make(true);
-        return $result ;
+        $models = $this->log->getDatatable($id);   
+
+        return $this->dataTable
+                ->eloquent($models)
+               // ->addColumn('title', function (User $user) {
+                //    return $user->onePost ? str_limit($user->onePost->title, 30, '...') : '';
+               // })
+                ->make(true);
+
+
+        //$result = \Yajra\DataTables\DataTables::of($models)  
+       // ->make(true);
+     //   return $result ;
          
     }
 

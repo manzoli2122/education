@@ -25,8 +25,8 @@
 <script>
   
 Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue')); 
-Vue.component('perfilDatatable', require('./_perfilDatatable.vue'));
-Vue.component('perfilDatatableLog', require('./_perfilDatatableLog.vue'));
+Vue.component('perfilDatatable', require('./_PerfilDatatable.vue'));
+Vue.component('perfilDatatableLog', require('./_PerfilDatatableLog.vue'));
 
 
 export default {

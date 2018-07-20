@@ -7,10 +7,8 @@
                         <th style="max-width:20px">ID</th>
                          
                         <th pesquisavel>Acao</th>
-                        <th>Perfil</th>
-
-                           <th>Perfil</th>
-                         <th>Data</th>  
+                        <th pesquisavel>Acao</th>
+                        <th pesquisavel>Acao</th>
                     </tr>
                 </thead>  
             </table> 
@@ -38,19 +36,17 @@ export default {
 	data() {
 		return {                
 			config: {
-				order: [[ 1, "asc" ]],
+				order: [[ 0, "asc" ]],
 				ajax: { 
 					url: this.url + '/' + this.$route.params.id + '/perfil/log'
 				},
 				columns: [
-                { data: 'id', name: 'id'  },
-                 ,
-                { data: 'acao', name: 'acao'  },
-                { data: 'pertfil.nome', name: 'pertfil.nome ' },
-                
-                { data: 'autor_id', name: 'autor_id' } ,
-                
-                 { data: 'created_at', name: 'created_at' },
+                { data: 'id', name: 'usuario_perfil_log.id'  },
+                 
+                { data: 'acao', name: 'usuario_perfil_log.acao'  },
+                { data: 'autor.name', name: 'autor.name'  },
+                { data: 'perfil.nome', name: 'perfil.nome'  },
+                 
 				],
 			} ,  
 			datatable:'', 
