@@ -3,19 +3,25 @@
 namespace App\Service\Security ;
  
 use App\User;
-
+use App\Models\Perfil;
+use App\Models\Security\LogUsuarioPerfil;
 use App\Service\VueService;
+use Auth;
+
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
 {
 
     protected $model; 
-    
+    protected $perfil; 
+    protected $log;
     protected $route = "user";
 
 
-    public function __construct( User $user){        
-        $this->model = $user ;    
+    public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log){        
+        $this->model = $user ;   
+        $this->perfil = $perfil ;
+        $this->log = $log ;    
     }
 
 
@@ -37,7 +43,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
     public function  BuscarPerfilDataTable( $request , $id ){
-        $models = $this->model->getPerfilDatatable($id);
+        $models = $this->perfil->getPerfilDatatable($id);
         
          
         $result = \Yajra\DataTables\DataTables::of($models)
@@ -47,26 +53,68 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
                 //.'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis" style="margin-left: 10px;"> <i class="fa fa-id-card"></i>  </a> ' 
             ;
         })
-        //->parameters([
-        //    'buttons' => ['reload'],
-        //])
+         
         ->make(true);
         return $result ;
         
        
-       /* $result = \Yajra\DataTables\DataTables::of($models)
-        ->addColumn('action', function($linha) {
-            return  
-                '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-datatable btn-sm" title="Editar" style="margin-left: 10px;"><i class="fa fa-pencil"></i></a>'
-                .'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis" style="margin-left: 10px;"> <i class="fa fa-id-card"></i>  </a> ' 
-            ;
-        })
-        ->make(true);
-        return $result ; 
-        */
-
+       
 
     }
+
+
+
+    public function  BuscarPerfilDataTableLog( $request , $id ){
+        
+        $models = $this->log->getDatatable($id);          
+        $result = \Yajra\DataTables\DataTables::of($models) 
+        ->addColumn('title', function (LogUsuarioPerfil $user) {
+            return $user->usuario ?  $user->usuario->name  : '';
+        })
+        ->make(true);
+        return $result ;
+         
+    }
+
+
+
+
+
+
+
+    public function adicionarPerfilAoUsuario( $perfil , $userId )
+    {        
+        $usuario = $this->model->find($userId);
+        $perfil = $this->perfil->find( $perfil );
+        if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
+            $usuario->attachPerfil($perfil);
+ 
+    }
+
+
+
+    public function adicionarPerfilAoUsuarioLog( $request , $perfil , $userId )
+    {        
+
+        $log =  new LogUsuarioPerfil();
+        $log->user_id = $userId;
+        $log->autor_id = Auth::user()->id;
+        $log->perfil_id = $perfil;
+        $log->acao = 'adicionar';
+        $log->ip_v4 = '12.12.12.12';
+        $log->host = '13.13.13.13';
+        
+        //$this->perfis()->attach($perfil);
+        
+        $log->save();
+
+       
+ 
+    }
+
+
+
+
 
  
   

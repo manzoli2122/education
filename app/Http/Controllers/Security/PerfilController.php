@@ -52,6 +52,74 @@ class PerfilController extends VueController
     }
 
 
+
+
+
+    public function adicionarPermissaoAoPerfil(Request $request , $perfilId)
+    {        
+        $model = $this->model->find($perfilId);  
+        $model->attachPermissao($request->get('permissao'));  
+        return response()->json( $this->permissao->permissos_sem_perfil($perfilId)  , 200); 
+    }
+
+
+
+
+
+
+
+    public function excluirPermissaoDoPerfil( $perfilId , $permissaoId )
+    {        
+        $model = $this->model->find($perfilId);
+        $model->detachPermissao($permissaoId); 
+        return response()->json( $this->permissao->permissos_sem_perfil($perfilId) , 200); 
+    }
+
+ 
+
+ 
+    
+    
+
+
+    public function getPermissaoDatatable( Request $request , $id )
+    {     
+        try {            
+            return  $this->service->BuscarPermissaoDataTable( $request , $id);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
+    }
+
+
+
+
+    public function permissoesParaAdicionar($id)
+    {          
+        try {  
+            if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            }                   
+            return response()->json( $this->permissao->permissos_sem_perfil($id) , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( 'Erro interno', 500);    
+        }  
+
+    }
+    
+    
+ 
+
+
+
+
+
+
+
+
+
  
 
   

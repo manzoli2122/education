@@ -42,6 +42,13 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 
 
 
+//===========================================================================================================================================================
+//                              SEGURANCA PERFIL
+//===========================================================================================================================================================
+    Route::post('perfil/{perfilId}/adicionar/permissao',           'Security\PerfilController@adicionarPermissaoAoPerfil')->name('perfil.adicionar.permissao');
+    Route::get('perfil/{perfilId}/delete/permissao/{permissaoId}', 'Security\PerfilController@excluirPermissaoDoPerfil')->name('perfil.excluir.permissao');
+    Route::post('perfil/{id}/permissao',                           'Security\PerfilController@getPermissaoDatatable')->name('perfil.permissao.datatable');
+    Route::get('perfil/{id}/permissao/adicionar',                  'Security\PerfilController@permissoesParaAdicionar')->name('perfil.permissao.adicionar');
 
 
 
@@ -59,8 +66,8 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
     Route::any('perfil/{id}/permissao/pesquisar',            'Security\PerfilController@pesquisarPermissoes')->name('perfil.permissao.pesquisar');
     Route::get('perfil/{id}/permissao/{permissaoId}/delete', 'Security\PerfilController@deletePermissao')->name('perfil.permissao.delete');
     Route::post('perfil/{id}/permissao/cadastrar',           'Security\PerfilController@addPermissoes')->name('perfil.permissao.add');
-    Route::get('perfil/{id}/permissao/cadastrar',            'Security\PerfilController@permissoesParaAdd')->name('perfil.permissao.cadastrar');
-    Route::get('perfil/{id}/permissao',                      'Security\PerfilController@permissoes')->name('perfil.permissao');
+    
+    
 
      
 
@@ -75,8 +82,17 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 //===========================================================================================================================================================
 //                              SEGURANCA USUARIO
 //===========================================================================================================================================================
-        Route::post('usuario/{userId}/adicionar/perfil',        'Security\UsuarioController@adicionarPerfilAoUsuario')->name('usuario.adicionar.perfil');
-        Route::get('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario')->name('usuario.perfil.delete');
+    Route::post('usuario/{userId}/adicionar/perfil',        'Security\UsuarioController@adicionarPerfilAoUsuario')->name('usuario.adicionar.perfil');
+    Route::get('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario')->name('usuario.perfil.delete');
+    Route::post('usuario/{id}/perfil',                  'Security\UsuarioController@perfis')->name('usuario.perfil'); 
+    Route::post('usuario/{id}/perfil/log',                  'Security\UsuarioController@perfisDatatableLog')->name('usuario.perfil.log'); 
+
+
+
+
+
+
+
 
 
 
@@ -86,6 +102,6 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
         
         Route::post('usuario/{id}/perfil/cadastrar',        'Security\UsuarioController@addPerfil')->name('usuario.perfil.add');
         Route::get('usuario/{id}/perfil/cadastrar',         'Security\UsuarioController@perfisParaAdd')->name('usuario.perfil.cadastrar'); 
-        Route::post('usuario/{id}/perfil',                  'Security\UsuarioController@perfis')->name('usuario.perfil'); 
+        
         Route::post('usuario/getDatatable',                 'Security\UsuarioController@getDatatable')->name('usuario.getDatatable');        
         Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show']);

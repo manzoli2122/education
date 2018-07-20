@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-//use Manzoli2122\AAL\Interfaces\AALPerfilInterface; 
- 
 use Cache;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
-class Perfil extends Model //implements AALPerfilInterface
+class Perfil extends Model
 {    
 
      
@@ -40,7 +39,36 @@ class Perfil extends Model //implements AALPerfilInterface
         return $this->select(['id', 'nome', 'descricao'  ]);        
     }
     
+
+
     
+    public function getPermissaoDatatable($id)
+    { 
+        return DB::table('permissoes')->join('permissao_perfils', 'permissoes.id', '=', 'permissao_perfils.permissao_id')
+                ->where('permissao_perfils.perfil_id' , $id )
+                ->select([ "permissoes.id", "permissoes.nome", "permissoes.descricao" ]); 
+    }
+
+
+
+    /**
+    *  Busca Os perfis de unm determinado usuario para exibir no datatable
+    *
+    * @param int $user_Id
+    *
+    * @return void
+    */
+    public function getPerfilDatatable($user_Id)
+    { 
+        return $this->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
+                ->where('perfils_users.user_id' , $user_Id )
+                ->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]); 
+    }
+    
+
+
+
+
 
     //===========================================================================
     public static function boot()
@@ -68,6 +96,24 @@ class Perfil extends Model //implements AALPerfilInterface
         });
         return $value ;
     }
+
+
+
+
+
+     /**
+     * Atualizar a cache com os perfis do usuario
+     * 
+     * @return void
+     */
+    public function cachedPermissoesAtualizar()
+    {
+        $perfilPrimaryKey = $this->primaryKey;
+        $cacheKey = 'todas_permissoes_para_perfil_' . $this->$perfilPrimaryKey;
+        Cache::forget($cacheKey);
+        $this->cachedPermissoes();
+    }
+    
 
 
 
@@ -220,6 +266,7 @@ class Perfil extends Model //implements AALPerfilInterface
             $permissao = $permissao->getKey();
         }
         $this->permissoes()->attach($permissao);
+        $this->cachedPermissoesAtualizar();
     }
 
     
@@ -232,6 +279,7 @@ class Perfil extends Model //implements AALPerfilInterface
             $permissao = $permissao->getKey();
         }
         $this->permissoes()->detach($permissao);
+        $this->cachedPermissoesAtualizar();
     }
 
    

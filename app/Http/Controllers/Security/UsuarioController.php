@@ -45,17 +45,26 @@ class UsuarioController extends VueController
  
 
     public function adicionarPerfilAoUsuario(Request $request , $userId)
+    {    
+        if( $request->get('perfil') != '' ){ 
+            $this->service->adicionarPerfilAoUsuario( $request->get('perfil') ,  $userId); 
+            $this->service->adicionarPerfilAoUsuarioLog( $request, $request->get('perfil') ,  $userId); 
+        }   
+        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
+    }
+
+
+
+    public function adicionarPerfilAoUsuario_ori(Request $request , $userId)
     {        
         $model = $this->model->find($userId);  
         if( $request->get('perfil') != '' ){ 
             $perfil = $this->perfil->find($request->get('perfil')); 
             if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
                 $model->attachPerfil($request->get('perfil')); 
-        }  
+        }   
         return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
     }
-
-
 
     
 
@@ -76,6 +85,29 @@ class UsuarioController extends VueController
 
 
 
+
+    public function perfis( Request $request , $id )
+    {     
+        try {            
+            return  $this->service->BuscarPerfilDataTable( $request , $id);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
+    }
+
+
+
+    
+    public function perfisDatatableLog( Request $request , $id )
+    {     
+        try {            
+            return  $this->service->BuscarPerfilDataTableLog( $request , $id);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
+    }
 
 
 
@@ -176,29 +208,7 @@ class UsuarioController extends VueController
 
     
     
-    public function perfis( Request $request , $id )
-    {     
-        try {            
-            return  $this->service->BuscarPerfilDataTable( $request , $id);
-        }         
-        catch (Exception $e) {           
-            return response()->json( $e->getMessage() , 500);
-        }  
-
-
-        /*
-        try {  
-            if( !$model = $this->service->BuscarPeloId( $id ) ){       
-                return response()->json('Item não encontrado.', 404 );    
-            }                   
-            return response()->json( $model->perfis , 200);
-        }         
-        catch(Exception $e) {           
-            return response()->json( 'Erro interno', 500);    
-        } 
-        */
-
-    }
+    
 
 
 

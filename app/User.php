@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',   'deleted_at' ,     'updated_at' ,  'created_at' , 'pivot'
+        'password', 'remember_token',   'deleted_at' ,  'updated_at' ,  'created_at' , 'pivot'
     ];
  
 
@@ -38,7 +38,13 @@ class User extends Authenticatable
 
     
     //====================================================================================
-    
+     /**
+     * Save  
+     *
+     * @param mixed $inputPermissions
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -52,21 +58,46 @@ class User extends Authenticatable
 
 
 
-
+     /**
+     * Busca os perfis do usuario na cache ou 
+     * caso ainda não tenha no banco de dados e salva na Cache
+     * 
+     * @return Json $perfis
+     */
     public function cachedPerfis()
     {
         $usuarioPrimaryKey = $this->primaryKey;
         $cacheKey = 'todos_perfis_para_usuario_'.$this->$usuarioPrimaryKey;
-
         $value = Cache::rememberForever(  $cacheKey , function () {
             return    collect([ 'perfis' => $this->perfis()->select('nome')->get()->pluck('nome')  ]) ->toJson() ;            
-        });
+        }); 
         return $value ;
     }
 
+
+
+
+    /**
+     * Atualizar a cache com os perfis do usuario
+     * 
+     * @return void
+     */
+    public function cachedPerfisAtualizar()
+    {
+        $usuarioPrimaryKey = $this->primaryKey;
+        $cacheKey = 'todos_perfis_para_usuario_'.$this->$usuarioPrimaryKey;
+        Cache::forget($cacheKey);
+        $this->cachedPerfis();
+    }
     
 
 
+
+    /**
+     * Buscar os usuarios para exibir na datatable
+     * 
+     * @return Query $query
+     */
     public function getDatatable()
     {
         return $this->select(['id', 'name', 'email'  ]);        
@@ -74,53 +105,16 @@ class User extends Authenticatable
     
 
 
-    public function save(array $options = [])
-    {   //both inserts and updates
-        /*if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.perfil_usuario_table'))->flush();
-        }*/
-        return parent::save($options);
-    }
 
-  
-    
+     
 
 
 
-
-    public function delete(array $options = [])
-    {   //soft or hard
-        $result = parent::delete($options);
-       /* if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.perfil_usuario_table'))->flush();
-        }*/
-        return $result;
-    }
-
-    
-    
-
-
-
-
-
-    public function restore()
-    {   //soft delete undo's
-        $result = parent::restore();
-        /*if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.perfil_usuario_table'))->flush();
-        }*/
-        return $result;
-    }
-
-    
-   
-    
-
-
-
-
-
+    /**
+    * Busca os perfis do usuario no banco de dados
+    * 
+    * @return Query $query
+    */
     public function perfis()
     {
         return $this->belongsToMany('App\Models\Perfil','perfils_users', 'user_id', 'perfil_id');
@@ -128,19 +122,20 @@ class User extends Authenticatable
 
 
     
+
+
+
+     
+
+
+
+    /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
     
-    public function getPerfilDatatable($id)
-    { 
-        return DB::table('perfils')->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
-                ->where('perfils_users.user_id' , $id )
-                ->select([ 'perfils.id', 'perfils.nome', 'perfils.descricao' ]); 
-    }
-    
-
-
-
-
-   
     public function usuarios_sem_perfil($perfil_id)
     {
         return $this->whereNotIn('id', function($query) use ($perfil_id){
@@ -152,7 +147,7 @@ class User extends Authenticatable
         ->get();       
         
     }
-    
+    */    
 
 
 
@@ -163,7 +158,15 @@ class User extends Authenticatable
 
 
 
-
+    /**
+    * Verifica se um usuario tem deternmindo perfil  
+    *
+    * @param array/String   $name
+    *
+    * @param boolean  $requireAll
+    *
+    * @return boolean 
+    */
     public function hasPerfil($name, $requireAll = false)
     {
         if (is_array($name)) {
@@ -194,18 +197,24 @@ class User extends Authenticatable
 
 
 
-
+    /**
+    * Verifica se um usuario possui uma ou um conjunto de permissoes 
+    * Caso tenha o perfil Admin retorna true
+    *  
+    * @param array/String   $name
+    *
+    * @param boolean  $requireAll
+    * 
+    * @return boolean
+    */
     public function can($permissao, $requireAll = false)
-    {
-                
+    {   
         if($this->hasPerfil('Admin')){
             return true;
-        }
-                
+        } 
         if (is_array($permissao)) {
             foreach ($permissao as $permName) {
-                $hasPerm = $this->can($permName);
-
+                $hasPerm = $this->can($permName); 
                 if ($hasPerm && !$requireAll) {
                     return true;
                 } elseif (!$hasPerm && $requireAll) {
@@ -214,8 +223,7 @@ class User extends Authenticatable
             }
             return $requireAll;
         } else {
-            foreach ($this->perfis as $perfil) {
-
+            foreach ($this->perfis as $perfil) { 
                 if($perfil->hasPermissao($permissao) ){
                     return true;
                 }
@@ -232,26 +240,44 @@ class User extends Authenticatable
     
 
 
+    
 
+    /**
+    * Atrela um perfil a um usuario e atualiza a cache
+    *
+    * @param int/object $perfil
+    *
+    * @return void
+    */
     public function attachPerfil($perfil)
     {
         if(is_object($perfil)) {
             $perfil = $perfil->getKey();
         }
         $this->perfis()->attach($perfil);
+        $this->cachedPerfisAtualizar();
     }
 
     
     
+    
 
 
 
+    /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+    */
     public function detachPerfil($perfil)
     {
         if (is_object($perfil)) {
             $perfil = $perfil->getKey();
         }
         $this->perfis()->detach($perfil);
+        $this->cachedPerfisAtualizar();
     }
 
    
@@ -261,19 +287,37 @@ class User extends Authenticatable
 
 
 
+
+
+
+
+
+     /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+   
     public function attachPerfis($perfis)
     {
         foreach ($perfis as $perfil) {
             $this->attachPerfil($perfil);
         }
     }
-
+    */
    
     
 
 
 
-
+     /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+    
     public function detachPerfis($perfis=null)
     {
         if (!$perfis) $perfis = $this->perfis()->get();
@@ -282,12 +326,18 @@ class User extends Authenticatable
             $this->detachPerfil($perfil);
         }
     }
-
+    */
     
     
 
 
-
+    /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+    
     public function scopeWithPerfil($query, $perfil)
     {
         return $query->whereHas('perfis', function ($query) use ($perfil)
@@ -295,5 +345,12 @@ class User extends Authenticatable
             $query->where('name', $perfil);
         });
     }
+
+    */
+
+
+
+
+
 
 }

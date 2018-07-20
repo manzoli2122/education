@@ -13,6 +13,8 @@
 				<perfilDatatable :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatable>  
  
 				<formAdicionarPerfil  v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
+				<h1>Historico de Perfil</h1>
+				<perfilDatatableLog :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatableLog>  
  
 			</div> 
 		</div>  
@@ -24,6 +26,8 @@
   
 Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue')); 
 Vue.component('perfilDatatable', require('./_perfilDatatable.vue'));
+Vue.component('perfilDatatableLog', require('./_perfilDatatableLog.vue'));
+
 
 export default {
  
@@ -47,7 +51,7 @@ export default {
 				toastErro('Não foi possivel achar o Usuário', error.response.data);
 				alertProcessandoHide();
 			}); 
-		//this.buscarPerfilParaAdicionar();
+		 
 		axios.get(this.url + "/" + this.$route.params.id + "/perfil/cadastrar")
 	 				.then(response => {
 	 					this.perfis = response.data;

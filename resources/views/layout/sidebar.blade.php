@@ -109,7 +109,22 @@
 
 
 
+            @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
+            
+            @permissao('disciplina-cadastrar')
 
+            <li class="nav-item">
+             <a href="{{ route('disciplina.index')}}" class="nav-link active">
+               <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
+               <p>
+                 Disciplina
+                 <span class="right badge badge-danger">New</span>
+               </p>
+             </a>
+           </li> 
+
+            @endpermissao
+           @endif 
 
 
 
