@@ -10,9 +10,25 @@ interface UsuarioServiceInterface  extends VueServiceInterface
    
     public function  BuscarPerfilDataTable( $request , $id );
 
-    public function adicionarPerfilAoUsuario( $perfil , $userId );
 
-    public function adicionarPerfilAoUsuarioLog( $request , $perfil , $userId );
+
+
+
+    /**
+    * Função para Adicionar um Perfil a um usuario e salvar em log 
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+    */
+    public function adicionarPerfilAoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
+
+
+    public function excluirPerfilDoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
+
+
+
+   // public function adicionarPerfilAoUsuarioLog( $request , $perfil , $userId );
 
     public function  BuscarPerfilDataTableLog( $request , $id );
 } 

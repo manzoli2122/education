@@ -34,9 +34,41 @@ class User extends Authenticatable
  
 
 
+    /**
+     * Buscar os usuarios para exibir na datatable
+     * 
+     * @return Query $query
+     */
+    public function getDatatable()
+    {
+        return $this->select(['id', 'name', 'email'  ]);        
+    }
 
 
+
+    /**
+    *  Busca Os perfis de unm determinado usuario para exibir no datatable
+    *
+    * @param int $user_Id
+    *
+    * @return void
+    */
+    public function getPerfilDatatable( )
+    { 
+        return $this->perfis();
+                
+    }
     
+
+
+
+
+
+
+
+
+
+
     //====================================================================================
      /**
      * Save  
@@ -93,15 +125,7 @@ class User extends Authenticatable
 
 
 
-    /**
-     * Buscar os usuarios para exibir na datatable
-     * 
-     * @return Query $query
-     */
-    public function getDatatable()
-    {
-        return $this->select(['id', 'name', 'email'  ]);        
-    }
+    
     
 
 

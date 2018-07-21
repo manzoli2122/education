@@ -22,8 +22,7 @@ class VueController extends Controller
 
 
 
-    public function index(Request $request){ 
-              
+    public function index(Request $request){  
         return view("{$this->view}.index");         
     }
 

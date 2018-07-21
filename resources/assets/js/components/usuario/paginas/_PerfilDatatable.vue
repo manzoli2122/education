@@ -40,9 +40,9 @@ export default {
 					url: this.url + '/' + this.$route.params.id + '/perfil'
 				},
 				columns: [
-				{ data: 'id', name: 'id'  },
-				{ data: 'nome', name: 'nome' },
-				{ data: 'descricao', name: 'descricao' }, 
+				{ data: 'perfil_id', name: 'perfil_id'  },
+				{ data: 'nome', name: 'perfils.nome' },
+				{ data: 'descricao', name: 'perfils.descricao' }, 
 				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} ,  
@@ -58,7 +58,7 @@ export default {
 				$('[btn-excluir]').click(function (){
 					let id =  $(this).data('id');
 					
-					axios.get( vm.url + '/' + vm.$route.params.id + '/delete/perfil/'   + id   )
+					axios.post( vm.url + '/' + vm.$route.params.id + '/delete/perfil/'   + id   )
 					.then(response => { 
 						vm.$emit('perfilRemovido' , response.data )
 					})
@@ -84,6 +84,9 @@ export default {
 
 <style>
  
+.btn-sm{
+	 margin-left: 10px; 
+}
 
 table.dataTable {
 	clear: both;

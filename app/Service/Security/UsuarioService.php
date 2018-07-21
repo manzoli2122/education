@@ -20,6 +20,13 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     protected $route = "user";
 
 
+    /**
+    * Save  
+    *
+    * @param mixed $inputPermissions
+    *
+    * @return void
+    */
     public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log , DataTables $dataTable){        
         $this->dataTable = $dataTable ;   
         $this->model = $user ;   
@@ -28,16 +35,17 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     }
 
 
+
+
+
     public function  BuscarDataTable( $request ){
         $models = $this->model->getDatatable();
-        $result = \Yajra\DataTables\DataTables::of($models)
-        ->addColumn('action', function($linha) {
-            return  
-                '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-datatable btn-sm" title="Editar" style="margin-left: 10px;"><i class="fa fa-pencil"></i></a>'
-                .'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis" style="margin-left: 10px;"> <i class="fa fa-id-card"></i>  </a> ' 
-            ;
-        })->make(true);
-        return $result ; 
+        return $this->dataTable
+            ->eloquent($models)
+            ->addColumn('action', function($linha) {
+                return'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> ';
+            })
+            ->make(true); 
     }
 
 
@@ -45,44 +53,33 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
-    public function  BuscarPerfilDataTable( $request , $id ){
-        $models = $this->perfil->getPerfilDatatable($id);
-        
-         
-        $result = \Yajra\DataTables\DataTables::of($models)
-        ->addColumn('action', function($linha) {
-            return  
-                '<button data-id="'.$linha->id.'" vonclick="ExcluirPerfil('.$linha->id.')" btn-excluir class="btn btn-danger btn-sm" title="Excluir" style="margin-left: 10px;"><i class="fa fa-trash"></i></button>'
-                //.'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis" style="margin-left: 10px;"> <i class="fa fa-id-card"></i>  </a> ' 
-            ;
-        })
-         
-        ->make(true);
-        return $result ;
-        
-       
-       
 
+    public function  BuscarPerfilDataTable( $request , $id ){ 
+        $usuario = $this->model->find($id); 
+        $models = $usuario->getPerfilDatatable( ); 
+        return $this->dataTable
+            ->eloquent($models)
+            ->addColumn('action', function($linha) {
+                return  
+                '<button data-id="'.$linha->perfil_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' 
+            ;
+            })
+            ->make(true);  
     }
+
+
+
+
 
 
 
     public function  BuscarPerfilDataTableLog( $request , $id ){
         
-        $models = $this->log->getDatatable($id);   
-
+        $models = $this->log->getDatatable($id);  
         return $this->dataTable
                 ->eloquent($models)
-               // ->addColumn('title', function (User $user) {
-                //    return $user->onePost ? str_limit($user->onePost->title, 30, '...') : '';
-               // })
                 ->make(true);
-
-
-        //$result = \Yajra\DataTables\DataTables::of($models)  
-       // ->make(true);
-     //   return $result ;
-         
+ 
     }
 
 
@@ -91,34 +88,102 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
-    public function adicionarPerfilAoUsuario( $perfil , $userId )
+
+
+    /**
+    * Função para Adicionar um Perfil a um usuario e salvar em log 
+    *
+    * @param int  $perfilId
+    *  
+    * @param int  $userId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function adicionarPerfilAoUsuario( int $perfilId , int  $userId , int $autorId  , string $ip_v4 , string $host)
     {        
         $usuario = $this->model->find($userId);
-        $perfil = $this->perfil->find( $perfil );
-        if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
+        $perfil = $this->perfil->find( $perfilId );
+        if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin')){
             $usuario->attachPerfil($perfil);
+            $this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
+        } 
+    }
  
+
+
+
+
+
+
+
+    
+    /**
+    * Função para retirar um Perfil de um usuario e salvar em log 
+    *
+    * @param int  $perfilId
+    *  
+    * @param int  $userId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function excluirPerfilDoUsuario( int $perfilId , int  $userId , int $autorId  , string $ip_v4 , string $host)
+    {        
+        $usuario = $this->model->find($userId);
+        $perfil = $this->perfil->find($perfilId); 
+        if( $perfil->nome == 'Admin' and ! Auth::user()->hasPerfil('Admin')){
+            return response()->json( 'Voce não tem permissão para isso' , 500); 
+        } 
+        $usuario->detachPerfil($perfilId); 
+        $this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
     }
 
 
 
-    public function adicionarPerfilAoUsuarioLog( $request , $perfil , $userId )
-    {        
 
+
+
+
+
+
+    /**
+    * Função para retirar um Perfil de um usuario e salvar em log 
+    *
+    * @param int  $perfilId
+    *  
+    * @param int  $userId
+    *  
+    * @param int  $autorId
+    * 
+    * @param string  $acao
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    private function adicionarPerfilAoUsuarioLog( int $perfilId , int $userId  , int $autorId , string $acao , string $ip_v4 , string $host )
+    {         
         $log =  new LogUsuarioPerfil();
         $log->user_id = $userId;
-        $log->autor_id = Auth::user()->id;
-        $log->perfil_id = $perfil;
-        $log->acao = 'adicionar';
-        $log->ip_v4 = '12.12.12.12';
-        $log->host = '13.13.13.13';
-        
-        //$this->perfis()->attach($perfil);
-        
-        $log->save();
-
-       
- 
+        $log->autor_id = $autorId;
+        $log->perfil_id = $perfilId;
+        $log->acao = $acao ;
+        $log->ip_v4 = $ip_v4;
+        $log->host = $host; 
+        $log->save(); 
     }
 
 

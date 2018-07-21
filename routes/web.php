@@ -11,9 +11,25 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('inicio');
+Route::get('/', function () {    return view('welcome');})->name('inicio');
+ 
+Auth::routes();
+ 
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+//==========================================================================================================================================
+//                              SEGURANCA USUARIO
+//==========================================================================================================================================
+Route::post('usuario/{userId}/adicionar/perfil',    'Security\UsuarioController@adicionarPerfilAoUsuario')->name('usuario.adicionar.perfil');
+Route::post('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario')->name('usuario.perfil.delete');
+Route::post('usuario/{id}/perfil/datatable',     'Security\UsuarioController@BuscarPerfilDataTable')->name('usuario.perfil.datatable'); 
+Route::post('usuario/{id}/perfil/log/datatable',  'Security\UsuarioController@BuscarPerfilDataTableLog')->name('usuario.perfil.datatable.log'); 
+
+
+
+
 
 
 
@@ -23,13 +39,6 @@ Route::post('disciplina/getDatatable', 'DisciplinaController@getDatatable')->nam
  
 Route::resource('disciplina', 'DisciplinaController')->except(['create', 'edit']); 
 
-
-
-Auth::routes();
-
-
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 
 
@@ -77,15 +86,6 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 
 
 
-
-
-//===========================================================================================================================================================
-//                              SEGURANCA USUARIO
-//===========================================================================================================================================================
-    Route::post('usuario/{userId}/adicionar/perfil',        'Security\UsuarioController@adicionarPerfilAoUsuario')->name('usuario.adicionar.perfil');
-    Route::get('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario')->name('usuario.perfil.delete');
-    Route::post('usuario/{id}/perfil',                  'Security\UsuarioController@perfis')->name('usuario.perfil'); 
-    Route::post('usuario/{id}/perfil/log',                  'Security\UsuarioController@perfisDatatableLog')->name('usuario.perfil.log'); 
 
 
 

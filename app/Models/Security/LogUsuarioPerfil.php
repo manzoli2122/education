@@ -31,9 +31,7 @@ class LogUsuarioPerfil extends Model
 
     public function getDatatable($id)
     {
-        return $this->with('perfil' , 'autor')->select('usuario_perfil_log.*'); 
-       // return $this->with('pertfil' , 'autor')->select(['id','acao', 'ip_v4', 'host' ,   'created_at' ]);        
-        //return $this->with('pertfil' , 'autor')->select(['id','acao', 'ip_v4', 'host' , 'user_id', 'autor_id', 'perfil_id' , 'created_at' ]);        
+        return $this->with('perfil' , 'usuario', 'autor')->select('usuario_perfil_log.*')->where('usuario_perfil_log.user_id' , $id); 
     }
     
 

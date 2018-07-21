@@ -57,17 +57,28 @@ class Perfil extends Model
     * @param int $user_Id
     *
     * @return void
-    */
+   
     public function getPerfilDatatable($user_Id)
     { 
+        return $this->with('usuarios')->selectRaw('distinct perfils.*') 
+                ->where('users.id' , $user_Id );
+                //->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]);   
+        
+
         return $this->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
                 ->where('perfils_users.user_id' , $user_Id )
                 ->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]); 
     }
     
 
+     public function getPerfilDatatable_ori($user_Id)
+    { 
+        return $this->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
+                ->where('perfils_users.user_id' , $user_Id )
+                ->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]); 
+    }
 
-
+ */
 
 
     //===========================================================================

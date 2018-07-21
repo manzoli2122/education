@@ -4,11 +4,14 @@
             <table class="table table-bordered table-striped  table-hover " id="datatableLog">
                 <thead>     
                     <tr>
-                        <th style="max-width:20px">ID</th>
-                         
-                        <th pesquisavel>Acao</th>
-                        <th pesquisavel>Acao</th>
-                        <th pesquisavel>Acao</th>
+                        <th style="max-width:20px">ID</th>  
+                        <th pesquisavel>Responsável</th>
+                        <th pesquisavel>Ação</th>
+                        <th pesquisavel>Perfil</th>
+                        <th pesquisavel>Usuario</th>
+                        <th pesquisavel>Data</th>
+                        <th pesquisavel>IP</th>
+                        <th pesquisavel>Host</th>
                     </tr>
                 </thead>  
             </table> 
@@ -42,10 +45,14 @@ export default {
 				},
 				columns: [
                 { data: 'id', name: 'usuario_perfil_log.id'  },
-                 
-                { data: 'acao', name: 'usuario_perfil_log.acao'  },
                 { data: 'autor.name', name: 'autor.name'  },
+                { data: 'acao', name: 'usuario_perfil_log.acao'  },
                 { data: 'perfil.nome', name: 'perfil.nome'  },
+                { data: 'usuario.name', name: 'usuario.name'  },
+                { data: 'created_at', name: 'created_at'  },
+                { data: 'ip_v4', name: 'ip_v4'  },
+                { data: 'host', name: 'host'  },
+               
                  
 				],
 			} ,  

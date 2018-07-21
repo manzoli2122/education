@@ -1,17 +1,15 @@
 <?php
-
  
 namespace  App\Http\Controllers\Security;
-use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Config; 
-use DataTables;
+
+use Illuminate\Http\Request;  
 use App\Http\Controllers\VueController;
 
 use App\Models\Perfil;
 use App\User;
+
 use App\Service\Security\UsuarioServiceInterface;
- 
-use Illuminate\Console\Command; 
+  
 use Auth;   
 
 
@@ -44,41 +42,49 @@ class UsuarioController extends VueController
 
  
 
+
+
+
+
+    /**
+    * Função para Adicionar um Perfil a um usuario atraves do UsuarioServiceInterface
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId
+    *    
+    * @return json
+    */
     public function adicionarPerfilAoUsuario(Request $request , $userId)
-    {    
+    {     
         if( $request->get('perfil') != '' ){ 
-            $this->service->adicionarPerfilAoUsuario( $request->get('perfil') ,  $userId); 
-            $this->service->adicionarPerfilAoUsuarioLog( $request, $request->get('perfil') ,  $userId); 
+           $this->service->adicionarPerfilAoUsuario($request->get('perfil') , $userId , Auth::user()->id ,
+                                 $request->server('REMOTE_ADDR'),$request->header('host')  );   
         }   
-        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
+        return response()->json($this->perfil->perfils_sem_usuario($userId ,Auth::user()->hasPerfil('Admin')),200);
     }
 
 
-
-    public function adicionarPerfilAoUsuario_ori(Request $request , $userId)
-    {        
-        $model = $this->model->find($userId);  
-        if( $request->get('perfil') != '' ){ 
-            $perfil = $this->perfil->find($request->get('perfil')); 
-            if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
-                $model->attachPerfil($request->get('perfil')); 
-        }   
-        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
-    }
+ 
 
     
 
-    public function excluirPerfilDoUsuario( $userId , $perfilId )
+
+    /**
+    * Função para retirar um Perfil de um usuario  atraves do UsuarioServiceInterface
+    *
+    * @param Request $request
+    * 
+    * @param int  $perfilId
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function excluirPerfilDoUsuario( Request $request , $userId , $perfilId )
     {        
-        $model = $this->model->find($userId);
-        $perfil = $this->perfil->find($perfilId);
-        if( $perfil->nome == 'Admin' and ! Auth::user()->hasPerfil('Admin'))
-            return response()->json( 'Voce não tem permissão para isso' , 500);
-            //return redirect()->route("{$this->route}.perfis" ,$id)->with(['error' => 'Perfil não pode ser Removido']);
-        $model->detachPerfil($perfilId); 
-        
-        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200);
-        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfil Removido com sucesso']);
+        $this->service->excluirPerfilDoUsuario($perfilId , $userId , Auth::user()->id , $request->server('REMOTE_ADDR'),$request->header('host')  );  
+        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
     }
 
 
@@ -86,7 +92,22 @@ class UsuarioController extends VueController
 
 
 
-    public function perfis( Request $request , $id )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function BuscarPerfilDataTable( Request $request , $id )
     {     
         try {            
             return  $this->service->BuscarPerfilDataTable( $request , $id);
@@ -95,6 +116,11 @@ class UsuarioController extends VueController
             return response()->json( $e->getMessage() , 500);
         }   
     }
+
+
+
+
+
 
 
 
@@ -274,7 +300,7 @@ class UsuarioController extends VueController
 
 
 
-
+/*
 
 
 
@@ -295,6 +321,8 @@ class UsuarioController extends VueController
 
  
  
+
+ */
 
 
 }
