@@ -2,19 +2,11 @@
 
  
 namespace  App\Http\Controllers\Security;
-
-
-
-use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Config; 
+ 
+use Illuminate\Http\Request;  
 use DataTables;
-use App\Http\Controllers\VueController;
-
-use App\Models\Perfil;
-use App\Models\Permissao;
-use App\Service\Security\PerfilServiceInterface;
-
-use App\User;
+use App\Http\Controllers\VueController; 
+use App\Service\Security\PerfilServiceInterface; 
 use Auth; 
  
 
@@ -22,11 +14,7 @@ use Auth;
 class PerfilController extends VueController
 {
     
-    protected $service; 
-    protected $model;    
-    protected $permissao;
-    
-    protected $user; 
+    protected $service;  
     protected $name = "Perfil";    
     protected $view = "perfil";    
     protected $route = "perfil";
@@ -34,32 +22,32 @@ class PerfilController extends VueController
         
     
     
-    public function __construct( PerfilServiceInterface $service , Perfil $perfil, Permissao $permissao , User $user ){
+    public function __construct( PerfilServiceInterface $service ){
         
-        $this->service = $service ;  
- 
-        $this->model = $perfil ;
-        
-        $this->permissao = $permissao ;
-        
-        $this->user = $user;
-
-        $this->middleware('auth');
-
-        //$this->middleware('permissao:perfis');  
-      
+        $this->service = $service ;   
+        $this->middleware('auth'); 
+        //$this->middleware('permissao:perfis');   
        
     }
 
 
 
 
-
+    /**
+    * Função para Adicionar uma Permissao a um Perfil atraves do PerfilServiceInterface
+    *
+    * @param Request $request
+    *  
+    * @param int  $perfilId
+    *    
+    * @return json
+    */
     public function adicionarPermissaoAoPerfil(Request $request , $perfilId)
     {        
-        $model = $this->model->find($perfilId);  
-        $model->attachPermissao($request->get('permissao'));  
-        return response()->json( $this->permissao->permissos_sem_perfil($perfilId)  , 200); 
+        if( $request->get('permissao') != '' ){ 
+           $this->service->adicionarPermissaoAoPerfil($request->get('permissao'),$perfilId,Auth::user()->id, $request->server('REMOTE_ADDR'),$request->header('host'));
+        }   
+        return response()->json($this->service->BuscarPermissoesParaAdicionar( $perfilId ),200); 
     }
 
 
@@ -68,24 +56,70 @@ class PerfilController extends VueController
 
 
 
-    public function excluirPermissaoDoPerfil( $perfilId , $permissaoId )
+
+    /**
+    * Função para retirar um Permissao de um Perfil  atraves do PerfilServiceInterface
+    *
+    * @param Request $request
+    * 
+    * @param int  $perfilId
+    *  
+    * @param int  $permissaoId 
+    *
+    * @return json
+    */ 
+    public function excluirPermissaoDoPerfil( Request $request , $perfilId , $permissaoId )
     {        
-        $model = $this->model->find($perfilId);
-        $model->detachPermissao($permissaoId); 
-        return response()->json( $this->permissao->permissos_sem_perfil($perfilId) , 200); 
+        $this->service->excluirPermissaoDoPerfil($permissaoId , $perfilId , Auth::user()->id , $request->server('REMOTE_ADDR'),$request->header('host')  );  
+        return response()->json( $this->service->BuscarPermissoesParaAdicionar( $perfilId )  , 200);  
     }
 
  
 
+
+
+
+   /**
+    * Função para buscar os Permissao que um Perfil não possui; 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return List $permissoes
+    */
+    public function BuscarPermissoesParaAdicionar($perfilId)
+    {      
+        try {            
+            return response()->json( $this->service->BuscarPermissoesParaAdicionar( $perfilId ) , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( 'Erro interno', 500);    
+        }   
+    }
+
+
+
+
+
+
+
+
  
     
     
 
-
-    public function getPermissaoDatatable( Request $request , $id )
+     /**
+    * Função para buscar as permissoes de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function BuscarPermissaoDataTable( Request $request , $perfilId )
     {     
         try {            
-            return  $this->service->BuscarPermissaoDataTable( $request , $id);
+            return  $this->service->BuscarPermissaoDataTable( $request , $perfilId);
         }         
         catch (Exception $e) {           
             return response()->json( $e->getMessage() , 500);
@@ -95,19 +129,7 @@ class PerfilController extends VueController
 
 
 
-    public function permissoesParaAdicionar($id)
-    {          
-        try {  
-            if( !$model = $this->service->BuscarPeloId( $id ) ){       
-                return response()->json('Item não encontrado.', 404 );    
-            }                   
-            return response()->json( $this->permissao->permissos_sem_perfil($id) , 200);
-        }         
-        catch(Exception $e) {           
-            return response()->json( 'Erro interno', 500);    
-        }  
-
-    }
+   
     
     
  
@@ -122,26 +144,9 @@ class PerfilController extends VueController
 
  
 
-  
-        /**
-    * Processa a requisição AJAX do DataTable na página de listagem.
-    * Mais informações em: http://datatables.yajrabox.com
-    *
-    * @return \Illuminate\Http\JsonResponse
-    
-    public function getDatatable(Request $request)
-    {
-        $models = $this->model->getDatatable();
-        return Datatables::of($models)
-            ->addColumn('action', function($linha) {
-                return '<button data-id="'.$linha->id.'" btn-excluir type="button" class="btn btn-danger btn-xs" title="Excluir"> <i class="fa fa-times"></i> </button> '
-                        . '<a href="'.route("{$this->route}.permissao", $linha->id).'" class="btn btn-warning btn-xs" title="Permissões"> <i class="fa fa-unlock"></i> Permissões </a> '      
-                       // . '<a href="'.route("{$this->route}.usuarios", $linha->id).'" class="btn btn-success btn-xs" title="Usuários"> <i class="fa fa-users"></i> Usuários </a> '      
-                        . '<a href="'.route("{$this->route}.edit", $linha->id).'" class="btn btn-primary btn-xs" title="Editar"> <i class="fa fa-pencil"></i> </a> '   ;
-            })->make(true);
-    }
-        
-*/
+   
+
+
 
 
 
@@ -159,18 +164,16 @@ class PerfilController extends VueController
         }
 
 
-
-
-        public function usuarios_ori($id)
-        {     
-            $model = $this->model->find($id);
-            $users = $model->usuarios()->get();
-            return view("{$this->view}.usuarios", compact('model','users'));
-        }
-         
+ 
 
 
 
+
+
+
+
+
+/*
         public function usuariosParaAdd($id)
         {            
             $model = $this->model->find($id);
@@ -212,6 +215,7 @@ class PerfilController extends VueController
                                        ->orWhere('users.email',$dataForm['key'])->get();           
             return view("{$this->view}.usuarios", compact('model', 'dataForm', 'users'));
         }
+*/
 
 
 
@@ -222,12 +226,11 @@ class PerfilController extends VueController
 
 
 
+//=========================================================================================================================
+//                                          PERMISSÕES
+//=========================================================================================================================
 
-        //=======================================================================================================================================================
-        //                                          PERMISSÕES
-        //=======================================================================================================================================================
-
-        
+        /*
         public function permissoes($id)
         {       
             try {  
@@ -239,19 +242,11 @@ class PerfilController extends VueController
             catch(Exception $e) {           
                 return response()->json( 'Erro interno', 500);    
             }
-             
-           // $model = $this->model->find($id);           
-          //  return view("{$this->view}.permissoes", compact('model'));
+              
         }
 
 
-        
-
-        public function permissoes_ori($id)
-        {            
-            $model = $this->model->find($id);           
-            return view("{$this->view}.permissoes", compact('model'));
-        }
+         
 
 
 
@@ -296,7 +291,7 @@ class PerfilController extends VueController
         }
         
         
-
+*/
    
 
 

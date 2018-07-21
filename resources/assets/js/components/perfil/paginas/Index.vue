@@ -1,8 +1,8 @@
 <template>  
 	<div>  
-		<crudHeader texto="Listagem das Perfis">
+		<crudHeader texto="Perfis Cadastrados">
 			<li class="breadcrumb-item">
-				Perfil  
+				Perfis
 			</li>
 		</crudHeader> 
 		<div class="content">
@@ -35,13 +35,13 @@ export default {
 			config: {
 				order: [[ 1, "asc" ]],
 				ajax: { 
-					url: this.url + '/getDatatable'
+					url: this.url + '/datatable'
 				},
 				columns: [
 				{ data: 'id', name: 'id'  },
 				{ data: 'nome', name: 'nome' },
 				{ data: 'descricao', name: 'descricao' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center'}
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
 		}
@@ -52,5 +52,7 @@ export default {
 </script>
  
 <style >
-
+.btn-sm{
+	 margin-left: 10px; 
+}
 </style>

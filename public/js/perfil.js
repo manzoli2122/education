@@ -230,9 +230,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			config: {
 				order: [[1, "asc"]],
 				ajax: {
-					url: this.url + '/getDatatable'
+					url: this.url + '/datatable'
 				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center' }]
+				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
 			}
 		};
 	}
@@ -522,7 +522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			config: {
 				order: [[1, "asc"]],
 				ajax: {
-					url: this.url + '/' + this.$route.params.id + '/permissao'
+					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
 				},
 				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
 			},
@@ -539,7 +539,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				$('[btn-excluir]').click(function () {
 					var id = $(this).data('id');
 
-					axios.get(vm.url + '/' + vm.$route.params.id + '/delete/permissao/' + id).then(function (response) {
+					axios.post(vm.url + '/' + vm.$route.params.id + '/delete/permissao/' + id).then(function (response) {
 						vm.$emit('permissaoRemovida', response.data);
 					}).catch(function (error) {
 						toastErro('Não foi possivel achar a Perfil', error.response.data);
@@ -670,7 +670,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\n", ""]);
 
 // exports
 
@@ -1417,9 +1417,9 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Listagem das Perfis" } }, [
+      _c("crudHeader", { attrs: { texto: "Perfis Cadastrados" } }, [
         _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n\t\t\tPerfil  \n\t\t")
+          _vm._v("\n\t\t\tPerfis\n\t\t")
         ])
       ]),
       _vm._v(" "),

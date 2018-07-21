@@ -63,7 +63,19 @@ class Permissao extends Model //implements AALPermissaoInterface
         });
     }
 
+    
 
+    public  function permissaoParaAdicionarAoPerfil($perfil_id)
+    {
+        return $this->whereNotIn('id', function($query) use ($perfil_id){
+            $query->select("permissao_perfils.permissao_id");
+            $query->from("permissao_perfils");
+            $query->whereRaw("permissao_perfils.perfil_id = {$perfil_id} ");
+        } )
+        ->orderBy('nome')->get();  
+    }
+
+    /*
 
     public  function permissos_sem_perfil($perfil_id)
     {
@@ -76,7 +88,7 @@ class Permissao extends Model //implements AALPermissaoInterface
         ->get();            
         
     }
-
+*/
 
     
 

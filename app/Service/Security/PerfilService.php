@@ -3,63 +3,147 @@
 namespace App\Service\Security ;
  
 use App\Models\Perfil;
-
+use App\Models\Permissao;
+use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
 
     protected $model; 
-    
+    protected $permissao; 
+    protected $dataTable;
     protected $route = "perfil";
 
 
-    public function __construct( Perfil $perfil){        
+
+
+    public function __construct( Perfil $perfil , Permissao $permissao, DataTables $dataTable){        
         $this->model = $perfil ;    
+        $this->permissao = $permissao ;  
+        $this->dataTable = $dataTable ;    
     }
 
 
 
-    public function  BuscarDataTable( $request ){
-        $models = $this->model->getDatatable();
-        $result = \Yajra\DataTables\DataTables::of($models)
-        ->addColumn('action', function($linha) {
-            return  '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-datatable btn-sm" title="Editar" style="margin-left: 10px;"><i class="fa fa-pencil"></i></a>'
-                    . '<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-datatable btn-sm" title="Visualizar" style="margin-left: 10px;"><i class="fa fa-search"></i></a>'
-                    .'<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões" style="margin-left: 10px;"> <i class="fa fa-id-card"></i>  </a> ' 
-                    //. '<a href="#/'.$linha->id .'/permissao" class="btn btn-warning btn-sm" title="Permissões" style="margin-left: 10px;"> <i class="fa fa-unlock"></i> Permissões </a> ' 
-                   // . '<a href="#/'.$linha->id .'/usuario" class="btn btn-secondary btn-sm" title="Usuários"> <i class="fa fa-users"></i> Usuários </a> '
-            ;
-        })->make(true);
-        return $result ; 
+
+
+    /**
+    * Função para Adicionar uma Permissao a um Perfil e salvar em log 
+    *
+    * @param int  $permissaoId
+    *  
+    * @param int  $perfilId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host){
+        $perfil = $this->model->find($perfilId);
+        $permissao = $this->permissao->find( $permissaoId ); 
+        $perfil->attachPermissao($permissao);
+
+        //$this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
     }
-  
-
-
-
-
 
     
 
-    public function  BuscarPermissaoDataTable( $request , $id ){
-        
-        $models = $this->model->getPermissaoDatatable($id); 
-         
-        $result = \Yajra\DataTables\DataTables::of($models)
-        ->addColumn('action', function($linha) {
-            return  
-                '<button data-id="'.$linha->id.'" vonclick="ExcluirPerfil('.$linha->id.')" btn-excluir class="btn btn-danger btn-sm" title="Excluir" style="margin-left: 10px;"><i class="fa fa-trash"></i></button>'
-                ;
-        })
-        
-        ->make(true);
-        return $result ;
-        
-       
 
 
+
+
+
+    /**
+    * Função para retirar uma Permissao de um Perfil e salvar em log 
+    *
+    * @param int  $permissaoId
+    *  
+    * @param int  $perfilId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host){
+        $perfil = $this->model->find($perfilId);
+        $permissao = $this->permissao->find($permissaoId);  
+        $perfil->detachPermissao($permissao); 
+        //$this->adicionarPerfilAoUsuarioLog( $permissaoId , $perfilId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
     }
 
+
+
+
+    /**
+    * Função para buscar os Permissao que um Perfil não possui; 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return List $permissoes
+    */
+    public function BuscarPermissoesParaAdicionar(   int $perfilId  ){
+         return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
+    }
+
+
+
+
+    /**
+    * Função para buscar os permissoes de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarPermissaoDataTable( $request , $perfilId ){
+        
+        $perfil = $this->model->find($perfilId); 
+        $models = $perfil->getPermissaoDatatable( ); 
+        return $this->dataTable
+            ->eloquent($models)
+            ->addColumn('action', function($linha) {
+                return  '<button data-id="'.$linha->permissao_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
+            })
+            ->make(true);  
+    }
+
+
+
+ 
+
+
+
+    /**
+    * Funcao para buscar os usuario pelo datatable  
+    *
+    * @param Request $request 
+    *
+    * @return json
+    */
+    public function  BuscarDataTable( $request ){
+        $models = $this->model->getDatatable();
+        return $this->dataTable->eloquent($models)
+            ->addColumn('action', function($linha) {
+                return
+                    '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'
+                    .'<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-sm" title="Visualizar"><i class="fa fa-search"></i></a>'
+                    .'<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"> <i class="fa fa-id-card"></i>  </a> ' ;
+            })
+            ->make(true); 
+    }
+ 
+ 
 
   
 }

@@ -32,7 +32,6 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         $this->model = $user ;   
         $this->perfil = $perfil ;
         $this->logSeguranca = $log ;    
-
     }
 
 
@@ -47,8 +46,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     */
     public function  BuscarDataTable( $request ){
         $models = $this->model->getDatatable();
-        return $this->dataTable
-            ->eloquent($models)
+        return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
                 return'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> ';
             })
@@ -72,8 +70,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     public function  BuscarPerfilDataTable( $request , $userId ){ 
         $usuario = $this->model->find($userId); 
         $models = $usuario->getPerfilDatatable( ); 
-        return $this->dataTable
-            ->eloquent($models)
+        return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
                 return  
                 '<button data-id="'.$linha->perfil_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' 

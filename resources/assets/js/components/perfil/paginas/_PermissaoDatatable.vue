@@ -37,7 +37,7 @@ export default {
 			config: {
 				order: [[ 1, "asc" ]],
 				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/permissao'
+					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
 				},
 				columns: [
 				{ data: 'id', name: 'id'  },
@@ -58,7 +58,7 @@ export default {
 				$('[btn-excluir]').click(function (){
 					let id =  $(this).data('id');
 					
-					axios.get( vm.url + '/' + vm.$route.params.id + '/delete/permissao/'   + id   )
+					axios.post( vm.url + '/' + vm.$route.params.id + '/delete/permissao/'   + id   )
 					.then(response => { 
 						vm.$emit('permissaoRemovida' , response.data )
 					})

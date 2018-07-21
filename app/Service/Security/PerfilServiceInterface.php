@@ -6,5 +6,70 @@ use App\Service\VueServiceInterface;
   
 interface PerfilServiceInterface  extends VueServiceInterface    
 {
-    public function  BuscarPermissaoDataTable( $request , $id );
+ 
+
+
+    /**
+    * Função para Adicionar uma Permissao a um Perfil e salvar em log 
+    *
+    * @param int  $permissaoId
+    *  
+    * @param int  $perfilId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host);
+
+
+
+
+    /**
+    * Função para retirar uma Permissao de um Perfil e salvar em log 
+    *
+    * @param int  $permissaoId
+    *  
+    * @param int  $perfilId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host);
+
+
+
+
+    /**
+    * Função para buscar os Permissao que um Perfil não possui; 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return List $permissoes
+    */
+    public function BuscarPermissoesParaAdicionar(   int $perfilId  );
+
+
+
+    /**
+    * Função para buscar os permissoes de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarPermissaoDataTable( $request , $perfilId );
+
+
 } 

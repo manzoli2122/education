@@ -34,6 +34,15 @@ class Perfil extends Model
     }
 
 
+
+
+    public function permissoes()
+    {
+        return $this->belongsToMany( 'App\Models\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
+    }
+
+
+
     public function getDatatable()
     {
         return $this->select(['id', 'nome', 'descricao'  ]);        
@@ -41,12 +50,11 @@ class Perfil extends Model
     
 
 
+      
     
-    public function getPermissaoDatatable($id)
+    public function getPermissaoDatatable()
     { 
-        return DB::table('permissoes')->join('permissao_perfils', 'permissoes.id', '=', 'permissao_perfils.permissao_id')
-                ->where('permissao_perfils.perfil_id' , $id )
-                ->select([ "permissoes.id", "permissoes.nome", "permissoes.descricao" ]); 
+        return $this->permissoes();  
     }
 
 
@@ -177,10 +185,6 @@ class Perfil extends Model
     }
 
 
-    public function permissoes()
-    {
-        return $this->belongsToMany( 'App\Models\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
-    }
 
    
 
