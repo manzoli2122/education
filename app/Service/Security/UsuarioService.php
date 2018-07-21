@@ -69,7 +69,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     */
     public function  BuscarPerfilDataTable( $request , $userId ){ 
         $usuario = $this->model->find($userId); 
-        $models = $usuario->getPerfilDatatable( ); 
+        $models = $usuario->perfis( ); 
         return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
                 return  

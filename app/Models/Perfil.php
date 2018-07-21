@@ -2,39 +2,37 @@
 
 namespace App\Models;
 
-use Cache;
-
-use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Model;
-use DB;
+use Cache; 
+use Illuminate\Database\Eloquent\Model; 
 
 class Perfil extends Model
 {    
+    
+    private $cacheKey = 'todas_permissoes_para_perfil_' ;
 
-     
 
     protected $table = 'perfils'; 
+ 
 
-     
     
     protected $fillable = [
             'nome', 'descricao', 
     ];
 
+
     protected $hidden = [
         'deleted_at' ,     'updated_at' ,  
     ];
         
+
     public function rules($id = '')
     {
             return [
                 'nome' => 'required|min:3|max:100',
-                'descricao' => "required|min:0|max:150",     
+                'descricao' => "required|min:1|max:150",     
             ];
     }
-
-
-
+ 
 
     public function permissoes()
     {
@@ -54,55 +52,10 @@ class Perfil extends Model
     }
     
 
-
-      
-    
-    public function getPermissaoDatatable()
-    { 
-        return $this->permissoes();  
-    }
+ 
 
 
-
-    
-    public function getUsuariosDatatable()
-    { 
-        return $this->usuarios();  
-    }
-
-
-
-    /**
-    *  Busca Os perfis de unm determinado usuario para exibir no datatable
-    *
-    * @param int $user_Id
-    *
-    * @return void
-   
-    public function getPerfilDatatable($user_Id)
-    { 
-        return $this->with('usuarios')->selectRaw('distinct perfils.*') 
-                ->where('users.id' , $user_Id );
-                //->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]);   
-        
-
-        return $this->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
-                ->where('perfils_users.user_id' , $user_Id )
-                ->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]); 
-    }
-    
-
-     public function getPerfilDatatable_ori($user_Id)
-    { 
-        return $this->join('perfils_users', 'perfils.id', '=', 'perfils_users.perfil_id')
-                ->where('perfils_users.user_id' , $user_Id )
-                ->select([ "{$this->table}.id", "{$this->table}.nome", "{$this->table}.descricao" ]); 
-    }
-
- */
-
-
-    //===========================================================================
+     
     public static function boot()
     {
         parent::boot();
@@ -118,13 +71,10 @@ class Perfil extends Model
    
     
     public function cachedPermissoes()
-    {
-        $perfilPrimaryKey = $this->primaryKey;
-        $cacheKey = 'todas_permissoes_para_perfil_' . $this->$perfilPrimaryKey;   
-                  
+    { 
+        $cacheKey = $this->cacheKey . $this->id;                    
         $value = Cache::rememberForever(  $cacheKey , function () {
-            return    collect([ 'permissoes' => $this->permissoes()->select('nome')->get()->pluck('nome')  ]) ->toJson() ;            
-            //return json_encode(array('permissoes' => array_pluck( json_decode( $this->permissoes()->select('nome')->get() ) , 'nome'  ))) ;
+            return collect(['permissoes' => $this->permissoes()->select('nome')->get()->pluck('nome')])->toJson(); 
         });
         return $value ;
     }
@@ -140,81 +90,13 @@ class Perfil extends Model
      */
     public function cachedPermissoesAtualizar()
     {
-        $perfilPrimaryKey = $this->primaryKey;
-        $cacheKey = 'todas_permissoes_para_perfil_' . $this->$perfilPrimaryKey;
+        $cacheKey = $this->cacheKey . $this->id;
         Cache::forget($cacheKey);
         $this->cachedPermissoes();
     }
     
-
-
-
-
-
-    public function save(array $options = [])
-    {   //both inserts and updates
-        if (!parent::save($options)) {
-            return false;
-        }
-        /*if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.permissao_perfil_table'))->flush();
-        }*/
-        return true;
-    }
-
-    public function delete(array $options = [])
-    {   //soft or hard
-        if (!parent::delete($options)) {
-            return false;
-        }
-        /*
-        if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.permissao_perfil_table'))->flush();
-        }
-        */
-        return true;
-    }
-
-    public function restore()
-    {   //soft delete undo's
-        if (!parent::restore()) {
-            return false;
-        }
-        /*
-        if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.permissao_perfil_table'))->flush();
-        }
-        */
-        return true;
-    }
-
-   
-
-
-
-
-
-
-   
-
-
-    public function perfils_sem_permissao($permissao_id)
-    {
-        return $this->whereNotIn('id', function($query) use ($permissao_id){
-            $query->select("permissao_perfils.perfil_id");
-            $query->from("permissao_perfils");
-            $query->whereRaw("permissao_perfils.permissao_id = {$permissao_id} ");
-        } )
-        ->orderBy('nome')
-        ->get();          
-        
-    }
-
-
-
-
-
-
+  
+ 
 
 
     public function perfisParaAdicionarAoUsuario( $usuario_id, $isAdmin = false)
@@ -234,15 +116,13 @@ class Perfil extends Model
                     $query->whereRaw("perfils_users.user_id = {$usuario_id} ");
                 })
                 ->where('nome', '<>' , 'Admin')
-                ->orderBy('nome')->get();
-        
+                ->orderBy('nome')->get(); 
     }
 
 
 
 
-   
-
+    
 
     public function hasPermissao($name, $requireAll = false)
     {
@@ -268,20 +148,6 @@ class Perfil extends Model
     }
 
     
-
-
-    public function savePermissoes($inputPermissoes)
-    {
-        if (!empty($inputPermissoes)) {
-            $this->permissoes()->sync($inputPermissoes);
-        } else {
-            $this->permissoes()->detach();
-        }
-        /*
-        if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('aal.permissao_perfil_table'))->flush();
-        }*/
-    }
 
     
 
@@ -311,18 +177,20 @@ class Perfil extends Model
 
    
 
+ 
 
-    
+
+
+
+  /*
+   
     public function attachPermissoes($permissoes)
     {
         foreach ($permissoes as $permissao) {
             $this->attachPermission($permissao);
         }
     }
-
-    
-
-
+   
     public function detachPermissoes($permissoes = null)
     {
         if (!$permissoes) $permissoes = $this->permissoes()->get();
@@ -330,11 +198,27 @@ class Perfil extends Model
             $this->detachPermissao($permissao);
         }
     }
-
-
-
-
-    
+ 
+    public function savePermissoes($inputPermissoes)
+    {
+        if (!empty($inputPermissoes)) {
+            $this->permissoes()->sync($inputPermissoes);
+        } else {
+            $this->permissoes()->detach();
+        } 
+    }
+ 
+    public function perfils_sem_permissao($permissao_id)
+    {
+        return $this->whereNotIn('id', function($query) use ($permissao_id){
+            $query->select("permissao_perfils.perfil_id");
+            $query->from("permissao_perfils");
+            $query->whereRaw("permissao_perfils.permissao_id = {$permissao_id} ");
+        } )
+        ->orderBy('nome')
+        ->get();   
+    }
+  
     public function attachUsuario($usuario)
     {
         if (is_object($usuario)) {
@@ -342,11 +226,7 @@ class Perfil extends Model
         }
         $this->usuarios()->attach($usuario);
     }
-
-    
-
-
-
+ 
     public function detachUsuario($usuario)
     {
         if (is_object($usuario)) {
@@ -355,20 +235,13 @@ class Perfil extends Model
         $this->usuarios()->detach($usuario);
     }
 
-   
-
-
-    
     public function attachUsuarios($usuarioa)
     {
         foreach ($usuarios as $usuario) {
             $this->attachUsuario($usuario);
         }
     }
-
-    
-
-
+ 
     public function detachUsuarios($usuarios = null)
     {
         if (!$usuarios) $usuarios = $this->permissoes()->get();
@@ -377,7 +250,8 @@ class Perfil extends Model
         }
     }
 
-
+*/
+ 
 
 
 }

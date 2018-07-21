@@ -3,16 +3,18 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Config;
+use Illuminate\Foundation\Auth\User as Authenticatable; 
 use InvalidArgumentException;
-use Cache; 
-use DB;
+use Cache;  
 
 class User extends Authenticatable
 {
 
     use Notifiable;
+
+
+    private $cacheKey = 'todos_perfis_para_usuario_' ;
+
 
     /**
      * The attributes that are mass assignable.
@@ -60,20 +62,7 @@ class User extends Authenticatable
         return $this->select(['id', 'name', 'email'  ]);        
     }
 
-
-
-
-
-    /**
-    *  Busca Os perfis do usuario para exibir no datatable
-    *  
-    * @return Query $query
-    */
-    public function getPerfilDatatable( )
-    { 
-        return $this->perfis(); 
-    }
-    
+ 
 
  
  
@@ -105,10 +94,9 @@ class User extends Authenticatable
      */
     public function cachedPerfis()
     {
-        $usuarioPrimaryKey = $this->primaryKey;
-        $cacheKey = 'todos_perfis_para_usuario_'.$this->$usuarioPrimaryKey;
+        $cacheKey = $this->cacheKey . $this->id;
         $value = Cache::rememberForever(  $cacheKey , function () {
-            return    collect([ 'perfis' => $this->perfis()->select('nome')->get()->pluck('nome')  ]) ->toJson() ;            
+            return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        
         }); 
         return $value ;
     }
@@ -123,8 +111,7 @@ class User extends Authenticatable
      */
     public function cachedPerfisAtualizar()
     {
-        $usuarioPrimaryKey = $this->primaryKey;
-        $cacheKey = 'todos_perfis_para_usuario_'.$this->$usuarioPrimaryKey;
+        $cacheKey = $this->cacheKey . $this->id;
         Cache::forget($cacheKey);
         $this->cachedPerfis();
     }

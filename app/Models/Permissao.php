@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-
-//use Manzoli2122\AAL\Interfaces\AALPermissaoInterface; 
-
-
-use Illuminate\Support\Facades\Config;
+  
 use Illuminate\Database\Eloquent\Model;
 
-class Permissao extends Model //implements AALPermissaoInterface
+class Permissao extends Model  
 {
      
       
@@ -21,7 +17,7 @@ class Permissao extends Model //implements AALPermissaoInterface
     ];
 
     protected $hidden = [
-        'deleted_at' ,     'updated_at' ,  'created_at' , 'pivot'
+        'deleted_at' ,   'updated_at' ,  'created_at' , 'pivot'
     ];
 
     
@@ -40,8 +36,7 @@ class Permissao extends Model //implements AALPermissaoInterface
         return $this->select(['id', 'nome', 'descricao'  ]);        
     }
 
-
-    //===================================================================================
+ 
     
      public function perfis()
     {
@@ -65,6 +60,8 @@ class Permissao extends Model //implements AALPermissaoInterface
 
     
 
+
+
     public  function permissaoParaAdicionarAoPerfil($perfil_id)
     {
         return $this->whereNotIn('id', function($query) use ($perfil_id){
@@ -74,23 +71,14 @@ class Permissao extends Model //implements AALPermissaoInterface
         } )
         ->orderBy('nome')->get();  
     }
+ 
 
-    /*
 
-    public  function permissos_sem_perfil($perfil_id)
-    {
-        return $this->whereNotIn('id', function($query) use ($perfil_id){
-            $query->select("permissao_perfils.permissao_id");
-            $query->from("permissao_perfils");
-            $query->whereRaw("permissao_perfils.perfil_id = {$perfil_id} ");
-        } )
-        ->orderBy('nome')
-        ->get();            
-        
-    }
-*/
 
     
+
+
+    /*
 
     public function attachPerfil($perfil){
         
@@ -128,6 +116,6 @@ class Permissao extends Model //implements AALPermissaoInterface
         }
     }
 
-
+*/
 
 }
