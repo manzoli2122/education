@@ -1,5 +1,4 @@
 <?php
-
  
 namespace  App\Http\Controllers\Security;
  
@@ -14,12 +13,8 @@ use Auth;
 class PerfilController extends VueController
 {
     
-    protected $service;  
-    protected $name = "Perfil";    
-    protected $view = "perfil";    
-    protected $route = "perfil";
-       
-        
+    protected $service;     
+    protected $view = "perfil";   
     
     
     public function __construct( PerfilServiceInterface $service ){
@@ -194,6 +189,19 @@ class PerfilController extends VueController
 
 
 
+ 
+
+
+
+
+
+
+
+
+/*
+        
+        
+
         public function usuarios($id)
         {      
             try {  
@@ -208,16 +216,7 @@ class PerfilController extends VueController
         }
 
 
- 
 
-
-
-
-
-
-
-
-/*
         public function usuariosParaAdd($id)
         {            
             $model = $this->model->find($id);

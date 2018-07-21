@@ -1,61 +1,37 @@
 <?php
-
  
 namespace  App\Http\Controllers\Security;
-use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Config; 
+use Illuminate\Http\Request;  
 use DataTables;
-use App\Http\Controllers\VueController;
-
-use App\Models\Perfil;
-use App\Models\Permissao;
+use App\Http\Controllers\VueController;  
 use App\Service\Security\PermissaoServiceInterface;
+
+
 
 class PermissaoController extends VueController
 {
     
-    protected $service; 
-    protected $model;    
-    protected $perfil;
-    protected $name = "Permissao";    
+    protected $service;  
     protected $view = "permissao";    
-    protected $route = "permissao";
     
     
-    public function __construct( PermissaoServiceInterface $service , Perfil $perfil, Permissao $permissao ){
+    public function __construct( PermissaoServiceInterface $service   ){
         
-        $this->service = $service ;  
- 
-        $this->perfil = $perfil ;
-        
-        $this->model = $permissao ;
-        
+        $this->service = $service ;    
         $this->middleware('auth');
         //$this->middleware('permissao:permissoes');
        
     }
 
+ 
 
 
-      /**
-    * Processa a requisição AJAX do DataTable na página de listagem.
-    * Mais informações em: http://datatables.yajrabox.com
-    *
-    * @return \Illuminate\Http\JsonResponse
+
+
+
+ /*
+ 
     
-    public function getDatatable( Request $request )
-    {
-        $models = $this->model->getDatatable();
-        return Datatables::of($models)
-            ->addColumn('action', function($linha) {
-                return '<button data-id="'.$linha->id.'" btn-excluir type="button" class="btn btn-danger btn-xs" title="Excluir"> <i class="fa fa-times"></i> </button> '
-                        //. '<a href="'.route("{$this->route}.perfis", $linha->id).'" class="btn btn-success btn-xs" title="Perfis"> <i class="fa fa-user"></i> Perfis </a> '      
-                        . '<a href="'.route("{$this->route}.edit", $linha->id).'" class="btn btn-primary btn-xs" title="Editar"> <i class="fa fa-pencil"></i> </a> '   ;
-            })->make(true);
-    }
-*/
-
-
 
     public function perfis($id)
     {        
@@ -64,8 +40,7 @@ class PermissaoController extends VueController
     }
  
 
-
-
+    
 
     public function perfisParaAdd($id)
     {            
@@ -77,7 +52,7 @@ class PermissaoController extends VueController
     
 
 
-
+    
     public function deletePerfil($id,$perfilId)
     {        
         $model = $this->model->find($id);        
@@ -96,8 +71,7 @@ class PermissaoController extends VueController
     }
 
 
-
-
+    
     public function pesquisarPerfis(Request $request , $id)
     {
         $dataForm = $request->except('_token');
@@ -108,5 +82,10 @@ class PermissaoController extends VueController
     }
 
 
+  */
+
+
+
+ 
 
 }

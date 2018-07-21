@@ -52,6 +52,12 @@ Route::resource('perfil', 'Security\PerfilController')->except(['create', 'edit'
 
 
 
+//========================================================================================================================
+//                              SEGURANCA PERMISSAO
+//========================================================================================================================
+Route::post('permissao/getDatatable', 'Security\PermissaoController@getDatatable')->name('permissao.getDatatable');  
+Route::resource('permissao', 'Security\PermissaoController')->except(['create', 'edit']); 
+
 
 
 
@@ -72,9 +78,6 @@ Route::resource('disciplina', 'DisciplinaController')->except(['create', 'edit']
 
 
 
-
-Route::post('permissao/getDatatable', 'Security\PermissaoController@getDatatable')->name('permissao.getDatatable');  
-Route::resource('permissao', 'Security\PermissaoController')->except(['create', 'edit']); 
 
 
 

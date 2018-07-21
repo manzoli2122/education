@@ -11,13 +11,8 @@ use App\Exceptions\ModelNotFoundException;
 
 class VueController extends Controller
 {
-
-        
-
-    protected $service;   
-    
-    protected $name  ;    
-    
+ 
+    protected $service;     
     protected $view   ;
 
 
@@ -28,6 +23,16 @@ class VueController extends Controller
 
 
 
+
+    /**
+    * Função para buscar um model
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return json
+    */
     public function show(Request $request , $id){
         try {  
             if( !$model = $this->service->BuscarPeloId( $id ) ){       
@@ -42,6 +47,17 @@ class VueController extends Controller
 
 
 
+
+
+    /**
+    * Função para atualizar um model
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return json
+    */
     public function update(Request $request ,  $id )
     {        
         $this->validate( $request  , $this->service->validacoes() );  
@@ -60,6 +76,14 @@ class VueController extends Controller
 
 
 
+
+    /**
+    * Função para criar um model
+    *
+    * @param Request $request
+    *   
+    * @return json
+    */
     public function store(Request $request)
     {
         $this->validate( $request  , $this->service->validacoes() );  
@@ -75,6 +99,16 @@ class VueController extends Controller
 
 
 
+
+    /**
+    * Função para excluir um model
+    *
+    * @param Request $request
+    *   
+    * @param int  $id
+    *    
+    * @return json
+    */
     public function destroy( Request $request, $id)
     { 
         try{
@@ -92,7 +126,13 @@ class VueController extends Controller
 
 
 
-
+    /**
+    * Função para buscar models para datatable
+    *
+    * @param Request $request
+    *   
+    * @return json
+    */
     public function getDatatable( Request $request ){
         try {            
             return  $this->service->BuscarDataTable( $request);

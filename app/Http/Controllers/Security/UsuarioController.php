@@ -13,27 +13,16 @@ class UsuarioController extends VueController
 {
     
     protected $service; 
-    
-    protected $perfil;
-     
-    protected $name  = "Usuario";    
-    protected $view  = " usuario";    
-    protected $route = "usuario";
+    protected $view  = " usuario";   
     
     
-    public function __construct( UsuarioServiceInterface $service   ){
-        
-        $this->service = $service ;   
-        
-        $this->middleware('auth');
-
-        $this->middleware('perfil:Admin');
-       
+    public function __construct( UsuarioServiceInterface $service   ){ 
+        $this->service = $service ;  
+        $this->middleware('auth'); 
+        $this->middleware('perfil:Admin'); 
     }
 
- 
-
-
+  
 
 
 
@@ -133,7 +122,13 @@ class UsuarioController extends VueController
 
 
 
-
+     /**
+    * Função para buscar os perfis que o usuario ainda não tem
+    * 
+    * @param int  $userId 
+    *
+    * @return List $perfis
+    */
     public function BuscarPerfisParaAdicionar($userId)
     {    
         try {            
@@ -141,8 +136,7 @@ class UsuarioController extends VueController
         }         
         catch(Exception $e) {           
             return response()->json( 'Erro interno', 500);    
-        }  
-         
+        }   
     }
     
  
