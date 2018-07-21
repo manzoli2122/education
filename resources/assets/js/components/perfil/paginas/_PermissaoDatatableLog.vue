@@ -1,7 +1,7 @@
-<template>  
-	<div>
-		<h3>Histórico de Perfil</h3>
-		<crudCard> 
+<template> 
+<div>
+	<h3>Histórico de Permissão</h3>
+	<crudCard>
 		<div class="card-body  table-responsive">  
             <table class="table table-bordered table-striped  table-hover " id="datatableLog">
                 <thead>     
@@ -18,9 +18,9 @@
                 </thead>  
             </table> 
         </div>    
-	</crudCard> 
-	</div>
-	
+	</crudCard>
+</div> 
+	 
 </template>
 
 <script>
@@ -28,11 +28,11 @@
 export default {
 
 	props:[
-	  'url' , 'perfis'
+	  'url' , 'permissoes'
 	],  
 
 	 watch: { 
-	 	perfis: function (newteste, oldteste) {
+	 	permissoes: function (newteste, oldteste) {
 			  this.datatable.ajax.reload();
 	 	}
 	 },
@@ -49,14 +49,14 @@ export default {
 				    ],
 				order: [[ 0, "asc" ]],
 				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
+					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
 				},
 				columns: [
-                { data: 'id', name: 'usuario_perfil_log.id'  },
+                { data: 'id', name: 'id'  },
                 { data: 'autor.name', name: 'autor.name'  },
-                { data: 'acao', name: 'usuario_perfil_log.acao'  },
+                { data: 'acao', name: 'acao'  },
                 { data: 'perfil.nome', name: 'perfil.nome'  },
-                { data: 'usuario.name', name: 'usuario.name'  },
+                { data: 'permissao.nome', name: 'permissao.nome'  },
                 { data: 'created_at', name: 'created_at'  },
                 { data: 'ip_v4', name: 'ip_v4'  },
                 { data: 'host', name: 'host'  },
@@ -87,12 +87,10 @@ export default {
 
 <style scoped>
  
-
 h3{
-  padding-top: 50px;
-  text-align: center;
+	padding-top: 50px;
+	text-align: center;
 }
-
 table.dataTable {
 	clear: both;
 	margin-top: 6px !important;

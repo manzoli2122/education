@@ -12,7 +12,7 @@
 						<datatable :config="config"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th>Descricao</th>  
+							<th pesquisavel>Descricao</th>  
 							<th class="text-center" style="width:200px">Ações</th>
 						</datatable> 
 					</div>    

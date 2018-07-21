@@ -10,9 +10,9 @@
 			<div class="container-fluid">  
 
 				<perfilDatatable :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatable>  
- 				<h3>Adicionar Perfil</h3>
-				<formAdicionarPerfil  v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
-				<h3>Histórico de Perfil</h3>
+ 				
+				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
+				
 				<perfilDatatableLog :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatableLog>  
  
 			</div> 

@@ -1,5 +1,6 @@
 <template>
   <form action="#" @submit.prevent="AdicionarPermissao" @keydown="form.errors.clear($event.target.name)">
+    <h3>Adicionar Permissão</h3>
     <crudCard>
       <div class="card-body">
         <crudFormElemento :errors="form.errors.has('permissao')" :errors_texto="form.errors.get('permissao')">
@@ -55,4 +56,9 @@ export default {
 </script>
  
 <style scoped>
+
+h3{
+  padding-top: 50px;
+  text-align: center;
+}
 </style>

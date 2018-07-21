@@ -41,6 +41,11 @@ class Perfil extends Model
         return $this->belongsToMany( 'App\Models\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
     }
 
+    
+    public function usuarios()
+    {
+        return $this->belongsToMany('App\User', 'perfils_users', 'perfil_id', 'user_id' );
+    }
 
 
     public function getDatatable()
@@ -55,6 +60,14 @@ class Perfil extends Model
     public function getPermissaoDatatable()
     { 
         return $this->permissoes();  
+    }
+
+
+
+    
+    public function getUsuariosDatatable()
+    { 
+        return $this->usuarios();  
     }
 
 
@@ -179,10 +192,6 @@ class Perfil extends Model
 
 
 
-    public function usuarios()
-    {
-        return $this->belongsToMany('App\User', 'perfils_users', 'perfil_id', 'user_id' );
-    }
 
 
 

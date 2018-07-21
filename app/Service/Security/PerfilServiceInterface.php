@@ -72,4 +72,29 @@ interface PerfilServiceInterface  extends VueServiceInterface
     public function  BuscarPermissaoDataTable( $request , $perfilId );
 
 
+
+    /**
+    * Função para buscar os logs de permissoes de um perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarPermissaoDataTableLog( $request , $perfilId );
+
+    
+
+
+    /**
+    * Função para buscar os Usuarios de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarUsuariosDataTable( $request , $perfilId );
 } 

@@ -129,6 +129,50 @@ class PerfilController extends VueController
 
 
 
+
+
+    /**
+    * Função para buscar as Usuarios de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function BuscarUsuariosDataTable( Request $request , $perfilId )
+    {     
+        try {            
+            return  $this->service->BuscarUsuariosDataTable( $request , $perfilId);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
+    }
+
+
+
+
+     /**
+    * Função para buscar os logs de permissoes de um perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function BuscarPermissaoDataTableLog( Request $request , $perfilId )
+    {     
+        try {            
+            return  $this->service->BuscarPermissaoDataTableLog( $request , $perfilId);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
+    }
+
+ 
    
     
     

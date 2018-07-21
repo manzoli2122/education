@@ -1,20 +1,20 @@
 <template>             
 	<div> 
-		<crudHeader :texto="perfil.nome">
+		<crudHeader :texto="'Permissões do perfil ' + perfil.nome">
 			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Perfil </a></router-link> 
-			</li>
-            <li class="breadcrumb-item">
-				<router-link   :to="'/show/'+ $route.params.id" exact><a>{{perfil.nome}} </a></router-link> 
+				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li> 
             <li class="breadcrumb-item active">Permissões</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid"> 
 
-				 <permissaoDatatable :permissoes="permissoes"  v-on:permissaoRemovida="permissaoRemovida($event)" :url="url"> </permissaoDatatable> 
+				<permissaoDatatable :permissoes="permissoes"  v-on:permissaoRemovida="permissaoRemovida($event)" :url="url"> </permissaoDatatable> 
 				
-					<formAdicionarPermissao  v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao>   
+				<formAdicionarPermissao v-if="permissoes.length > 0" v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao>   
+
+				
+				<permissaoDatatableLog  :permissoes="permissoes" v-on:permissaoRemovida="permissaoRemovida($event)" :url="url"> </permissaoDatatableLog>  
 			</div> 
 		</div>   
 	</div>
@@ -24,8 +24,9 @@
 <script>
  
 Vue.component('permissaoDatatable', require('./_PermissaoDatatable.vue'));
-
+Vue.component('permissaoDatatableLog', require('./_PermissaoDatatableLog.vue')); 
 Vue.component('formAdicionarPermissao', require('./_PermissaoFormAdicionar.vue'));
+
 
 export default {
 

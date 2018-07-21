@@ -1,18 +1,14 @@
 <template>             
 	<div>
-		<crudHeader texto="Alterar Perfil">
+		<crudHeader :texto="'Alterar Perfil ' + model.nome">
 			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Perfil </a></router-link> 
+				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li>
 			<li class="breadcrumb-item active">Edição</li>
 		</crudHeader>  
 		<div class="content">
 			<div class="container-fluid">
-				<Formulario :url="url +'/' + $route.params.id" :form="form" metodo="patch">
-					<crudFormElemento :errors="form.errors.has('nome')" :errors_texto="form.errors.get('nome')">
-						<label for="nome">Nome:</label>
-						<input type="text" id="nome" name="nome" class="form-control" v-model="form.nome" v-bind:class="{ 'is-invalid': form.errors.has('nome') }"> 
-					</crudFormElemento> 
+				<Formulario :url="url +'/' + $route.params.id" :form="form" metodo="patch"> 
 					<crudFormElemento :errors="form.errors.has('descricao')" :errors_texto="form.errors.get('descricao')">
 						<label for="descricao">Descricao:</label>
 						<input type="text" id="descricao" name="descricao" class="form-control" v-model="form.descricao" v-bind:class="{ 'is-invalid': form.errors.has('descricao') }">
@@ -26,7 +22,7 @@
 
 <script>
 
-	import Form from '../../core/Form';
+	import Form from '../../../core/Form';
 
 	export default {
 
@@ -37,8 +33,7 @@
 		data() {
 			return {                
 				model:'',
-				form: new Form({
-					nome: '',    
+				form: new Form({ 
 					descricao: ''               
 				})
 			}

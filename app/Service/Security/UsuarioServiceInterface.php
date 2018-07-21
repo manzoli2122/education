@@ -20,7 +20,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     public function  BuscarPerfilDataTable( $request , $userId );
 
 
-     /**
+    /**
     * Função para buscar os logs de perfis de um usuario pelo datatable
     *
     * @param Request $request 

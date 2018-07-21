@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Models\Security; 
+namespace App\Models\Security;
  
 use Illuminate\Database\Eloquent\Model; 
 
-class LogUsuarioPerfil extends Model
+class LogPerfilPermissao extends Model
 {    
 
      
 
-    protected $table = 'usuario_perfil_log'; 
+    protected $table = 'perfil_permissao_log'; 
 
      
     
     protected $fillable = [
-        'user_id', 'autor_id', 'perfil_id', 'acao', 'ip_v4' , 'host'
+        'permissao_id', 'autor_id', 'perfil_id', 'acao', 'ip_v4' , 'host'
     ];
 
 
@@ -28,26 +28,11 @@ class LogUsuarioPerfil extends Model
 
     public function getDatatable($id)
     {
-        return $this->with('perfil' , 'usuario', 'autor')->select('usuario_perfil_log.*')->where('usuario_perfil_log.user_id' , $id); 
+        return $this->with('perfil' , 'permissao', 'autor')->select('perfil_permissao_log.*')->where('perfil_permissao_log.perfil_id' , $id); 
     }
     
 
- 
- 
-
-
-
-
   
-
-
-    public function save(array $options = [])
-    {    
-        if (!parent::save($options)) {
-            return false;
-        } 
-        return true;
-    }
 
 
 
@@ -61,9 +46,9 @@ class LogUsuarioPerfil extends Model
 
 
 
-    public function usuario()
+    public function permissao()
     {
-        return $this->belongsTo('App\User', 'user_id'); 
+        return $this->belongsTo('App\Models\Permissao', 'permissao_id'); 
     }
 
 

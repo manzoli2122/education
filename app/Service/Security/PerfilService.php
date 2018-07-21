@@ -6,6 +6,8 @@ use App\Models\Perfil;
 use App\Models\Permissao;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
+use App\Models\Security\LogPerfilPermissao;
+use Auth;
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
@@ -13,15 +15,17 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     protected $model; 
     protected $permissao; 
     protected $dataTable;
+     protected $logSeguranca;
     protected $route = "perfil";
 
 
 
 
-    public function __construct( Perfil $perfil , Permissao $permissao, DataTables $dataTable){        
+    public function __construct( Perfil $perfil , Permissao $permissao, LogPerfilPermissao $log , DataTables $dataTable){        
         $this->model = $perfil ;    
         $this->permissao = $permissao ;  
         $this->dataTable = $dataTable ;    
+        $this->logSeguranca = $log ;
     }
 
 
@@ -48,7 +52,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $permissao = $this->permissao->find( $permissaoId ); 
         $perfil->attachPermissao($permissao);
 
-        //$this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
+        $this->Log( $perfilId , $permissaoId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
     }
 
     
@@ -77,7 +81,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find($permissaoId);  
         $perfil->detachPermissao($permissao); 
-        //$this->adicionarPerfilAoUsuarioLog( $permissaoId , $perfilId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
+        $this->Log( $perfilId  , $permissaoId , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
     }
 
 
@@ -93,6 +97,25 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     public function BuscarPermissoesParaAdicionar(   int $perfilId  ){
          return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
     }
+
+
+    /**
+    * Função para buscar os Usuarios de um Perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarUsuariosDataTable( $request , $perfilId ){ 
+        $perfil = $this->model->find($perfilId); 
+        $models = $perfil->getUsuariosDatatable( ); 
+        return $this->dataTable
+            ->eloquent($models) 
+            ->make(true);  
+    }
+
 
 
 
@@ -119,6 +142,21 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     }
 
 
+    /**
+    * Função para buscar os logs de permissoes de um perfil pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $perfilId 
+    *
+    * @return json
+    */
+    public function  BuscarPermissaoDataTableLog( $request , $perfilId ){
+        $models = $this->logSeguranca->getDatatable($perfilId);  
+        return $this->dataTable
+                ->eloquent($models)
+                ->make(true); 
+    }
 
  
 
@@ -136,14 +174,48 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
                 return
-                    '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'
-                    .'<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-sm" title="Visualizar"><i class="fa fa-search"></i></a>'
-                    .'<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"> <i class="fa fa-id-card"></i>  </a> ' ;
+                   // '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'.
+                   
+                    //'<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-sm" title="Visualizar"><i class="fa fa-search"></i></a>'.
+                    '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a> '
+                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a> ' ;
             })
             ->make(true); 
     }
  
- 
+    
+
+
+
+    /**
+    * Função para retirar um Perfil de um usuario e salvar em log 
+    *
+    * @param int  $perfilId
+    *  
+    * @param int  $pemissaoId
+    *  
+    * @param int  $autorId
+    * 
+    * @param string  $acao
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
+    private function Log( int $perfilId , int $permissaoId  , int $autorId , string $acao , string $ip_v4 , string $host )
+    {         
+        $log =  new LogPerfilPermissao();
+        $log->permissao_id = $permissaoId;
+        $log->autor_id = $autorId;
+        $log->perfil_id = $perfilId;
+        $log->acao = $acao ;
+        $log->ip_v4 = $ip_v4;
+        $log->host = $host; 
+        $log->save(); 
+    }
+
 
   
 }

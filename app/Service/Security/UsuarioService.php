@@ -131,7 +131,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
              abort(403, 'Você não tem permissão para adicionar o perfil Admin.');
         }
         $usuario->attachPerfil($perfil);
-        $this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );  
+        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );  
     }
  
 
@@ -168,7 +168,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
             abort(403, 'Não é possível remover o seu perfil Admin.'); 
         } 
         $usuario->detachPerfil($perfilId); 
-        $this->adicionarPerfilAoUsuarioLog( $perfilId , $userId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
+        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
     }
 
 
@@ -180,7 +180,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
     /**
-    * Função para retirar um Perfil de um usuario e salvar em log 
+    * Função para  salvar em log 
     *
     * @param int  $perfilId
     *  
@@ -196,7 +196,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     *
     * @return void
     */
-    private function adicionarPerfilAoUsuarioLog( int $perfilId , int $userId  , int $autorId , string $acao , string $ip_v4 , string $host )
+    private function  Log( int $perfilId , int $userId  , int $autorId , string $acao , string $ip_v4 , string $host )
     {         
         $log =  new LogUsuarioPerfil();
         $log->user_id = $userId;

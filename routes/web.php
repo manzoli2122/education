@@ -40,7 +40,8 @@ Route::post('perfil/{perfilId}/adicionar/permissao', 'Security\PerfilController@
 Route::post('perfil/{perfilId}/delete/permissao/{permissaoId}', 'Security\PerfilController@excluirPermissaoDoPerfil') ;
 Route::get('perfil/{perfilId}/permissao/adicionar', 'Security\PerfilController@BuscarPermissoesParaAdicionar') ; 
 Route::post('perfil/{perfilId}/permissao/datatable', 'Security\PerfilController@BuscarPermissaoDataTable') ;
-
+Route::post('perfil/{perfilId}/permissao/log/datatable',  'Security\PerfilController@BuscarPermissaoDataTableLog'); 
+Route::post('perfil/{perfilId}/usuarios/datatable',  'Security\PerfilController@BuscarUsuariosDataTable'); 
 Route::post('perfil/datatable', 'Security\PerfilController@getDatatable') ;  
 Route::resource('perfil', 'Security\PerfilController')->except(['create', 'edit']); 
 

@@ -9,26 +9,28 @@ let routes = [
     {
         path: '/create',
         component: require('./paginas/Cadastro')
-    },   
-    {
-        path: '/show/:id',
-        component: require('./paginas/Show')
     },  
-    {
-        path: '/edit/:id',
-        component: require('./paginas/Edit')
-    },  
-    
     {
         path: '/:id/permissao',
         component: require('./paginas/Permissao')
+    }, 
+    {
+        path: '/:id/usuarios',
+        component: require('./paginas/Usuarios')
     },  
 
+
+
+
     {
-        path: '/:id/usuario',
-        component: require('./paginas/Usuario')
-    },  
-    
+        path: '/edit/:id',
+        component: require('./paginas/rascunho/Edit')
+    },
+    {
+        path: '/show/:id',
+        component: require('./paginas/rascunho/Show')
+    }, 
+     
 ];
 
 

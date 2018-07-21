@@ -37,20 +37,7 @@
               </p>
             </a>
           </li>
-
-
-           @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
-             <li class="nav-item">
-              <a href="{{ route('disciplina.index')}}" class="nav-link active">
-                <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
-                <p>
-                  Disciplina
-                  <span class="right badge badge-danger">New</span>
-                </p>
-              </a>
-            </li>  
-            @endif 
-             
+          
 
             <li class="nav-item has-treeview ">
               <a href="#" class="nav-link">
@@ -105,25 +92,41 @@
                  
               </ul>
             </li>
+
+           @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
+           @perfil('Admin')
+             <li class="nav-item">
+              <a href="{{ route('disciplina.index')}}" class="nav-link active">
+                <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
+                <p>
+                  Disciplina
+                  <span class="right badge badge-danger">Admin</span>
+                </p>
+              </a>
+            </li>  
+            @endperfil
+            @endif 
+             
+
       
 
 
 
             @if(Route::getRoutes()->hasNamedRoute('disciplina.index'))
             
-            @permissao('disciplina-cadastrar')
+            @perfil('Gerente')
 
             <li class="nav-item">
              <a href="{{ route('disciplina.index')}}" class="nav-link active">
                <i class="nav-icon fa fa-book fa-lg fa-2x  "></i>
                <p>
                  Disciplina
-                 <span class="right badge badge-danger">New</span>
+                 <span class="right badge badge-danger">Gerente</span>
                </p>
              </a>
            </li> 
 
-            @endpermissao
+            @endperfil
            @endif 
 
 

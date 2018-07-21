@@ -22,7 +22,7 @@
 					<div class="card-footer text-right">
 						<crudBotaoVoltar url="/" />  
 						
-						<router-link   :to="'/'+ $route.params.id + '/usuario'" exact class="btn btn-success"><a> <i class="fa fa-users"></i> Usuarios </a></router-link> 
+						<router-link   :to="'/'+ $route.params.id + '/usuarios'" exact class="btn btn-success"><a> <i class="fa fa-users"></i> Usuarios </a></router-link> 
 						<router-link   :to="'/'+ $route.params.id + '/permissao'" exact class="btn btn-warning"><a> <i class="fa fa-unlock"></i> Pemissões </a></router-link>
 
 						<crudBotaoExcluir :url="url + '/' + $route.params.id"></crudBotaoExcluir> 
