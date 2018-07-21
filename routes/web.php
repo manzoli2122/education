@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {    return view('welcome');})->name('inicio');
+
+Route::get('/home', function () {    return view('welcome');})->name('home')->middleware('auth');
  
 Auth::routes();
- 
-Route::get('/home', 'HomeController@index')->name('home');
-
+  
 
 
 //==========================================================================================================================

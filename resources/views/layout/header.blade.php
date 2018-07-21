@@ -19,14 +19,7 @@
     </ul>
 
 
-    <div class="pull-right">
-      <a class="btn btn-default btn-flat" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          Sair
-      </a>
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          {{ csrf_field() }}
-      </form>
-  </div>
+   
 
   
     <!-- SEARCH FORM 
@@ -44,7 +37,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
-       
+      
       <!-- Notifications Dropdown Menu 
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -59,12 +52,34 @@
         </div>
       </li>
       -->
-<!--
-          <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-                class="fa fa-th-large"></i></a>
+       @guest
+       <li class="nav-item">  
+        <a class="nav-link"   href="/home">Entrar <i
+          class="fa fa-sign-in"></i></a>
+        </li>
+
+
+        @else
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Sair <i
+            class="fa fa-sign-out"></i>
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+          </form>
+          
           </li>
--->          
+      @endguest
+<!--
+      <li class="nav-item">
+         
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
+          class="fa fa-sign-out"></i></a>
+        </li>
+-->
+         
+           
     </ul>
   </nav>
   <!-- /.navbar -->
