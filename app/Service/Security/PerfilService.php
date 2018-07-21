@@ -15,7 +15,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     protected $model; 
     protected $permissao; 
     protected $dataTable;
-     protected $logSeguranca;
+    protected $logSeguranca;
     protected $route = "perfil";
 
 
@@ -99,6 +99,11 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     }
 
 
+
+
+
+
+
     /**
     * Função para buscar os Usuarios de um Perfil pelo datatable
     *
@@ -140,6 +145,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
             })
             ->make(true);  
     }
+
+
+
 
 
     /**
