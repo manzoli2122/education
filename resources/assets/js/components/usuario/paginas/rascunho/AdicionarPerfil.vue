@@ -52,7 +52,7 @@
 
 
 <script>
-import Form from '../../core/Form'; 
+import Form from '../../../core/Form'; 
 export default {
 
 	props:[

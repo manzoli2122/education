@@ -6,12 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Config;
 use InvalidArgumentException;
-use Cache;
-
+use Cache; 
 use DB;
 
 class User extends Authenticatable
 {
+
     use Notifiable;
 
     /**
@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -32,6 +34,20 @@ class User extends Authenticatable
         'password', 'remember_token',   'deleted_at' ,  'updated_at' ,  'created_at' , 'pivot'
     ];
  
+
+
+    /**
+    * Busca os perfis do usuario no banco de dados
+    * 
+    * @return Query $query
+    */
+    public function perfis()
+    {
+        return $this->belongsToMany('App\Models\Perfil','perfils_users', 'user_id', 'perfil_id');
+    }
+
+
+
 
 
     /**
@@ -46,30 +62,21 @@ class User extends Authenticatable
 
 
 
+
+
     /**
-    *  Busca Os perfis de unm determinado usuario para exibir no datatable
-    *
-    * @param int $user_Id
-    *
-    * @return void
+    *  Busca Os perfis do usuario para exibir no datatable
+    *  
+    * @return Query $query
     */
     public function getPerfilDatatable( )
     { 
-        return $this->perfis();
-                
+        return $this->perfis(); 
     }
     
 
-
-
-
-
-
-
-
-
-
-    //====================================================================================
+ 
+ 
      /**
      * Save  
      *
@@ -123,60 +130,7 @@ class User extends Authenticatable
     }
     
 
-
-
-    
-    
-
-
-
-     
-
-
-
-    /**
-    * Busca os perfis do usuario no banco de dados
-    * 
-    * @return Query $query
-    */
-    public function perfis()
-    {
-        return $this->belongsToMany('App\Models\Perfil','perfils_users', 'user_id', 'perfil_id');
-    }
-
-
-    
-
-
-
-     
-
-
-
-    /**
-    * Save  
-    *
-    * @param mixed $inputPermissions
-    *
-    * @return void
-    
-    public function usuarios_sem_perfil($perfil_id)
-    {
-        return $this->whereNotIn('id', function($query) use ($perfil_id){
-            $query->select("perfils_users.user_id");
-            $query->from("perfils_users");
-            $query->whereRaw("perfils_users.perfil_id = {$perfil_id} ");
-        } )
-        ->orderBy('name')
-        ->get();       
-        
-    }
-    */    
-
-
-
-    
-    
+ 
     
 
 
@@ -256,11 +210,6 @@ class User extends Authenticatable
         return false;
     }
 
-   
-    
-
- 
-    
     
 
 
@@ -304,77 +253,5 @@ class User extends Authenticatable
         $this->cachedPerfisAtualizar();
     }
 
-   
     
-
-
-
-
-
-
-
-
-
-
-     /**
-    * Save  
-    *
-    * @param mixed $inputPermissions
-    *
-    * @return void
-   
-    public function attachPerfis($perfis)
-    {
-        foreach ($perfis as $perfil) {
-            $this->attachPerfil($perfil);
-        }
-    }
-    */
-   
-    
-
-
-
-     /**
-    * Save  
-    *
-    * @param mixed $inputPermissions
-    *
-    * @return void
-    
-    public function detachPerfis($perfis=null)
-    {
-        if (!$perfis) $perfis = $this->perfis()->get();
-
-        foreach ($perfis as $perfil) {
-            $this->detachPerfil($perfil);
-        }
-    }
-    */
-    
-    
-
-
-    /**
-    * Save  
-    *
-    * @param mixed $inputPermissions
-    *
-    * @return void
-    
-    public function scopeWithPerfil($query, $perfil)
-    {
-        return $query->whereHas('perfis', function ($query) use ($perfil)
-        {
-            $query->where('name', $perfil);
-        });
-    }
-
-    */
-
-
-
-
-
-
 }

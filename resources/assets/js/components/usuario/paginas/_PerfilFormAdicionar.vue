@@ -3,7 +3,7 @@
     <crudCard>
       <div class="card-body">
         <crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')">
-          <label for="descricao">Perfis:</label>
+          
           <select2 v-model="form.perfil" class="form-control" v-bind:class="{ 'is-invalid': form.errors.has('perfil') }">
             <option value=""> Selecione o Perfil </option>
             <option v-for="p in perfis" :key="p.id" :value="p.id"> {{p.nome}} </option>

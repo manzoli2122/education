@@ -1,8 +1,8 @@
 <template>  
 	<div>  
-		<crudHeader texto="Listagem das Usuário">
+		<crudHeader texto="Usuários Cadastrados">
 			<li class="breadcrumb-item">
-				Perfil  
+				Usuários  
 			</li>
 		</crudHeader> 
 		<div class="content">
@@ -12,7 +12,7 @@
 						<datatable :config="config"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th>Email</th>  
+							<th pesquisavel>Email</th>  
 							<th class="text-center" style="width:200px">Ações</th>
 						</datatable> 
 					</div>    
@@ -35,7 +35,7 @@ export default {
 			config: {
 				order: [[ 1, "asc" ]],
 				ajax: { 
-					url: this.url + '/getDatatable'
+					url: this.url + '/datatable'
 				},
 				columns: [
 				{ data: 'id', name: 'id'  },

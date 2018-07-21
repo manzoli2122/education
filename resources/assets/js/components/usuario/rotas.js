@@ -5,30 +5,32 @@ let routes = [
     {
         path: '/',
         component: require('./paginas/Index')
-    },
-    {
-        path: '/create',
-        component: require('./paginas/Cadastro')
-    },   
-    {
-        path: '/show/:id',
-        component: require('./paginas/Show')
-    },  
-    {
-        path: '/edit/:id',
-        component: require('./paginas/Edit')
-    },  
-    
+    }, 
     {
         path: '/:id/perfil',
         component: require('./paginas/Perfil') 
-    },  
+    },   
+   
+     
 
+//rascunhp
     {
         path: '/:id/perfil/adicionar',
-        component: require('./paginas/AdicionarPerfil')
+        component: require('./paginas/rascunho/AdicionarPerfil')
     }, 
-     
+    {
+        path: '/edit/:id',
+        component: require('./paginas/rascunho/Edit')
+    },  
+    {
+        path: '/create',
+        component: require('./paginas/rascunho/Cadastro')
+    },   
+    {
+        path: '/show/:id',
+        component: require('./paginas/rascunho/Show')
+    },  
+
     
 ];
 

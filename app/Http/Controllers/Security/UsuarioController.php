@@ -3,22 +3,17 @@
 namespace  App\Http\Controllers\Security;
 
 use Illuminate\Http\Request;  
-use App\Http\Controllers\VueController;
-
-use App\Models\Perfil;
-use App\User;
-
-use App\Service\Security\UsuarioServiceInterface;
-  
+use App\Http\Controllers\VueController; 
+use App\Service\Security\UsuarioServiceInterface; 
 use Auth;   
-
+use Exception;
 
 
 class UsuarioController extends VueController
 {
     
     protected $service; 
-    protected $model;    
+    
     protected $perfil;
      
     protected $name  = "Usuario";    
@@ -26,17 +21,13 @@ class UsuarioController extends VueController
     protected $route = "usuario";
     
     
-    public function __construct( UsuarioServiceInterface $service , Perfil $perfil, User $user ){
+    public function __construct( UsuarioServiceInterface $service   ){
         
-        $this->service = $service ;  
- 
-        $this->perfil = $perfil ;
-        
-        $this->model = $user ;
+        $this->service = $service ;   
         
         $this->middleware('auth');
 
-        //$this->middleware('permissao:permissoes');
+        $this->middleware('perfil:Admin');
        
     }
 
@@ -58,10 +49,9 @@ class UsuarioController extends VueController
     public function adicionarPerfilAoUsuario(Request $request , $userId)
     {     
         if( $request->get('perfil') != '' ){ 
-           $this->service->adicionarPerfilAoUsuario($request->get('perfil') , $userId , Auth::user()->id ,
-                                 $request->server('REMOTE_ADDR'),$request->header('host')  );   
+           $this->service->adicionarPerfilAoUsuario($request->get('perfil'),$userId,Auth::user()->id, $request->server('REMOTE_ADDR'),$request->header('host'));
         }   
-        return response()->json($this->perfil->perfils_sem_usuario($userId ,Auth::user()->hasPerfil('Admin')),200);
+        return response()->json($this->service->BuscarPerfisParaAdicionar( $userId ),200);
     }
 
 
@@ -84,7 +74,8 @@ class UsuarioController extends VueController
     public function excluirPerfilDoUsuario( Request $request , $userId , $perfilId )
     {        
         $this->service->excluirPerfilDoUsuario($perfilId , $userId , Auth::user()->id , $request->server('REMOTE_ADDR'),$request->header('host')  );  
-        return response()->json( $this->perfil->perfils_sem_usuario( $userId , Auth::user()->hasPerfil('Admin'))  , 200); 
+        return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200); 
+         
     }
 
 
@@ -92,118 +83,49 @@ class UsuarioController extends VueController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function BuscarPerfilDataTable( Request $request , $id )
-    {     
-        try {            
-            return  $this->service->BuscarPerfilDataTable( $request , $id);
-        }         
-        catch (Exception $e) {           
-            return response()->json( $e->getMessage() , 500);
-        }   
-    }
-
-
-
-
-
-
-
-
-    
-    public function perfisDatatableLog( Request $request , $id )
-    {     
-        try {            
-            return  $this->service->BuscarPerfilDataTableLog( $request , $id);
-        }         
-        catch (Exception $e) {           
-            return response()->json( $e->getMessage() , 500);
-        }   
-    }
-
-
-
-
-
-
-
-
-
-    
- /**
-    * Processa a requisição AJAX do DataTable na página de listagem.
-    * Mais informações em: http://datatables.yajrabox.com
+    /**
+    * Função para buscar os perfis de um usuario pelo datatable
     *
-    * @return \Illuminate\Http\JsonResponse
-    
-    public function getDatatable()
-    {
-        $models = $this->user->getDatatable();
-        return Datatables::of($models)
-            ->addColumn('action', function($linha) {
-                return  '<a href="'.route("{$this->route}.perfis", $linha->id).'" class="btn btn-primary btn-xs" title="Perfis"> <i class="fa fa-user"></i> Perfis </a> '   ;
-            })->make(true);
-    }
-
-
-
-
-
-
-
-    
-    public function getDatatable( Request $request ){
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function BuscarPerfilDataTable( Request $request , $userId )
+    {     
         try {            
-            return  $this->service->BuscarDataTable( $request);
+            return  $this->service->BuscarPerfilDataTable( $request , $userId);
         }         
         catch (Exception $e) {           
             return response()->json( $e->getMessage() , 500);
-        } 
+        }   
     }
 
 
 
-*/
-    
 
 
 
 
-    public function perfis_ori2($id)
-    {      
-        try {  
-            if( !$model = $this->service->BuscarPeloId( $id ) ){       
-                return response()->json('Item não encontrado.', 404 );    
-            }                   
-            return response()->json( $model->perfis , 200);
+
+    /**
+    * Função para buscar os logs de perfis de um usuario pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function BuscarPerfilDataTableLog( Request $request , $userId )
+    {     
+        try {            
+            return  $this->service->BuscarPerfilDataTableLog( $request , $userId);
         }         
-        catch(Exception $e) {           
-            return response()->json( 'Erro interno', 500);    
-        } 
- 
-    }
-
-    
-    
-
-    public function perfis_ori($id)
-    {      
-        $model = $this->user->find($id);
-        return view("{$this->view}.perfis", compact('model'));
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        }   
     }
 
  
@@ -212,15 +134,10 @@ class UsuarioController extends VueController
 
 
 
-    
-
-    public function perfisParaAdd($id)
+    public function BuscarPerfisParaAdicionar($userId)
     {    
-        try {  
-            if( !$model = $this->service->BuscarPeloId( $id ) ){       
-                return response()->json('Item não encontrado.', 404 );    
-            }                   
-            return response()->json( $this->perfil->perfils_sem_usuario($id, Auth::user()->hasPerfil('Admin')) , 200);
+        try {            
+            return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId ) , 200);
         }         
         catch(Exception $e) {           
             return response()->json( 'Erro interno', 500);    
@@ -228,101 +145,5 @@ class UsuarioController extends VueController
          
     }
     
-
-
-
-
-    
-    
-    
-
-
-
-
-    public function perfisParaAdd_ori($id)
-    {    
-        $model = $this->user->find($id);
-        $perfis = $this->perfil->perfils_sem_usuario($id, Auth::user()->hasPerfil('Admin'));
-        return view("{$this->view}.perfis-add", compact('model','perfis'));  
-    }
-    
-
-
-
-
-
-
-    
-    public function addPerfil(Request $request , $id)
-    {        
-        $model = $this->model->find($id);
-        
-        
-        
-        
-        
-        if( $request->get('perfil') != '' ){
-            
-            $perfil = $this->perfil->find($request->get('perfil'));
-            
-            if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
-                $model->attachPerfil($request->get('perfil'));
-            
-            
-             
-        }
-
-        return response()->json('Feito' , 200);
-
-        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfis vinculados com sucesso']);
-    }
-    
-
-
-
-
-
-    public function addPerfil_ori(Request $request , $id)
-    {        
-        $model = $this->user->find($id);
-        if($request->get('perfis') != ''){
-            foreach ($request->get('perfis') as  $value) {
-                $perfil = $this->perfil->find($value);
-                if( $perfil->nome != 'Admin' or Auth::user()->hasPerfil('Admin'))
-                    $model->attachPerfil($value);
-            }
-        }
-        return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfis vinculados com sucesso']);
-    }
-    
-
-
-
-
-
-/*
-
-
-
-
-
-    public function deletePerfil($id,$perfilId)
-    {        
-        $model = $this->model->find($id);
-        $perfil = $this->perfil->find($perfilId);
-        if( $perfil->nome == 'Admin' and ! Auth::user()->hasPerfil('Admin'))
-            return response()->json( 'Voce não tem permissão para isso' , 500);
-            //return redirect()->route("{$this->route}.perfis" ,$id)->with(['error' => 'Perfil não pode ser Removido']);
-        $model->detachPerfil($perfilId); 
-        
-        return response()->json('Feito' , 200);
-        //return redirect()->route("{$this->route}.perfis" ,$id)->with(['success' => 'Perfil Removido com sucesso']);
-    }
-
  
- 
-
- */
-
-
 }

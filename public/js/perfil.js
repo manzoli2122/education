@@ -4820,7 +4820,9 @@ var Errors = function () {
         key: "record",
         value: function record(errors) {
             //console.log(errors);
-            this.errors = errors.errors;
+            if (errors.errors) {
+                this.errors = errors.errors;
+            }
         }
 
         /**

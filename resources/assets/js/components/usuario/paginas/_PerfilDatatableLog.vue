@@ -39,9 +39,13 @@ export default {
 	data() {
 		return {                
 			config: {
+				lengthMenu:[
+				        [5, 10, 50, -1],
+				        [5, 10, 50, "Todos"]
+				    ],
 				order: [[ 0, "asc" ]],
 				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil/log'
+					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
 				},
 				columns: [
                 { data: 'id', name: 'usuario_perfil_log.id'  },

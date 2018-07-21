@@ -8,27 +8,79 @@ use App\Service\VueServiceInterface;
 interface UsuarioServiceInterface  extends VueServiceInterface    
 {
    
-    public function  BuscarPerfilDataTable( $request , $id );
+    /**
+    * Função para buscar os perfis de um usuario pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function  BuscarPerfilDataTable( $request , $userId );
 
 
+     /**
+    * Função para buscar os logs de perfis de um usuario pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function  BuscarPerfilDataTableLog( $request , $userId );
 
 
 
     /**
     * Função para Adicionar um Perfil a um usuario e salvar em log 
     *
-    * @param mixed $inputPermissions
+    * @param int  $perfilId
+    *  
+    * @param int  $userId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
     *
     * @return void
     */
     public function adicionarPerfilAoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
 
 
+    /**
+    * Função para retirar um Perfil de um usuario e salvar em log 
+    *
+    * @param int  $perfilId
+    *  
+    * @param int  $userId
+    *  
+    * @param int  $autorId
+    *  
+    * @param string  $ip_v4
+    * 
+    * @param string  $host
+    *
+    * @return void
+    */
     public function excluirPerfilDoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
 
+    
 
 
-   // public function adicionarPerfilAoUsuarioLog( $request , $perfil , $userId );
+    /**
+    * Função para buscar os Perfis que um usuario não possui; 
+    *  
+    * @param int  $userId 
+    *
+    * @return List $pefis
+    */
+    public function BuscarPerfisParaAdicionar(   int $userId  );
 
-    public function  BuscarPerfilDataTableLog( $request , $id );
+
+
+
 } 

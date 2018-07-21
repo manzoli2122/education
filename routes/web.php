@@ -24,8 +24,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 //==========================================================================================================================================
 Route::post('usuario/{userId}/adicionar/perfil',    'Security\UsuarioController@adicionarPerfilAoUsuario')->name('usuario.adicionar.perfil');
 Route::post('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario')->name('usuario.perfil.delete');
-Route::post('usuario/{id}/perfil/datatable',     'Security\UsuarioController@BuscarPerfilDataTable')->name('usuario.perfil.datatable'); 
-Route::post('usuario/{id}/perfil/log/datatable',  'Security\UsuarioController@BuscarPerfilDataTableLog')->name('usuario.perfil.datatable.log'); 
+Route::post('usuario/{userId}/perfil/datatable',     'Security\UsuarioController@BuscarPerfilDataTable')->name('usuario.perfil.datatable'); 
+Route::post('usuario/{userId}/perfil/log/datatable',  'Security\UsuarioController@BuscarPerfilDataTableLog')->name('usuario.perfil.datatable.log'); 
+Route::post('usuario/datatable',                 'Security\UsuarioController@getDatatable')->name('usuario.getDatatable');  
+Route::get('usuario/{userId}/perfil/adicionar',         'Security\UsuarioController@BuscarPerfisParaAdicionar')->name('usuario.perfil.adicionar');  
+Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show']);
+
+
+
+
+
 
 
 
@@ -85,23 +93,9 @@ Route::resource('permissao', 'Security\PermissaoController')->except(['create', 
 
 
 
+ 
 
-
-
-
-
-
-
-
-
-
-
-
-        Route::get('usuario/{id}/perfis_ori2',                  'Security\UsuarioController@perfis_ori2')->name('usuario.perfil'); 
+ 
         
-        
-        Route::post('usuario/{id}/perfil/cadastrar',        'Security\UsuarioController@addPerfil')->name('usuario.perfil.add');
-        Route::get('usuario/{id}/perfil/cadastrar',         'Security\UsuarioController@perfisParaAdd')->name('usuario.perfil.cadastrar'); 
-        
-        Route::post('usuario/getDatatable',                 'Security\UsuarioController@getDatatable')->name('usuario.getDatatable');        
-        Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show']);
+         
+       

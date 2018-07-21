@@ -37,7 +37,7 @@ export default {
 			config: {
 				order: [[ 1, "asc" ]],
 				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil'
+					url: this.url + '/' + this.$route.params.id + '/perfil/datatable'
 				},
 				columns: [
 				{ data: 'perfil_id', name: 'perfil_id'  },
@@ -63,7 +63,7 @@ export default {
 						vm.$emit('perfilRemovido' , response.data )
 					})
 					.catch(error => {
-						toastErro('Não foi possivel achar a Perfil' , error.response.data);
+						toastErro('Não foi possivel remover o Perfil.' , error.response.data.message );
 					});  
 					
 				});

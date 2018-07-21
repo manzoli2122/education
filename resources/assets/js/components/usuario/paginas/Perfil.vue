@@ -1,19 +1,18 @@
 <template>             
 	 <div>  
-		<crudHeader :texto="'Perfis do ' + usuario.name ">
+		<crudHeader :texto="'Perfis do usuário ' + usuario.name ">
 			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Usuário </a></router-link> 
-			</li>
-			<li class="breadcrumb-item active">{{usuario.name}}</li>
+				<router-link   to="/" exact><a>Usuários </a></router-link> 
+			</li> 
 			<li class="breadcrumb-item"> Perfis </li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">  
 
 				<perfilDatatable :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatable>  
- 
+ 				<h3>Adicionar Perfil</h3>
 				<formAdicionarPerfil  v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
-				<h1>Historico de Perfil</h1>
+				<h3>Histórico de Perfil</h3>
 				<perfilDatatableLog :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatableLog>  
  
 			</div> 
@@ -52,7 +51,7 @@ export default {
 				alertProcessandoHide();
 			}); 
 		 
-		axios.get(this.url + "/" + this.$route.params.id + "/perfil/cadastrar")
+		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar")
 	 				.then(response => {
 	 					this.perfis = response.data;
 	 				})
