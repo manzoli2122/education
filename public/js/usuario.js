@@ -222,6 +222,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1825,7 +1828,14 @@ var render = function() {
           ])
         ]
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-footer text-right" },
+      [_c("crudBotaoVoltar", { attrs: { url: "/" } })],
+      1
+    )
   ])
 }
 var staticRenderFns = []

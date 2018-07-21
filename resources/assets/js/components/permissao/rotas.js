@@ -9,11 +9,7 @@ let routes = [
     {
         path: '/create',
         component: require('./paginas/Cadastro')
-    },   
-    {
-        path: '/show/:id',
-        component: require('./paginas/Show')
-    },  
+    },    
     {
         path: '/edit/:id',
         component: require('./paginas/Edit')

@@ -11,7 +11,10 @@
                     </tr>
                 </thead>  
             </table> 
-        </div>    
+        </div>  
+        <div class="card-footer text-right">
+        	<crudBotaoVoltar url="/" />   
+        </div>  
 	</crudCard> 
 </template>
 

@@ -1,8 +1,8 @@
 <template>  
 	<div>  
-		<crudHeader texto="Listagem das Permissões">
+		<crudHeader texto="Permissões Cadastradas">
 			<li class="breadcrumb-item">
-				Permissão  
+				Permissoes 
 			</li>
 		</crudHeader> 
 		<div class="content">
@@ -41,7 +41,7 @@ export default {
 				{ data: 'id', name: 'id'  },
 				{ data: 'nome', name: 'nome' },
 				{ data: 'descricao', name: 'descricao' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center'}
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
 		}
