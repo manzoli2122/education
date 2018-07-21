@@ -13,64 +13,29 @@ class AALServiceProvider extends ServiceProvider
     //protected $namespace = 'Manzoli2122\AAL\Http\Controllers'  ;
     
     public function boot()
-    {
-        // Publish config files
-        //$this->publishes([
-        //    __DIR__.'/../config/config.php' =>  config_path('aal.php'), 
-        //], 'autorizacao_config');
-
-        //$this->mapWebRoutes();
-        
-        // Register commands
-        //$this->commands('command.aal.migration');
-
+    { 
+        //$this->mapWebRoutes(); 
         // Register blade directives
-        $this->bladeDirectives();
-
-
-       // $this->publishes([
-       //     __DIR__.'/Views/Assets' => public_path('vendor/autorizacao'),
-       // ], 'autorizacao_public');
-
-
-
-       // $this->loadViewsFrom(__DIR__.'/Views', 'autorizacao');
-
-/*
-        $this->publishes([
-            __DIR__.'/Views' => resource_path('views/vendor/autorizacao'),
-        ]);
-*/
-
+        $this->bladeDirectives(); 
     }
 
    
-/*
-
+    /* 
     private function mapWebRoutes()
     {        
         Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(__DIR__.'/Http/routes.php');
-    }
+    } 
+    */
 
-*/
 
     public function register()
     {
-        $this->registerAAL();
-
-        //$this->registerCommands();
-
-        //$this->mergeConfig();
+        $this->registerAAL();  
     }
 
-   
     
-
-
-
-
 
 
     private function bladeDirectives()
@@ -106,58 +71,17 @@ class AALServiceProvider extends ServiceProvider
 
 */ 
     }
-
-    
-
-
-
-
+ 
 
 
     private function registerAAL()
     {
         $this->app->bind('aal', function ($app) {
             return new AAL($app);
-        });
-
+        }); 
         $this->app->alias('aal', 'App\Security\AAL');
     }
 
-   
-
-
-
-
-/*
-    private function registerCommands()
-    {
-        $this->app->singleton('command.aal.migration', function ($app) {
-            return new MigrationCommand();
-        });
-    }
-*/
-   
-
-
-
-/*
-    private function mergeConfig()
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php', 'aal'
-        );
-    }
-*/
-   
-
-
-/*
-    public function provides()
-    {
-        return [
-            'command.aal.migration'
-        ];
-    }
-*/
+    
 
 }
