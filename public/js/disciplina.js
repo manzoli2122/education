@@ -232,7 +232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				ajax: {
 					url: this.url + '/getDatatable'
 				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center' }]
+				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
 			}
 		};
 	}
@@ -320,7 +320,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\n", ""]);
 
 // exports
 

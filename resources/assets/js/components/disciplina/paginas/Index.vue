@@ -41,7 +41,7 @@ export default {
 				{ data: 'id', name: 'id'  },
 				{ data: 'nome', name: 'nome' },
 				{ data: 'descricao', name: 'descricao' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'align-center'}
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
 		}
@@ -52,5 +52,7 @@ export default {
 </script>
  
 <style >
-
+.btn-sm{
+	 margin-left: 10px; 
+}
 </style>
