@@ -106,7 +106,7 @@ class VueService implements VueServiceInterface
         $models = $this->model->getDatatable();
         return $this->dataTable->eloquent($models)
            ->addColumn('action', function($linha) {
-            return  '<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'
+            return  '<a href="#/edit/'.$linha->id.'" btn-edit class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'
             .'<a href="#/show/'.$linha->id.'" class="btn btn-primary btn-sm" title="Visualizar"><i class="fa fa-search"></i></a>';
              })
             ->make(true);  

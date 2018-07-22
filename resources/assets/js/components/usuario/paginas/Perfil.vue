@@ -8,13 +8,40 @@
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">  
-
-				<perfilDatatable :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatable>  
- 				
-				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
 				
-				<perfilDatatableLog :perfis="perfis"  v-on:perfilRemovido="buscarPerfilParaAdicionar($event)" :url="url"> </perfilDatatableLog>  
- 
+
+				<crudCard>
+					<div class="card-body  table-responsive"> 
+						<datatableService :config="config" id="datatableUsuariosPerfis"> 
+							<th style="max-width:20px">ID</th>
+                        	<th pesquisavel>Nome</th>
+                        	<th pesquisavel>Descrição</th>  
+                        	<th class="text-center">Ações</th>
+						</datatableService> 
+					</div>    
+				</crudCard>  
+
+
+				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
+				  
+				<crudCard>
+					<div class="card-body  table-responsive"> 
+						<datatableService :config="config2" id="datatableUsuariosPerfisLog"> 
+							<th style="max-width:20px">ID</th>  
+							<th pesquisavel>Responsável</th>
+							<th pesquisavel>Ação</th>
+							<th pesquisavel>Perfil</th>
+							<th pesquisavel>Usuario</th>
+							<th pesquisavel>Data</th>
+							<th pesquisavel>IP</th>
+							<th pesquisavel>Host</th>
+						</datatableService> 
+					</div>    
+				</crudCard> 
+			 
+
+
+
 			</div> 
 		</div>  
 	</div>
@@ -23,10 +50,7 @@
 
 <script>
   
-Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue')); 
-Vue.component('perfilDatatable', require('./_PerfilDatatable.vue'));
-Vue.component('perfilDatatableLog', require('./_PerfilDatatableLog.vue'));
-
+Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue'));  
 
 export default {
  
@@ -37,10 +61,55 @@ export default {
 	data() {
 		return {    
 			usuario:'',
-			perfis:'',  
+			perfis:'', 
+			config: {
+				exclusao:{
+					url:this.url,
+					evento:'disciplinaRemovida',
+					item:'Usuario',
+				},
+				order: [[ 1, "asc" ]],
+				ajax: { 
+					url: this.url + '/' + this.$route.params.id + '/perfil/datatable'
+				},
+				columns: [
+				{ data: 'perfil_id', name: 'perfils_users.perfil_id'  },
+				{ data: 'nome', name: 'perfils.nome' },
+				{ data: 'descricao', name: 'perfils.descricao' }, 
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+				],
+			} ,  
+
+			config2: {
+				lengthMenu:[
+				        [5, 10, 50, -1],
+				        [5, 10, 50, "Todos"]
+				    ],
+				order: [[ 0, "asc" ]],
+				ajax: { 
+					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
+				},
+				columns: [
+                { data: 'id', name: 'usuario_perfil_log.id'  },
+                { data: 'autor.name', name: 'autor.name'  },
+                { data: 'acao', name: 'usuario_perfil_log.acao'  },
+                { data: 'perfil.nome', name: 'perfil.nome'  },
+                { data: 'usuario.name', name: 'usuario.name'  },
+                { data: 'created_at', name: 'created_at'  },
+                { data: 'ip_v4', name: 'ip_v4'  },
+                { data: 'host', name: 'host'  },
+               
+                 
+				],
+			} ,   
 		}
 	},
  
+
+
+
+
+
  	created() { 
 		axios.get(this.url + '/' + this.$route.params.id)
 			.then(response => {
@@ -68,17 +137,7 @@ export default {
 
 
 	 		buscarPerfilParaAdicionar(event) {
-				 this.perfis = event;
-
-/*
-	 			axios.get(this.url + "/" + this.$route.params.id + "/perfil/cadastrar")
-	 				.then(response => {
-	 					this.perfis = response.data;
-	 				})
-	 				.catch(error => {
-	 					toastErro("Não foi possivel achar a Perfil", error.response.data);
-					 });  
-					 */
+				 this.perfis = event; 
 			 },
 			 
 

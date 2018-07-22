@@ -22,7 +22,7 @@ class AALPermissao
 			$permissoes = explode(self::DELIMITER, $permissoes);
 		}
 		if ($this->auth->guest() || !$request->user()->can($permissoes)) {
-			abort(403);
+			abort(403 , "Você não tem a pemissão necessária para essa operação");
 		}
 		return $next($request);
 	}

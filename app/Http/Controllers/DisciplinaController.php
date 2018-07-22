@@ -31,10 +31,10 @@ class DisciplinaController extends VueController
 
     public function __construct(  DisciplinaServiceInterface $service ){  
             
-        $this->service = $service;         
-
+        $this->service = $service;      
         $this->middleware('auth');
         $this->middleware('permissao:disciplina-cadastrar')->except('disciplinas'); 
+        //$this->middleware('perfil:cadastrar')->only('destroy'); 
     }
 
  

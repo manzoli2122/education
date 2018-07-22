@@ -48,7 +48,8 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         $models = $this->model->getDatatable();
         return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
-                return'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> ';
+                return'<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> '
+                 .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
             })
             ->make(true); 
     }

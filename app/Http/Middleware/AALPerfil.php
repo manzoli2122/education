@@ -22,7 +22,7 @@ class AALPerfil
 			$perfis = explode(self::DELIMITER, $perfis);
 		}
 		if ($this->auth->guest() || !$request->user()->hasPerfil($perfis)) {
-			abort(403);
+			abort(403 , "Você não tem o perfil necessário para essa operação");
 		}
 		return $next($request);
 	}

@@ -217,8 +217,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -228,12 +226,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			config: {
+				exclusao: {
+					url: this.url,
+					evento: 'disciplinaRemovida',
+					item: 'Disciplina'
+				},
 				order: [[1, "asc"]],
 				ajax: {
 					url: this.url + '/getDatatable'
 				},
 				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
-			}
+			},
+			datatable: ''
 		};
 	}
 });
@@ -320,7 +324,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -685,10 +689,8 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Listagem das Disciplinas" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n\t\t\tDisciplina  \n\t\t")
-        ])
+      _c("crudHeader", { attrs: { texto: "Disciplinas Cadastradas" } }, [
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Disciplina")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -701,24 +703,27 @@ var render = function() {
                 "div",
                 { staticClass: "card-body  table-responsive" },
                 [
-                  _c("datatable", { attrs: { config: _vm.config } }, [
-                    _c("th", { staticStyle: { "max-width": "20px" } }, [
-                      _vm._v("ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Nome")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Descricao")]),
-                    _vm._v(" "),
-                    _c(
-                      "th",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { width: "200px" }
-                      },
-                      [_vm._v("Ações")]
-                    )
-                  ])
+                  _c(
+                    "datatableService",
+                    { attrs: { config: _vm.config, id: "datatable" } },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Nome")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Descricao")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Ações")
+                      ])
+                    ]
+                  )
                 ],
                 1
               )

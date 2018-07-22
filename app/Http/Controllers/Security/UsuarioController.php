@@ -20,6 +20,7 @@ class UsuarioController extends VueController
         $this->service = $service ;  
         $this->middleware('auth'); 
         $this->middleware('perfil:Admin'); 
+        $this->middleware('perfil:cadastrar')->only('destroy'); 
     }
 
   

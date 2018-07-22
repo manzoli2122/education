@@ -1,83 +1,124 @@
-<template>  
-	<crudCard>
-		<div class="card-body  table-responsive">  
-            <table class="table table-bordered table-striped  table-hover " id="datatable">
-                <thead>     
-                    <tr>
-                        <th style="max-width:20px">ID</th>
-                        <th pesquisavel>Nome</th>
-                        <th>Descrição</th>  
-                        <th class="text-center" style="width:200px">Ações</th>
-                    </tr>
-                </thead>  
-            </table> 
-        </div>  
-        <div class="card-footer text-right">
-        	<crudBotaoVoltar url="/" />   
-        </div>  
-	</crudCard> 
+<template>   
+	<table class="table table-bordered table-striped  table-hover " :id="id">
+		<thead>     
+			<tr>
+				<slot></slot>
+			</tr>
+		</thead>  
+	</table>  
 </template>
 
 <script>
+
+	export default {
+
+		props:[
+		'config'  , 'id' 
+		],  
+
+		data() {
+			return {          
+				datatable:'',
+			}
+		},
+
+
+		mounted() {
+			this.datatable = this.montarDatatable(   );  
+			if(this.config.exclusao){
+				this.adicionarFuncaoExcluir();				
+			} 
+		},
+
+
+		methods: { 
  
-export default {
 
-	props:[
-	  'url' , 'perfis' , 
-	],  
+			adicionarFuncaoExcluir(  ) {  
+				var vm = this ; 
+				this.datatable.on('draw', function () {
+					$('[btn-excluir]').click(function (){  
+						let id =  $(this).data('id');  
+						vm.excluirRecursoPeloId( id  ); 
+					}); 
+				}); 
+			} ,
 
-	 watch: { 
-	 	perfis: function (newteste, oldteste) {
-			  this.datatable.ajax.reload();
-	 	}
-	 },
+		  
+			excluirRecursoPeloId(  id   ) { 
+ 				var vm = this ; 
+			    alertConfimacao('Confirma a Exclusão ', vm.config.exclusao.item , 
+			        function() { 
+			            axios.delete( vm.config.exclusao.url + '/'  + id   )
+						.then(response => { 
+							vm.$emit(vm.config.exclusao.evento , response.data );
+							vm.datatable.ajax.reload();
+						})
+						.catch(error => {
+							toastErro('Não foi possivel remover ' + vm.config.exclusao.item , error.response.data.message );
+						});  
+			        }
+			    );
+			},
+ 
+
+
+			montarDatatable(   lengthMenu = [ [10, 25, 50, -1],   [10, 25, 50, "Todos"]  ]) { 
+				var seletorTabela = '#' + this.id ;  
+				var csrf_token = document.head.querySelector('meta[name="csrf-token"]').content; 
+				var configPadrao = {
+					processing: true,
+					serverSide: true,
+					pagingType: "simple_numbers",
+					lengthMenu: lengthMenu,
+					language: { url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" },
+					ajax: { type: 'post',	data: { '_token': csrf_token }	}, 
+			        
+			        initComplete: function() { // Retira a busca a cada caractere digitado. Pesquisando apenas com Enter
+			        	
+			        	//var $searchInput = $('div.dataTables_filter input');
+			        	var $searchInput = $(seletorTabela  +'_filter input');
+			        	//console.log(seletorTabela);
+			        	$searchInput.unbind();
+			        	
+			        	$searchInput.bind('keyup', function(e) {
+			        		if (e.keyCode == 13) {
+			        			dataTable.search(this.value).draw();
+			        		}
+			        	});
+			        }
+			        
+			    }; 
+			    var config = _.merge( configPadrao , this.config ); 		    
+			    $(seletorTabela + ' thead th[pesquisavel]').each(function() {// Adiciona os campos para busca individual das colunas
+			    	var title = $(seletorTabela + ' thead th').eq($(this).index()).text();
+			    	$(this).html('<input type="text" pesquisavel placeholder="' + title + '" style="width:100%;" />');
+			    }); 
+			    var dataTable = $(seletorTabela).DataTable(config); 
+
+			    dataTable.columns().eq(0).each(function(colIdx) { // Aplica a busca individual das colunas
+			    	$('input', dataTable.column(colIdx).header()).on('keypress change click', function(e) {
+			    		if (e.type === 'change' || e.which === 13) {
+			    			dataTable
+			    			.column(colIdx)
+			    			.search(this.value)
+			    			.draw(); 
+			    			e.stopPropagation();
+			    		}
+			    	}); 
+			    	$('input', dataTable.column(colIdx).header()).on('click', function(e) {
+			    		e.stopPropagation();
+			    	});
+			    }); 
+		    	return dataTable;
+			}
 
 
 
 
-	data() {
-		return {                
-			config: {
-				order: [[ 1, "asc" ]],
-				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil/datatable'
-				},
-				columns: [
-				{ data: 'perfil_id', name: 'perfils_users.perfil_id'  },
-				{ data: 'nome', name: 'perfils.nome' },
-				{ data: 'descricao', name: 'perfils.descricao' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
-				],
-			} ,  
-			datatable:'', 
-		}
+
 	},
 
-	methods: { 
-		modelIndexDataTableFunction(  config ) { 
-			this.datatable = datatablePadrao('#datatable', config ); 
-			var vm = this ; 
-			this.datatable.on('draw', function () {
-				$('[btn-excluir]').click(function (){
-					let id =  $(this).data('id');
-					
-					axios.post( vm.url + '/' + vm.$route.params.id + '/delete/perfil/'   + id   )
-					.then(response => { 
-						vm.$emit('perfilRemovido' , response.data )
-					})
-					.catch(error => {
-						toastErro('Não foi possivel remover o Perfil.' , error.response.data.message );
-					});  
-					
-				});
-        	});
-		} ,
-
-	},
-
-	mounted() {
-		this.modelIndexDataTableFunction(  this.config );
-	}
 
 }
 
@@ -86,7 +127,6 @@ export default {
 
 
 <style>
- 
 .btn-sm{
 	 margin-left: 10px; 
 }
@@ -299,13 +339,13 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
 }
 
 .table th, .table td {
-    padding: 0.3rem;
-    vertical-align: inherit;
-    border-top: 1px solid #dee2e6;
+	padding: 0.3rem;
+	vertical-align: inherit;
+	border-top: 1px solid #dee2e6;
 }
 
 .table thead th {
-    vertical-align: inherit; 
+	vertical-align: inherit; 
 }
 
 </style>

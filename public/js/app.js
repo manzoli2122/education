@@ -433,6 +433,118 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/core/datatable/datatable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+	props: ['config', 'id'],
+
+	data: function data() {
+		return {
+			datatable: ''
+		};
+	},
+	mounted: function mounted() {
+		this.datatable = this.montarDatatable();
+		if (this.config.exclusao) {
+			this.adicionarFuncaoExcluir();
+		}
+	},
+
+
+	methods: {
+		adicionarFuncaoExcluir: function adicionarFuncaoExcluir() {
+			var vm = this;
+			this.datatable.on('draw', function () {
+				$('[btn-excluir]').click(function () {
+					var id = $(this).data('id');
+					vm.excluirRecursoPeloId(id);
+				});
+			});
+		},
+		excluirRecursoPeloId: function excluirRecursoPeloId(id) {
+			var vm = this;
+			alertConfimacao('Confirma a Exclusão ', vm.config.exclusao.item, function () {
+				axios.delete(vm.config.exclusao.url + '/' + id).then(function (response) {
+					vm.$emit(vm.config.exclusao.evento, response.data);
+					vm.datatable.ajax.reload();
+				}).catch(function (error) {
+					toastErro('Não foi possivel remover ' + vm.config.exclusao.item, error.response.data.message);
+				});
+			});
+		},
+		montarDatatable: function montarDatatable() {
+			var lengthMenu = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [[10, 25, 50, -1], [10, 25, 50, "Todos"]];
+
+			var seletorTabela = '#' + this.id;
+			var csrf_token = document.head.querySelector('meta[name="csrf-token"]').content;
+			var configPadrao = {
+				processing: true,
+				serverSide: true,
+				pagingType: "simple_numbers",
+				lengthMenu: lengthMenu,
+				language: { url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" },
+				ajax: { type: 'post', data: { '_token': csrf_token } },
+
+				initComplete: function initComplete() {
+					// Retira a busca a cada caractere digitado. Pesquisando apenas com Enter
+
+					//var $searchInput = $('div.dataTables_filter input');
+					var $searchInput = $(seletorTabela + '_filter input');
+					//console.log(seletorTabela);
+					$searchInput.unbind();
+
+					$searchInput.bind('keyup', function (e) {
+						if (e.keyCode == 13) {
+							dataTable.search(this.value).draw();
+						}
+					});
+				}
+
+			};
+			var config = _.merge(configPadrao, this.config);
+			$(seletorTabela + ' thead th[pesquisavel]').each(function () {
+				// Adiciona os campos para busca individual das colunas
+				var title = $(seletorTabela + ' thead th').eq($(this).index()).text();
+				$(this).html('<input type="text" pesquisavel placeholder="' + title + '" style="width:100%;" />');
+			});
+			var dataTable = $(seletorTabela).DataTable(config);
+
+			dataTable.columns().eq(0).each(function (colIdx) {
+				// Aplica a busca individual das colunas
+				$('input', dataTable.column(colIdx).header()).on('keypress change click', function (e) {
+					if (e.type === 'change' || e.which === 13) {
+						dataTable.column(colIdx).search(this.value).draw();
+						e.stopPropagation();
+					}
+				});
+				$('input', dataTable.column(colIdx).header()).on('click', function (e) {
+					e.stopPropagation();
+				});
+			});
+			return dataTable;
+		}
+	}
+
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1204380f\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/core/crud/ElementoForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -532,6 +644,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/core/datatable/datatable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\ntable.dataTable {\n\tclear: both;\n\tmargin-top: 6px !important;\n\tmargin-bottom: 6px !important;\n\tmax-width: none !important;\n\tborder-collapse: separate !important;\n\tborder-spacing: 0;\n}\ntable.dataTable td,\ntable.dataTable th {\n\t-webkit-box-sizing: content-box;\n\tbox-sizing: content-box;\n}\ntable.dataTable td.dataTables_empty,\ntable.dataTable th.dataTables_empty {\n\ttext-align: center;\n}\ntable.dataTable.nowrap th,\ntable.dataTable.nowrap td {\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length label {\n\tfont-weight: normal;\n\ttext-align: left;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length select {\n\twidth: auto;\n\tdisplay: inline-block;\n}\ndiv.dataTables_wrapper div.dataTables_filter {\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_filter label {\n\tfont-weight: normal;\n\twhite-space: nowrap;\n\ttext-align: left;\n}\ndiv.dataTables_wrapper div.dataTables_filter input {\n\tmargin-left: 0.5em;\n\tdisplay: inline-block;\n\twidth: auto;\n}\ndiv.dataTables_wrapper div.dataTables_info {\n\tpadding-top: 0.85em;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_paginate {\n\tmargin: 0;\n\twhite-space: nowrap;\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_paginate ul.pagination {\n\tmargin: 2px 0;\n\twhite-space: nowrap;\n\tjustify-content: flex-end;\n}\ndiv.dataTables_wrapper div.dataTables_processing {\n\tposition: absolute;\n\ttop: 50%;\n\tleft: 50%;\n\twidth: 200px;\n\tmargin-left: -100px;\n\tmargin-top: -26px;\n\ttext-align: center;\n\tpadding: 1em 0;\n}\ntable.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting,\ntable.dataTable thead > tr > td.sorting_asc,\ntable.dataTable thead > tr > td.sorting_desc,\ntable.dataTable thead > tr > td.sorting {\n\tpadding-right: 30px;\n}\ntable.dataTable thead > tr > th:active,\ntable.dataTable thead > tr > td:active {\n\toutline: none;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n\tcursor: pointer;\n\tposition: relative;\n}\ntable.dataTable thead .sorting:before, table.dataTable thead .sorting:after,\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_asc:after,\ntable.dataTable thead .sorting_desc:before,\ntable.dataTable thead .sorting_desc:after,\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_asc_disabled:after,\ntable.dataTable thead .sorting_desc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:after {\n\tposition: absolute;\n\tbottom: 0.9em;\n\tdisplay: block;\n\topacity: 0.3;\n}\ntable.dataTable thead .sorting:before,\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_desc:before,\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:before {\n\tright: 1em;\n\tcontent: \"\\2191\";\n}\ntable.dataTable thead .sorting:after,\ntable.dataTable thead .sorting_asc:after,\ntable.dataTable thead .sorting_desc:after,\ntable.dataTable thead .sorting_asc_disabled:after,\ntable.dataTable thead .sorting_desc_disabled:after {\n\tright: 0.5em;\n\tcontent: \"\\2193\";\n}\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_desc:after {\n\topacity: 1;\n}\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:after {\n\topacity: 0;\n}\ndiv.dataTables_scrollHead table.dataTable {\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table {\n\tborder-top: none;\n\tmargin-top: 0 !important;\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table thead .sorting:before,\ndiv.dataTables_scrollBody table thead .sorting_asc:before,\ndiv.dataTables_scrollBody table thead .sorting_desc:before,\ndiv.dataTables_scrollBody table thead .sorting:after,\ndiv.dataTables_scrollBody table thead .sorting_asc:after,\ndiv.dataTables_scrollBody table thead .sorting_desc:after {\n\tdisplay: none;\n}\ndiv.dataTables_scrollBody table tbody tr:first-child th,\ndiv.dataTables_scrollBody table tbody tr:first-child td {\n\tborder-top: none;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner {\n\tbox-sizing: content-box;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner > table {\n\tmargin-top: 0 !important;\n\tborder-top: none;\n}\n@media screen and (max-width: 767px) {\ndiv.dataTables_wrapper div.dataTables_length,\n\tdiv.dataTables_wrapper div.dataTables_filter,\n\tdiv.dataTables_wrapper div.dataTables_info,\n\tdiv.dataTables_wrapper div.dataTables_paginate {\n\t\ttext-align: center;\n}\n}\ntable.dataTable.table-sm > thead > tr > th {\n\tpadding-right: 20px;\n}\ntable.dataTable.table-sm .sorting:before,\ntable.dataTable.table-sm .sorting_asc:before,\ntable.dataTable.table-sm .sorting_desc:before {\n\ttop: 5px;\n\tright: 0.85em;\n}\ntable.dataTable.table-sm .sorting:after,\ntable.dataTable.table-sm .sorting_asc:after,\ntable.dataTable.table-sm .sorting_desc:after {\n\ttop: 5px;\n}\ntable.table-bordered.dataTable th,\ntable.table-bordered.dataTable td {\n\tborder-left-width: 0;\n}\ntable.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child,\ntable.table-bordered.dataTable td:last-child,\ntable.table-bordered.dataTable td:last-child {\n\tborder-right-width: 0;\n}\ntable.table-bordered.dataTable tbody th,\ntable.table-bordered.dataTable tbody td {\n\tborder-bottom-width: 0;\n}\ndiv.dataTables_scrollHead table.table-bordered {\n\tborder-bottom-width: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row {\n\tmargin: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"]:first-child {\n\tpadding-left: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"]:last-child {\n\tpadding-right: 0;\n}\n.table th, .table td {\n\tpadding: 0.3rem;\n\tvertical-align: inherit;\n\tborder-top: 1px solid #dee2e6;\n}\n.table thead th {\n\tvertical-align: inherit;\n}\n\n", ""]);
 
 // exports
 
@@ -1426,6 +1553,34 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b73976c0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/core/datatable/datatable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "table",
+    {
+      staticClass: "table table-bordered table-striped  table-hover ",
+      attrs: { id: _vm.id }
+    },
+    [_c("thead", [_c("tr", [_vm._t("default")], 2)])]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b73976c0", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d47f9fac\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/core/crud/Formulario.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1659,6 +1814,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b21735b6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./botaoExcluir.vue", function() {
      var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b21735b6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./botaoExcluir.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/core/datatable/datatable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/core/datatable/datatable.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("3db27f9f", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -12944,6 +13126,8 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 Vue.component('datatable', __webpack_require__("./resources/assets/js/components/core/datatable.vue"));
 
+Vue.component('datatableService', __webpack_require__("./resources/assets/js/components/core/datatable/datatable.vue"));
+
 Vue.component('crudCard', __webpack_require__("./resources/assets/js/components/core/crud/card.vue"));
 
 Vue.component('crudHeader', __webpack_require__("./resources/assets/js/components/core/crud/header.vue"));
@@ -13094,6 +13278,37 @@ window.toastSucesso = function (titulo) {
 //const app = new Vue({
 //  el: '#app'
 //});
+
+
+window.alertConfimacao = function (titulo, texto, funcaoSIM) {
+    iziToast.show({
+        theme: 'dark',
+        color: '#3C8DBC',
+        titleColor: '#fff',
+        messageColor: '#fff',
+        timeout: false,
+        icon: 'fa fa-question-circle-o',
+        iconColor: '#fff',
+        close: false,
+        overlay: true,
+        toastOnce: true,
+        zindex: 999,
+        title: titulo,
+        message: texto,
+        position: 'center',
+        buttons: [['<button>Sim</button>', function (instance, toast) {
+            instance.hide({
+                transitionOut: 'fadeOutUp'
+            }, toast);
+            funcaoSIM();
+        }], ['<button><b>Não</b></button>', function (instance, toast) {
+            instance.hide({
+                transitionOut: 'fadeOutUp'
+            }, toast);
+        }, true]],
+        id: 'iziToastConfirmacao'
+    });
+};
 
 /***/ }),
 
@@ -13546,6 +13761,58 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-278f2fcb", Component.options)
   } else {
     hotAPI.reload("data-v-278f2fcb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/core/datatable/datatable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b73976c0\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/core/datatable/datatable.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/core/datatable/datatable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b73976c0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/core/datatable/datatable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/core/datatable/datatable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b73976c0", Component.options)
+  } else {
+    hotAPI.reload("data-v-b73976c0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

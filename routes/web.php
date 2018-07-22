@@ -30,7 +30,7 @@ Route::post('usuario/{userId}/perfil/datatable', 'Security\UsuarioController@Bus
 Route::post('usuario/{userId}/perfil/log/datatable',  'Security\UsuarioController@BuscarPerfilDataTableLog'); 
 Route::post('usuario/datatable',                 'Security\UsuarioController@getDatatable') ;  
 Route::get('usuario/{userId}/perfil/adicionar', 'Security\UsuarioController@BuscarPerfisParaAdicionar') ;  
-Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show']);
+Route::resource('usuario',                          'Security\UsuarioController')->only(['index', 'show' , 'destroy']);
 
 
  

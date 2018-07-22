@@ -1,20 +1,18 @@
 <template>  
 	<div>  
-		<crudHeader texto="Listagem das Disciplinas">
-			<li class="breadcrumb-item">
-				Disciplina  
-			</li>
+		<crudHeader texto="Disciplinas Cadastradas">
+			<li class="breadcrumb-item">Disciplina</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatable :config="config"> 
+						<datatableService :config="config" id="datatable"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th>Descricao</th>  
-							<th class="text-center" style="width:200px">Ações</th>
-						</datatable> 
+							<th pesquisavel>Descricao</th>  
+							<th class="text-center" >Ações</th>
+						</datatableService> 
 					</div>    
 				</crudCard> 
 			</div> 
@@ -32,7 +30,12 @@ export default {
 
 	data() {
 		return {                
-			config: {
+			config: { 
+				exclusao:{
+					url:this.url,
+					evento:'disciplinaRemovida',
+					item:'Disciplina',
+				},
 				order: [[ 1, "asc" ]],
 				ajax: { 
 					url: this.url + '/getDatatable'
@@ -44,6 +47,7 @@ export default {
 				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
+			datatable:'',
 		}
 	},
 
@@ -51,8 +55,5 @@ export default {
 
 </script>
  
-<style >
-.btn-sm{
-	 margin-left: 10px; 
-}
+<style > 
 </style>

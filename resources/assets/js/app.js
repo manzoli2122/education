@@ -13,6 +13,8 @@ window.Vue = require('vue');
 
 Vue.component('datatable', require('./components/core/datatable.vue'));
 
+Vue.component('datatableService', require('./components/core/datatable/datatable.vue'));
+
 Vue.component('crudCard', require('./components/core/crud/card.vue'));
 
 Vue.component('crudHeader', require('./components/core/crud/header.vue'));
@@ -172,3 +174,41 @@ window.toastSucesso = function(titulo, texto = "", funcao = function() {}) {
 //const app = new Vue({
   //  el: '#app'
 //});
+
+
+
+window.alertConfimacao = function( titulo , texto , funcaoSIM  ) {
+    iziToast.show({
+        theme: 'dark',
+        color: '#3C8DBC',
+        titleColor: '#fff',
+        messageColor: '#fff',
+        timeout: false,
+        icon: 'fa fa-question-circle-o',
+        iconColor: '#fff',
+        close: false,
+        overlay: true,
+        toastOnce: true,
+        zindex: 999,
+        title: titulo,
+        message: texto,
+        position: 'center',
+        buttons: [
+        
+        ['<button>Sim</button>', function (instance, toast) {
+            instance.hide({
+                transitionOut: 'fadeOutUp', 
+            }, toast);
+            funcaoSIM();
+        }],
+        
+        ['<button><b>Não</b></button>', function(instance, toast) {
+            instance.hide({
+                transitionOut: 'fadeOutUp', 
+            }, toast ); 
+        }, true]
+
+        ],
+        id: 'iziToastConfirmacao'
+    });
+}
