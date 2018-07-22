@@ -24,8 +24,11 @@ Auth::routes();
 //==========================================================================================================================
 //                              SEGURANCA USUARIO
 //==========================================================================================================================
+Route::delete('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario') ;
+
 Route::post('usuario/{userId}/adicionar/perfil', 'Security\UsuarioController@adicionarPerfilAoUsuario') ;
 Route::post('usuario/{userId}/delete/perfil/{perfilId}', 'Security\UsuarioController@excluirPerfilDoUsuario') ;
+
 Route::post('usuario/{userId}/perfil/datatable', 'Security\UsuarioController@BuscarPerfilDataTable') ; 
 Route::post('usuario/{userId}/perfil/log/datatable',  'Security\UsuarioController@BuscarPerfilDataTableLog'); 
 Route::post('usuario/datatable',                 'Security\UsuarioController@getDatatable') ;  

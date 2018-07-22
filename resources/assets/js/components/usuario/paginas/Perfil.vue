@@ -12,7 +12,7 @@
 
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config" id="datatableUsuariosPerfis"> 
+						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="perfis" v-on:perfilRemovido="buscarPerfilParaAdicionar($event)"> 
 							<th style="max-width:20px">ID</th>
                         	<th pesquisavel>Nome</th>
                         	<th pesquisavel>Descrição</th>  
@@ -26,7 +26,7 @@
 				  
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config2" id="datatableUsuariosPerfisLog"> 
+						<datatableService :config="config2" id="datatableUsuariosPerfisLog" :reload="perfis" > 
 							<th style="max-width:20px">ID</th>  
 							<th pesquisavel>Responsável</th>
 							<th pesquisavel>Ação</th>
@@ -64,9 +64,9 @@ export default {
 			perfis:'', 
 			config: {
 				exclusao:{
-					url:this.url,
-					evento:'disciplinaRemovida',
-					item:'Usuario',
+					url:this.url + '/' + this.$route.params.id + '/delete/perfil'  ,
+					evento:'perfilRemovido',
+					item:'Perfil',
 				},
 				order: [[ 1, "asc" ]],
 				ajax: { 

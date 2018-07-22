@@ -189,9 +189,9 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 			perfis: '',
 			config: {
 				exclusao: {
-					url: this.url,
-					evento: 'disciplinaRemovida',
-					item: 'Usuario'
+					url: this.url + '/' + this.$route.params.id + '/delete/perfil',
+					evento: 'perfilRemovido',
+					item: 'Perfil'
 				},
 				order: [[1, "asc"]],
 				ajax: {
@@ -1354,7 +1354,13 @@ var render = function() {
                     {
                       attrs: {
                         config: _vm.config,
-                        id: "datatableUsuariosPerfis"
+                        id: "datatableUsuariosPerfis",
+                        reload: _vm.perfis
+                      },
+                      on: {
+                        perfilRemovido: function($event) {
+                          _vm.buscarPerfilParaAdicionar($event)
+                        }
                       }
                     },
                     [
@@ -1401,7 +1407,8 @@ var render = function() {
                     {
                       attrs: {
                         config: _vm.config2,
-                        id: "datatableUsuariosPerfisLog"
+                        id: "datatableUsuariosPerfisLog",
+                        reload: _vm.perfis
                       }
                     },
                     [

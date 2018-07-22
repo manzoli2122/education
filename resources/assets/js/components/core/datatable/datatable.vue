@@ -13,9 +13,15 @@
 	export default {
 
 		props:[
-		'config'  , 'id' 
+		'config'  , 'id' , 'reload'
 		],  
 
+		watch: { 
+		 	reload: function (newteste, oldteste) {
+				  this.datatable.ajax.reload();
+		 	}
+		 },
+	 
 		data() {
 			return {          
 				datatable:'',
