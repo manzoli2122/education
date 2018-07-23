@@ -18,6 +18,9 @@
                         	<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
+					<div class="card-footer text-right">
+        				<crudBotaoVoltar url="/" />   
+        			</div>
 				</crudCard>  
  
 				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>    

@@ -47,7 +47,7 @@ class Permissao extends Model
    
 
 
-
+/*
     public static function boot()
     {
         parent::boot();
@@ -58,7 +58,7 @@ class Permissao extends Model
             return true;
         });
     }
-
+*/
     
 
 
