@@ -19,8 +19,12 @@ class UsuarioController extends VueController
     public function __construct( UsuarioServiceInterface $service   ){ 
         $this->service = $service ;  
         $this->middleware('auth'); 
-        $this->middleware('perfil:Admin'); 
-        $this->middleware('perfil:cadastrar')->only('destroy'); 
+        $this->middleware('permissao:usuarios');  
+        $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 
+
+      //  $this->middleware('perfil:Gerente') ; 
+
+        $this->middleware('perfil:AdminSuper')->only( 'destroy' ); 
     }
 
   

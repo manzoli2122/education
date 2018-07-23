@@ -21,7 +21,7 @@ class PermissaoController extends VueController
         $this->service = $service ;    
         $this->middleware('auth');
         $this->middleware('permissao:permissoes');
-        $this->middleware('perfil:Admin')->only('update', 'destroy');
+       // $this->middleware('perfil:Admin')->only('update', 'destroy');
        
     }
 

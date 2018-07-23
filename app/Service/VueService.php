@@ -4,9 +4,11 @@ namespace App\Service ;
 
 use App\Exceptions\ModelNotFoundException; 
 
-class VueService implements VueServiceInterface 
+
+class VueService  implements VueServiceInterface  
 {
 
+    
     protected $model;   
     protected $dataTable;
 
@@ -55,10 +57,11 @@ class VueService implements VueServiceInterface
     * @return void
     */
     public function  Salvar( $request  ){
+        
         throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class);  
     }
 
-
+    
 
 
 
@@ -119,10 +122,10 @@ class VueService implements VueServiceInterface
 
 
  
-    public function  ValidarCriacao( $entity ){}
+    
     public function  ValidarAtualizacao( $entity ){}
     public function  ValidarExclusao( $entity ){}
-     
+    public function  ValidarCriacao(  ){}
      
     public function  Autorizar(){}
     public function  BuscarQuantidade(){}

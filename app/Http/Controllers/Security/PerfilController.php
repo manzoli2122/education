@@ -2,8 +2,7 @@
  
 namespace  App\Http\Controllers\Security;
  
-use Illuminate\Http\Request;  
-use DataTables;
+use Illuminate\Http\Request;   
 use App\Http\Controllers\VueController; 
 use App\Service\Security\PerfilServiceInterface; 
 use Auth; 
@@ -21,7 +20,8 @@ class PerfilController extends VueController
         
         $this->service = $service ;   
         $this->middleware('auth'); 
-        //$this->middleware('permissao:perfis');   
+        $this->middleware('permissao:perfis');  
+        $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPermissaoDoPerfil' , 'adicionarPermissaoAoPerfil');  
        
     }
 

@@ -5,6 +5,7 @@ namespace App\Service\Security ;
 use App\Models\Security\Permissao; 
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
+use Cache;
 
 class PermissaoService extends VueService  implements PermissaoServiceInterface 
 {
@@ -19,6 +20,21 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
         $this->dataTable = $dataTable ; 
     }
   
+
+
+    /**
+    * Função para excluir um model  e limpar a cache
+    * neccesário pois um perfil pode ficar com a permissao 
+    * mesmo depois dela ser excluida
+    *
+    * @param int $id
+    *    
+    * @return void
+    */
+    public function  Apagar( $id ){ 
+        parent::Apagar( $id ) ;  
+        Cache::flush(); 
+    }
 
 
 

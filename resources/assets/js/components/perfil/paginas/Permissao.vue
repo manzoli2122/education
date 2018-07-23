@@ -18,6 +18,9 @@
 	                        <th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
+					<div class="card-footer text-right">
+        				<crudBotaoVoltar url="/" />   
+        			</div>  
 				</crudCard> 
  
 				<formAdicionarPermissao v-if="permissoes.length > 0" v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao>   

@@ -9,7 +9,7 @@
 			<div class="container-fluid">
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config"  id="datatablePerfis"> 
+						<datatableService :config="config"  id="datatablePerfis" :reload="reload" v-on:perfilRemovido="perfilRemovido($event)"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descricao</th>  
@@ -33,6 +33,11 @@ export default {
 	data() {
 		return {                
 			config: {
+				exclusao:{
+					url:this.url,
+					evento:'perfilRemovido',
+					item:'Perfil',
+				},
 				order: [[ 1, "asc" ]],
 				ajax: { 
 					url: this.url + '/datatable'
@@ -44,7 +49,14 @@ export default {
 				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} , 
+			reload:'',
 		}
+	},
+
+	methods: { 
+		perfilRemovido(event) {
+			this.reload = event;
+		}, 
 	},
 
 }

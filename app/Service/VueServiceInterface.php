@@ -74,7 +74,7 @@ interface VueServiceInterface
     public function  BuscarDataTable( $request );
  
 
-    public function  ValidarCriacao( $entity ); 
+    public function  ValidarCriacao(  ); 
     public function  ValidarAtualizacao( $entity );   
     public function  ValidarExclusao( $entity );   
     

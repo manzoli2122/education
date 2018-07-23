@@ -1298,8 +1298,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v(" Perfis ")]),
-          _vm._v("A\n\t\t")
+          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v(" Perfis ")])
         ]
       ),
       _vm._v(" "),

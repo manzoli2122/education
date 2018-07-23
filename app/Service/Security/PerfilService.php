@@ -8,6 +8,8 @@ use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 use App\Models\Security\LogPerfilPermissao;
 use Auth;
+use Cache;
+
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
@@ -25,10 +27,23 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $this->model = $perfil ;    
         $this->permissao = $permissao ;  
         $this->dataTable = $dataTable ;    
-        $this->logSeguranca = $log ;
+        $this->logSeguranca = $log ; 
     }
 
+ 
 
+
+    /**
+    * Função para excluir um model  e limpar a cache
+    *
+    * @param int $id
+    *    
+    * @return void
+    */
+    public function  Apagar( $id ){ 
+        parent::Apagar( $id ) ;  
+        Cache::flush(); 
+    }
 
 
 
@@ -182,8 +197,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
                 return 
-                    '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a> '
-                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a> ' ;
+                    '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a>'
+                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a> '
+                    .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
             })
             ->make(true); 
     }

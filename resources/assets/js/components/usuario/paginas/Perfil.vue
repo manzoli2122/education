@@ -4,7 +4,7 @@
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Usuários </a></router-link> 
 			</li> 
-			<li class="breadcrumb-item"> Perfis </li>A
+			<li class="breadcrumb-item"> Perfis </li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">  

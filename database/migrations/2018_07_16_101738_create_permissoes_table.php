@@ -26,11 +26,15 @@ class CreatePermissoesTable extends Migration
         Schema::create('permissao_perfils', function (Blueprint $table) {
             
             $table->increments('id');
+            
             $table->unsignedInteger('permissao_id');
+
             $table->unsignedInteger('perfil_id');            
 
-            $table->foreign('permissao_id')->references('id')->on('permissoes')->onDelete('cascade');
+            $table->foreign('permissao_id')->references('id')->on('permissoes')->onDelete('restrict');
+
             $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
+
         });
     }
 

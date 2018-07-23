@@ -153,14 +153,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			config: {
+				exclusao: {
+					url: this.url,
+					evento: 'perfilRemovido',
+					item: 'Perfil'
+				},
 				order: [[1, "asc"]],
 				ajax: {
 					url: this.url + '/datatable'
 				},
 				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
-			}
+			},
+			reload: ''
 		};
+	},
+
+
+	methods: {
+		perfilRemovido: function perfilRemovido(event) {
+			this.reload = event;
+		}
 	}
+
 });
 
 /***/ }),
@@ -170,6 +184,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -1461,6 +1478,13 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer text-right" },
+                [_c("crudBotaoVoltar", { attrs: { url: "/" } })],
+                1
               )
             ]),
             _vm._v(" "),
@@ -1573,7 +1597,18 @@ var render = function() {
                 [
                   _c(
                     "datatableService",
-                    { attrs: { config: _vm.config, id: "datatablePerfis" } },
+                    {
+                      attrs: {
+                        config: _vm.config,
+                        id: "datatablePerfis",
+                        reload: _vm.reload
+                      },
+                      on: {
+                        perfilRemovido: function($event) {
+                          _vm.perfilRemovido($event)
+                        }
+                      }
+                    },
                     [
                       _c("th", { staticStyle: { "max-width": "20px" } }, [
                         _vm._v("ID")
