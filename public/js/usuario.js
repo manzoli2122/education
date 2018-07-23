@@ -105,8 +105,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			config: {
 				exclusao: {
 					url: this.url,
-					evento: 'disciplinaRemovida',
-					item: 'Usuario'
+					evento: 'usuarioRemovido',
+					item: 'Usuário'
 				},
 				order: [[1, "asc"]],
 				ajax: {
@@ -5451,7 +5451,7 @@ var routes = [{
     component: __webpack_require__("./resources/assets/js/components/usuario/paginas/rascunho/Show.vue")
 }];
 
-var disciplina = new Vue({
+var usuario = new Vue({
     el: '#usuario',
     router: new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         routes: routes,

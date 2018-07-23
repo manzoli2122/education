@@ -17,9 +17,11 @@ class CreatePerfilPermissaoLogTable extends Migration
             
             $table->increments('id');
 
-            $table->unsignedInteger('permissao_id'); 
+            $table->unsignedInteger('permissao_id')->nullable(); 
 
             $table->string('acao');
+
+            $table->string('permissao_nome');
             
             $table->unsignedInteger('autor_id')->nullable(); 
 
@@ -27,7 +29,7 @@ class CreatePerfilPermissaoLogTable extends Migration
  
             $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
 
-            $table->foreign('permissao_id')->references('id')->on('permissoes')->onDelete('cascade');
+            $table->foreign('permissao_id')->references('id')->on('permissoes')->onDelete('set null');
 
             $table->foreign('autor_id')->references('id')->on('users')->onDelete('set null'); 
 

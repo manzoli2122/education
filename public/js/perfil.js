@@ -249,7 +249,7 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 				ajax: {
 					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
 				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'permissao.nome', name: 'permissao.nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
+				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'permissao_nome', name: 'permissao_nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
 			}
 
 		};
@@ -5291,7 +5291,7 @@ var routes = [{
     component: __webpack_require__("./resources/assets/js/components/perfil/paginas/rascunho/Show.vue")
 }];
 
-var disciplina = new Vue({
+var perfil = new Vue({
     el: '#perfil',
     router: new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         routes: routes,

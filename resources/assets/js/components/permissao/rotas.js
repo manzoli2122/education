@@ -13,16 +13,20 @@ let routes = [
     {
         path: '/edit/:id',
         component: require('./paginas/Edit')
+    }, 
+    {
+        path: '/:id/perfis',
+        component: require('./paginas/Perfis')
     },  
     
 ];
 
 
-const disciplina = new Vue({
+const permissao = new Vue({
     el: '#permissao',
     router : new VueRouter({
-                                routes,
-                                linkActiveClass: 'is-active'
+            routes,
+            linkActiveClass: 'is-active'
         })
  
 });

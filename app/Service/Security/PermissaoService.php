@@ -33,10 +33,31 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
         $models = $this->model->getDatatable();
         return $this->dataTable->eloquent($models)
             ->addColumn('action', function($linha) {
-                return
-                   	'<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>';
+                return 
+                        '<a href="#/'.$linha->id.'/perfis" class="btn btn-warning btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a>'
+                       .'<a href="#/edit/'.$linha->id.'" class="btn btn-success btn-sm" title="Editar"><i class="fa fa-pencil"></i></a>'
+                       .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>';
             })
             ->make(true); 
+    }
+
+
+
+    /**
+    * Função para buscar as Perfis de uma Permissao pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $permissaoId 
+    *
+    * @return json
+    */
+    public function  BuscarPerfisDataTable( $request , $permissaoId ){ 
+        $permissao = $this->model->find($permissaoId); 
+        $models = $permissao->perfis( );  
+        return $this->dataTable
+            ->eloquent($models) 
+            ->make(true);  
     }
 
   

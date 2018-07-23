@@ -62,10 +62,14 @@ Route::resource('perfil',                                           'PerfilContr
 
 
 
+
+
+
 //========================================================================================================================
 //                              SEGURANCA PERMISSAO
 //========================================================================================================================
-Route::post('permissao/datatable',       'PermissaoController@getDatatable')->name('permissao.datatable');  
-Route::resource('permissao',                'PermissaoController')->except(['create', 'edit']); 
+Route::post('permissao/{permissaoId}/perfis/datatable',    'PermissaoController@BuscarPerfisDataTable'); 
+Route::post('permissao/datatable',                         'PermissaoController@getDatatable')->name('permissao.datatable');  
+Route::resource('permissao',                               'PermissaoController')->except(['create', 'edit']); 
 
 

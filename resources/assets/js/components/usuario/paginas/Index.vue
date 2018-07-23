@@ -35,8 +35,8 @@ export default {
 			config: {
 				exclusao:{
 					url:this.url,
-					evento:'disciplinaRemovida',
-					item:'Usuario',
+					evento:'usuarioRemovido',
+					item:'Usuário',
 				},
 				order: [[ 1, "asc" ]],
 				ajax: { 

@@ -35,7 +35,7 @@ let routes = [
 ];
 
 
-const disciplina = new Vue({
+const usuario = new Vue({
     el: '#usuario',
     router : new VueRouter({
                                 routes,

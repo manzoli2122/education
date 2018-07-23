@@ -52,7 +52,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $permissao = $this->permissao->find( $permissaoId ); 
         $perfil->attachPermissao($permissao);
 
-        $this->Log( $perfilId , $permissaoId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
+        $this->Log( $perfilId , $permissaoId , $permissao->nome  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
     }
 
     
@@ -81,7 +81,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find($permissaoId);  
         $perfil->detachPermissao($permissao); 
-        $this->Log( $perfilId  , $permissaoId , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
+        $this->Log( $perfilId  , $permissaoId , $permissao->nome , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
     }
 
 
@@ -209,10 +209,11 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     *
     * @return void
     */
-    private function Log( int $perfilId , int $permissaoId  , int $autorId , string $acao , string $ip_v4 , string $host )
+    private function Log( int $perfilId , int $permissaoId , string $permissao_nome , int $autorId , string $acao , string $ip_v4 , string $host )
     {         
         $log =  new LogPerfilPermissao();
         $log->permissao_id = $permissaoId;
+        $log->permissao_nome = $permissao_nome;
         $log->autor_id = $autorId;
         $log->perfil_id = $perfilId;
         $log->acao = $acao ;

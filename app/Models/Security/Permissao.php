@@ -41,7 +41,7 @@ class Permissao extends Model
     
      public function perfis()
     {
-        return $this->belongsToMany('App\Models\Perfil' , 'permissao_perfils', 'permissao_id', 'perfil_id');
+        return $this->belongsToMany('App\Models\Security\Perfil' , 'permissao_perfils', 'permissao_id', 'perfil_id');
     }
 
    

@@ -34,7 +34,7 @@ let routes = [
 ];
 
 
-const disciplina = new Vue({
+const perfil = new Vue({
     el: '#perfil',
     router : new VueRouter({
                                 routes,

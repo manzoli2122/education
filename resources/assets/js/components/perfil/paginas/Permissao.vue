@@ -93,7 +93,7 @@ export default {
                 { data: 'autor.name', name: 'autor.name'  },
                 { data: 'acao', name: 'acao'  },
                 { data: 'perfil.nome', name: 'perfil.nome'  },
-                { data: 'permissao.nome', name: 'permissao.nome'  },
+                { data: 'permissao_nome', name: 'permissao_nome'  },
                 { data: 'created_at', name: 'created_at'  },
                 { data: 'ip_v4', name: 'ip_v4'  },
                 { data: 'host', name: 'host'  },
