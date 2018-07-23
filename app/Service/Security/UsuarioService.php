@@ -3,7 +3,7 @@
 namespace App\Service\Security ;
  
 use App\User;
-use App\Models\Perfil;
+use App\Models\Security\Perfil;
 use App\Models\Security\LogUsuarioPerfil;
 use App\Service\VueService;
 use Auth;

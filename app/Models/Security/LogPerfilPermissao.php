@@ -48,7 +48,7 @@ class LogPerfilPermissao extends Model
 
     public function permissao()
     {
-        return $this->belongsTo('App\Models\Permissao', 'permissao_id'); 
+        return $this->belongsTo('App\Models\Security\Permissao', 'permissao_id'); 
     }
 
 
@@ -64,7 +64,7 @@ class LogPerfilPermissao extends Model
 
     public function perfil()
     {
-        return $this->belongsTo('App\Models\Perfil', 'perfil_id'); 
+        return $this->belongsTo('App\Models\Security\Perfil', 'perfil_id'); 
     }
 
  

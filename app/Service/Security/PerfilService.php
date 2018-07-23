@@ -2,8 +2,8 @@
 
 namespace App\Service\Security ;
  
-use App\Models\Perfil;
-use App\Models\Permissao;
+use App\Models\Security\Perfil;
+use App\Models\Security\Permissao;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 use App\Models\Security\LogPerfilPermissao;

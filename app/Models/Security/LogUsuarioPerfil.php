@@ -49,7 +49,7 @@ class LogUsuarioPerfil extends Model
 
     public function perfil()
     {
-        return $this->belongsTo('App\Models\Perfil', 'perfil_id'); 
+        return $this->belongsTo('App\Models\Security\Perfil', 'perfil_id'); 
     }
  
 

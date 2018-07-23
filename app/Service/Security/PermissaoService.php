@@ -2,7 +2,7 @@
 
 namespace App\Service\Security ;
  
-use App\Models\Permissao; 
+use App\Models\Security\Permissao; 
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 

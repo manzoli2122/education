@@ -35,7 +35,7 @@ export default {
 			config: {
 				order: [[ 1, "asc" ]],
 				ajax: { 
-					url: this.url + '/getDatatable'
+					url: this.url + '/datatable'
 				},
 				columns: [
 				{ data: 'id', name: 'id'  },

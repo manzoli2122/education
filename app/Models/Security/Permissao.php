@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Security;
 
   
 use Illuminate\Database\Eloquent\Model;
+
 
 class Permissao extends Model  
 {
@@ -51,7 +52,7 @@ class Permissao extends Model
     {
         parent::boot();
         static::deleting(function($permissao) {
-            if (!method_exists('App\Models\Permissao' , 'bootSoftDeletes')) {
+            if (!method_exists('App\Models\Security\Permissao' , 'bootSoftDeletes')) {
                 $permissao->perfis()->sync([]);
             }
             return true;

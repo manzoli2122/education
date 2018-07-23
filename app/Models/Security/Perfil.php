@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Security;
 
 use Cache; 
 use Illuminate\Database\Eloquent\Model; 
@@ -36,7 +36,7 @@ class Perfil extends Model
 
     public function permissoes()
     {
-        return $this->belongsToMany( 'App\Models\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
+        return $this->belongsToMany( 'App\Models\Security\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
     }
 
     
@@ -60,7 +60,7 @@ class Perfil extends Model
     {
         parent::boot();
         static::deleting(function ($perfil) {
-            if (!method_exists( 'App\Models\Perfil' , 'bootSoftDeletes')) {
+            if (!method_exists( 'App\Models\Security\Perfil' , 'bootSoftDeletes')) {
                 $perfil->usuarios()->sync([]);
                 $perfil->permissoes()->sync([]);
             }

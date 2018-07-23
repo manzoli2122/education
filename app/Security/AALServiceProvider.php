@@ -10,24 +10,24 @@ class AALServiceProvider extends ServiceProvider
     
     protected $defer = false;
 
-    //protected $namespace = 'Manzoli2122\AAL\Http\Controllers'  ;
+    protected $namespace =  'App\Http\Controllers\Security' ;
     
     public function boot()
     { 
-        //$this->mapWebRoutes(); 
+        $this->mapWebRoutes(); 
         // Register blade directives
         $this->bladeDirectives(); 
     }
 
    
-    /* 
+    
     private function mapWebRoutes()
     {        
         Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(__DIR__.'/Http/routes.php');
+             ->namespace($this->namespace)
+             ->group(base_path('routes/security.php')); 
     } 
-    */
+    
 
 
     public function register()

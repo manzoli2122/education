@@ -45,7 +45,7 @@ class User extends Authenticatable
     */
     public function perfis()
     {
-        return $this->belongsToMany('App\Models\Perfil','perfils_users', 'user_id', 'perfil_id');
+        return $this->belongsToMany('App\Models\Security\Perfil','perfils_users', 'user_id', 'perfil_id');
     }
 
 
