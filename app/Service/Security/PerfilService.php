@@ -178,6 +178,12 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $models = $this->logSeguranca->getDatatable($perfilId);  
         return $this->dataTable
                 ->eloquent($models)
+                ->editColumn('created_at', function ($log) {
+                    return $log->created_at->format('d/m/Y');
+                })
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') like ?", ["%$keyword%"]);
+                })
                 ->make(true); 
     }
 

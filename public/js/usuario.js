@@ -167,7 +167,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/usuario/paginas/_PerfilFormAdicionar.vue"));
@@ -201,7 +200,7 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 				ajax: {
 					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
 				},
-				columns: [{ data: 'id', name: 'usuario_perfil_log.id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'usuario_perfil_log.acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'usuario.name', name: 'usuario.name' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
+				columns: [{ data: 'id', name: 'usuario_perfil_log.id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'usuario_perfil_log.acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
 			}
 		};
 	},
@@ -1433,10 +1432,6 @@ var render = function() {
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
                         _vm._v("Perfil")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Usuario")
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
