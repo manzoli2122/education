@@ -56,4 +56,7 @@ export default {
 </script>
  
 <style > 
+.btn-sm{
+	 margin-left: 10px; 
+}
 </style>

@@ -217,8 +217,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -241,12 +239,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			},
 			reload: ''
 		};
-	},
-
-	methods: {
-		permissaoRemovida: function permissaoRemovida(event) {
-			this.reload = event;
-		}
 	}
 });
 
@@ -257,8 +249,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -313,6 +303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			_this.permissao = response.data;
 		}).catch(function (error) {
 			toastErro('Não foi possivel achar a Permissão', error.response.data);
+			_this.$router.push('/');
 		});
 	}
 });
@@ -327,7 +318,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -342,7 +333,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\n", ""]);
 
 // exports
 
@@ -782,9 +773,7 @@ var render = function() {
     "div",
     [
       _c("crudHeader", { attrs: { texto: "Permissões Cadastradas" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n\t\t\tPermissoes \n\t\t")
-        ])
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Permissoes \t")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -799,18 +788,7 @@ var render = function() {
                 [
                   _c(
                     "datatableService",
-                    {
-                      attrs: {
-                        config: _vm.config,
-                        id: "datatablePermissao",
-                        reload: _vm.reload
-                      },
-                      on: {
-                        permissaoRemovida: function($event) {
-                          _vm.permissaoRemovida($event)
-                        }
-                      }
-                    },
+                    { attrs: { config: _vm.config, id: "datatablePermissao" } },
                     [
                       _c("th", { staticStyle: { "max-width": "20px" } }, [
                         _vm._v("ID")

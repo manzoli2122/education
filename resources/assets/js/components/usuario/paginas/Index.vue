@@ -1,9 +1,7 @@
 <template>  
 	<div>  
 		<crudHeader texto="Usuários Cadastrados">
-			<li class="breadcrumb-item">
-				Usuários  
-			</li>
+			<li class="breadcrumb-item">Usuários</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid"> 
@@ -13,7 +11,7 @@
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Email</th>  
-							<th class="text-center" style="width:200px">Ações</th>
+							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
 				</crudCard> 
@@ -57,4 +55,7 @@ export default {
 </script>
  
 <style > 
+.btn-sm{
+	 margin-left: 10px; 
+}
 </style>

@@ -10,13 +10,11 @@
 			<div class="container-fluid"> 
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-
 						<datatableService :config="config" id="datatablePerfis"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descrição</th>  
-						</datatableService> 
- 
+						</datatableService>  
 					</div>
 
 					<div class="card-footer text-right">
@@ -59,14 +57,14 @@ export default {
 
 
 
-    created() {
- 		 
+    created() { 
  		axios.get(this.url + '/' + this.$route.params.id )
  		.then(response => {
  			this.permissao = response.data ;
  		})
  		.catch(error => { 
  			toastErro('Não foi possivel achar a Permissão' , error.response.data); 
+ 			this.$router.push('/');
          });   
 	 }, 
 	 

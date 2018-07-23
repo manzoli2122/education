@@ -1,17 +1,14 @@
 <template>             
 	<div>  
 		<crudHeader :texto="'Perfis do usuário ' + usuario.name ">
-			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Usuários </a></router-link> 
-			</li> 
-			<li class="breadcrumb-item"> Perfis </li>
+			<li class="breadcrumb-item"><router-link to="/" exact><a>Usuários</a></router-link></li> 
+			<li class="breadcrumb-item">Perfis</li>
 		</crudHeader> 
 		<div class="content">
-			<div class="container-fluid">  
-				 
+			<div class="container-fluid">   
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="perfis" v-on:perfilRemovido="buscarPerfilParaAdicionar($event)"> 
+						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="reloadDatatable" v-on:perfilRemovido="perfilRemovido($event)"> 
 							<th style="max-width:20px">ID</th>
                         	<th pesquisavel>Nome</th>
                         	<th pesquisavel>Descrição</th>  
@@ -27,7 +24,7 @@
 				<h3>Histórico de Perfil</h3>
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config2" id="datatableUsuariosPerfisLog" :reload="perfis" > 
+						<datatableService :config="config2" id="datatableUsuariosPerfisLog" :reload="reloadDatatableLog" > 
 							<th style="max-width:20px">ID</th>  
 							<th pesquisavel>Responsável</th>
 							<th pesquisavel>Ação</th>
@@ -60,6 +57,8 @@ export default {
 		return {    
 			usuario:'',
 			perfis:'', 
+			reloadDatatable: false ,
+			reloadDatatableLog: false ,
 			config: {
 				exclusao:{
 					url:this.url + '/' + this.$route.params.id + '/delete/perfil'  ,
@@ -95,18 +94,12 @@ export default {
                 { data: 'usuario.name', name: 'usuario.name'  },
                 { data: 'created_at', name: 'created_at'  },
                 { data: 'ip_v4', name: 'ip_v4'  },
-                { data: 'host', name: 'host'  },
-               
-                 
+                { data: 'host', name: 'host'  }, 
 				],
 			} ,   
 		}
 	},
- 
-
-
-
-
+  
 
 	created() { 
 		axios.get(this.url + '/' + this.$route.params.id)
@@ -129,12 +122,15 @@ export default {
 
 	methods: {
 
-		buscarPerfilParaAdicionar(event) {
+		perfilRemovido(event) {
 			this.perfis = event; 
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		},
 
 		perfilAdicionado(event) {
 			this.perfis = event;
+			this.reloadDatatable = !this.reloadDatatable;
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		},
 
 	},

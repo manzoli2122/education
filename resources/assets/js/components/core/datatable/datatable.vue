@@ -60,7 +60,9 @@
 			            axios.delete( vm.config.exclusao.url + '/'  + id   )
 						.then(response => { 
 							vm.$emit(vm.config.exclusao.evento , response.data );
-							//vm.datatable.ajax.reload();
+							vm.datatable.ajax.reload();
+							toastSucesso('Exclusão do(a) ' + vm.config.exclusao.item + ' realizado(a) com sucesso!!' );
+							
 						})
 						.catch(error => {
 							toastErro('Não foi possivel remover ' + vm.config.exclusao.item , error.response.data.message );

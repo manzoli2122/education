@@ -1,15 +1,13 @@
 <template>  
 	<div>  
 		<crudHeader texto="Permissões Cadastradas">
-			<li class="breadcrumb-item">
-				Permissoes 
-			</li>
+			<li class="breadcrumb-item">Permissoes 	</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config" id="datatablePermissao" :reload="reload" v-on:permissaoRemovida="permissaoRemovida($event)"> 
+						<datatableService :config="config" id="datatablePermissao"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descricao</th>  
@@ -51,16 +49,13 @@ export default {
 			} , 
 			reload:'',
 		}
-	},
-	methods: { 
-		permissaoRemovida(event) {
-			this.reload = event;
-		}, 
-	},
+	}, 
 }
 
 </script>
  
-<style >
-
+<style > 
+.btn-sm{
+	 margin-left: 10px; 
+}
 </style>

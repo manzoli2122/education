@@ -490,7 +490,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			alertConfimacao('Confirma a Exclusão ', vm.config.exclusao.item, function () {
 				axios.delete(vm.config.exclusao.url + '/' + id).then(function (response) {
 					vm.$emit(vm.config.exclusao.evento, response.data);
-					//vm.datatable.ajax.reload();
+					vm.datatable.ajax.reload();
+					toastSucesso('Exclusão do(a) ' + vm.config.exclusao.item + ' realizado(a) com sucesso!!');
 				}).catch(function (error) {
 					toastErro('Não foi possivel remover ' + vm.config.exclusao.item, error.response.data.message);
 				});

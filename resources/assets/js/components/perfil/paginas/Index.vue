@@ -1,15 +1,13 @@
 <template>  
 	<div>  
 		<crudHeader texto="Perfis Cadastrados">
-			<li class="breadcrumb-item">
-				Perfis
-			</li>
+			<li class="breadcrumb-item">Perfis</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config"  id="datatablePerfis" :reload="reload" v-on:perfilRemovido="perfilRemovido($event)"> 
+						<datatableService :config="config"  id="datatablePerfis"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descricao</th>  
@@ -52,13 +50,7 @@ export default {
 			reload:'',
 		}
 	},
-
-	methods: { 
-		perfilRemovido(event) {
-			this.reload = event;
-		}, 
-	},
-
+ 
 }
 
 </script>

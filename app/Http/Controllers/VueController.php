@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use View; 
 use Exception ;
 use App\Exceptions\ModelNotFoundException;
-
+use Illuminate\Database\QueryException;
 
 
 class VueController extends Controller
@@ -118,8 +118,11 @@ class VueController extends Controller
         catch(ModelNotFoundException $e){
             return response()->json( $e->getMessage() , 404);
         } 
+        catch(QueryException $e){
+            return response()->json([ 'message' => 'Erro de conexao com o banco' ] , 500 );
+        } 
         catch(Exception $e){
-            return response()->json( $e->getMessage() , 500);
+            return response()->json([ 'message' => $e->getMessage() ], 500);
         }  
     }
 

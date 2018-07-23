@@ -142,8 +142,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -166,15 +164,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			},
 			reload: ''
 		};
-	},
-
-
-	methods: {
-		perfilRemovido: function perfilRemovido(event) {
-			this.reload = event;
-		}
 	}
-
 });
 
 /***/ }),
@@ -229,14 +219,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
-// Vue.component('permissaoDatatable', require('./_PermissaoDatatable.vue'));
-// Vue.component('permissaoDatatableLog', require('./_PermissaoDatatableLog.vue')); 
 Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoFormAdicionar.vue"));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -247,6 +231,8 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 		return {
 			perfil: '',
 			permissoes: '',
+			reloadDatatable: false,
+			reloadDatatableLog: false,
 			config: {
 				exclusao: {
 					url: this.url + '/' + this.$route.params.id + '/delete/permissao',
@@ -277,7 +263,6 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 		axios.get(this.url + '/' + this.$route.params.id).then(function (response) {
 			_this.perfil = response.data;
 		}).catch(function (error) {
-			//console.log(error.response);
 			toastErro('Não foi possivel achar a Perfil', error.response.data);
 		});
 
@@ -292,9 +277,12 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 	methods: {
 		permissaoRemovida: function permissaoRemovida(event) {
 			this.permissoes = event;
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		},
 		permissaoAdicionada: function permissaoAdicionada(event) {
 			this.permissoes = event;
+			this.reloadDatatable = !this.reloadDatatable;
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		}
 	}
 
@@ -586,7 +574,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nh3[data-v-1da647ce]{\n\t\tpadding-top: 50px;\n\t\ttext-align: center;\n}\n ", ""]);
+exports.push([module.i, "\nh3[data-v-1da647ce]{\n\tpadding-top: 50px;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 
@@ -893,7 +881,7 @@ var render = function() {
                       attrs: {
                         config: _vm.config,
                         id: "datatablePerfisPermissao",
-                        reload: _vm.permissoes
+                        reload: _vm.reloadDatatable
                       },
                       on: {
                         permissaoRemovida: function($event) {
@@ -955,7 +943,7 @@ var render = function() {
                       attrs: {
                         config: _vm.config2,
                         id: "datatablePerfisPermissaoLog",
-                        reload: _vm.permissoes
+                        reload: _vm.reloadDatatableLog
                       }
                     },
                     [
@@ -1476,9 +1464,7 @@ var render = function() {
     "div",
     [
       _c("crudHeader", { attrs: { texto: "Perfis Cadastrados" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n\t\t\tPerfis\n\t\t")
-        ])
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Perfis")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -1493,18 +1479,7 @@ var render = function() {
                 [
                   _c(
                     "datatableService",
-                    {
-                      attrs: {
-                        config: _vm.config,
-                        id: "datatablePerfis",
-                        reload: _vm.reload
-                      },
-                      on: {
-                        perfilRemovido: function($event) {
-                          _vm.perfilRemovido($event)
-                        }
-                      }
-                    },
+                    { attrs: { config: _vm.config, id: "datatablePerfis" } },
                     [
                       _c("th", { staticStyle: { "max-width": "20px" } }, [
                         _vm._v("ID")

@@ -92,8 +92,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -170,9 +168,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/usuario/paginas/_PerfilFormAdicionar.vue"));
@@ -185,6 +180,8 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 		return {
 			usuario: '',
 			perfis: '',
+			reloadDatatable: false,
+			reloadDatatableLog: false,
 			config: {
 				exclusao: {
 					url: this.url + '/' + this.$route.params.id + '/delete/perfil',
@@ -227,11 +224,14 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 
 
 	methods: {
-		buscarPerfilParaAdicionar: function buscarPerfilParaAdicionar(event) {
+		perfilRemovido: function perfilRemovido(event) {
 			this.perfis = event;
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		},
 		perfilAdicionado: function perfilAdicionado(event) {
 			this.perfis = event;
+			this.reloadDatatable = !this.reloadDatatable;
+			this.reloadDatatableLog = !this.reloadDatatableLog;
 		}
 	}
 
@@ -658,7 +658,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.btn-sm{\n\t margin-left: 10px;\n}\n", ""]);
 
 // exports
 
@@ -1327,13 +1327,13 @@ var render = function() {
             { staticClass: "breadcrumb-item" },
             [
               _c("router-link", { attrs: { to: "/", exact: "" } }, [
-                _c("a", [_vm._v("Usuários ")])
+                _c("a", [_vm._v("Usuários")])
               ])
             ],
             1
           ),
           _vm._v(" "),
-          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v(" Perfis ")])
+          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Perfis")])
         ]
       ),
       _vm._v(" "),
@@ -1353,11 +1353,11 @@ var render = function() {
                       attrs: {
                         config: _vm.config,
                         id: "datatableUsuariosPerfis",
-                        reload: _vm.perfis
+                        reload: _vm.reloadDatatable
                       },
                       on: {
                         perfilRemovido: function($event) {
-                          _vm.buscarPerfilParaAdicionar($event)
+                          _vm.perfilRemovido($event)
                         }
                       }
                     },
@@ -1415,7 +1415,7 @@ var render = function() {
                       attrs: {
                         config: _vm.config2,
                         id: "datatableUsuariosPerfisLog",
-                        reload: _vm.perfis
+                        reload: _vm.reloadDatatableLog
                       }
                     },
                     [
@@ -1617,9 +1617,7 @@ var render = function() {
     "div",
     [
       _c("crudHeader", { attrs: { texto: "Usuários Cadastrados" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n\t\t\tUsuários  \n\t\t")
-        ])
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Usuários")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -1648,14 +1646,9 @@ var render = function() {
                         _vm._v("Email")
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "th",
-                        {
-                          staticClass: "text-center",
-                          staticStyle: { width: "200px" }
-                        },
-                        [_vm._v("Ações")]
-                      )
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Ações")
+                      ])
                     ]
                   )
                 ],
