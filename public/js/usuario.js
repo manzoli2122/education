@@ -170,11 +170,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/usuario/paginas/_PerfilFormAdicionar.vue"));
@@ -645,7 +640,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\nh3[data-v-5f02ce34]{\n\t\tpadding-top: 50px;\n\t\ttext-align: center;\n}\n ", ""]);
 
 // exports
 
@@ -1335,7 +1330,8 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v(" Perfis ")])
+          _c("li", { staticClass: "breadcrumb-item" }, [_vm._v(" Perfis ")]),
+          _vm._v("A\n\t\t")
         ]
       ),
       _vm._v(" "),
@@ -1396,6 +1392,8 @@ var render = function() {
                   }
                 })
               : _vm._e(),
+            _vm._v(" "),
+            _c("h3", [_vm._v("Histórico de Perfil")]),
             _vm._v(" "),
             _c("crudCard", [
               _c(

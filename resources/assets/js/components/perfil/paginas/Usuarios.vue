@@ -10,11 +10,13 @@
 			<div class="container-fluid"> 
 				<crudCard>
 					<div class="card-body  table-responsive"> 
-						<datatable :config="config"> 
+
+						<datatableService :config="config" id="datatableUsuarios"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th pesquisavel>Email</th>   
-						</datatable> 
+							<th pesquisavel>Email</th>  
+						</datatableService> 
+ 
 					</div>
 
 					<div class="card-footer text-right">

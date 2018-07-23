@@ -1,15 +1,14 @@
 <template>             
-	 <div>  
+	<div>  
 		<crudHeader :texto="'Perfis do usuário ' + usuario.name ">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Usuários </a></router-link> 
 			</li> 
-			<li class="breadcrumb-item"> Perfis </li>
+			<li class="breadcrumb-item"> Perfis </li>A
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">  
-				
-
+				 
 				<crudCard>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="perfis" v-on:perfilRemovido="buscarPerfilParaAdicionar($event)"> 
@@ -20,10 +19,9 @@
 						</datatableService> 
 					</div>    
 				</crudCard>  
-
-
-				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>   
-				  
+ 
+				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>    
+				<h3>Histórico de Perfil</h3>
 				<crudCard>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config2" id="datatableUsuariosPerfisLog" :reload="perfis" > 
@@ -38,10 +36,7 @@
 						</datatableService> 
 					</div>    
 				</crudCard> 
-			 
-
-
-
+			  
 			</div> 
 		</div>  
 	</div>
@@ -110,49 +105,44 @@ export default {
 
 
 
- 	created() { 
+	created() { 
 		axios.get(this.url + '/' + this.$route.params.id)
-			.then(response => {
-				this.usuario = response.data;
-			})
-			.catch(error => {
-				toastErro('Não foi possivel achar o Usuário', error.response.data);
-				alertProcessandoHide();
-			}); 
-		 
+		.then(response => {
+			this.usuario = response.data;
+		})
+		.catch(error => {
+			toastErro('Não foi possivel achar o Usuário', error.response.data);
+			alertProcessandoHide();
+		}); 
+
 		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar")
-	 				.then(response => {
-	 					this.perfis = response.data;
-	 				})
-	 				.catch(error => {
-	 					toastErro("Não foi possivel achar a Perfil", error.response.data);
-					 });  
-	 }, 
+		.then(response => {
+			this.perfis = response.data;
+		})
+		.catch(error => {
+			toastErro("Não foi possivel achar a Perfil", error.response.data);
+		});  
+	}, 
 
+	methods: {
 
+		buscarPerfilParaAdicionar(event) {
+			this.perfis = event; 
+		},
 
+		perfilAdicionado(event) {
+			this.perfis = event;
+		},
 
-
-	 methods: {
-
-
-	 		buscarPerfilParaAdicionar(event) {
-				 this.perfis = event; 
-			 },
-			 
-
-
-			perfilAdicionado(event) {
-				this.perfis = event;
-	 		},
-
-
- 
 	},
-	   
+
  }
  
  </script>
  
  <style scoped> 
+ 	h3{
+		padding-top: 50px;
+		text-align: center;
+	}
  </style>

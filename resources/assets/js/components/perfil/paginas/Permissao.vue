@@ -9,12 +9,35 @@
 		<div class="content">
 			<div class="container-fluid"> 
 
-				<permissaoDatatable :permissoes="permissoes"  v-on:permissaoRemovida="permissaoRemovida($event)" :url="url"> </permissaoDatatable> 
-				
+				<crudCard>
+					<div class="card-body  table-responsive"> 
+						<datatableService :config="config" id="datatablePerfisPermissao" :reload="permissoes" v-on:permissaoRemovida="permissaoRemovida($event)"> 
+							<th style="max-width:20px">ID</th>
+	                        <th pesquisavel>Nome</th>
+	                        <th pesquisavel>Descrição</th>  
+	                        <th class="text-center">Ações</th>
+						</datatableService> 
+					</div>    
+				</crudCard> 
+ 
 				<formAdicionarPermissao v-if="permissoes.length > 0" v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao>   
-
-				
-				<permissaoDatatableLog  :permissoes="permissoes" v-on:permissaoRemovida="permissaoRemovida($event)" :url="url"> </permissaoDatatableLog>  
+ 
+				<h3>Histórico de Permissão</h3>
+				<crudCard>
+					<div class="card-body  table-responsive"> 
+						<datatableService :config="config2" id="datatablePerfisPermissaoLog" :reload="permissoes" > 
+							<th style="max-width:20px">ID</th>  
+	                        <th pesquisavel>Responsável</th>
+	                        <th pesquisavel>Ação</th>
+	                        <th pesquisavel>Perfil</th>
+	                        <th pesquisavel>Usuario</th>
+	                        <th pesquisavel>Data</th>
+	                        <th pesquisavel>IP</th>
+	                        <th pesquisavel>Host</th>
+						</datatableService> 
+					</div>    
+				</crudCard> 
+ 
 			</div> 
 		</div>   
 	</div>
@@ -23,8 +46,8 @@
 
 <script>
  
-Vue.component('permissaoDatatable', require('./_PermissaoDatatable.vue'));
-Vue.component('permissaoDatatableLog', require('./_PermissaoDatatableLog.vue')); 
+// Vue.component('permissaoDatatable', require('./_PermissaoDatatable.vue'));
+// Vue.component('permissaoDatatableLog', require('./_PermissaoDatatableLog.vue')); 
 Vue.component('formAdicionarPermissao', require('./_PermissaoFormAdicionar.vue'));
 
 
@@ -36,12 +59,53 @@ export default {
 
 	data() {
 		return {        
-            perfil:'', 
-            permissoes:'',
+			perfil:'', 
+			permissoes:'',
+			config: {
+				exclusao:{
+					url:this.url + '/' + this.$route.params.id + '/delete/permissao'  ,
+					evento:'permissaoRemovida',
+					item:'Permissão',
+				},
+				order: [[ 1, "asc" ]],
+				ajax: { 
+					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
+				},
+				columns: [
+				{ data: 'id', name: 'id'  },
+				{ data: 'nome', name: 'nome' },
+				{ data: 'descricao', name: 'descricao' }, 
+				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+				],
+			} ,
+
+			config2: {
+				lengthMenu:[
+				        [5, 10, 50, -1],
+				        [5, 10, 50, "Todos"]
+				    ],
+				order: [[ 0, "asc" ]],
+				ajax: { 
+					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
+				},
+				columns: [
+                { data: 'id', name: 'id'  },
+                { data: 'autor.name', name: 'autor.name'  },
+                { data: 'acao', name: 'acao'  },
+                { data: 'perfil.nome', name: 'perfil.nome'  },
+                { data: 'permissao.nome', name: 'permissao.nome'  },
+                { data: 'created_at', name: 'created_at'  },
+                { data: 'ip_v4', name: 'ip_v4'  },
+                { data: 'host', name: 'host'  },
+               
+                 
+				],
+			} ,    
+
 		}
 	},
 
-	 
+
 
 
 
@@ -89,5 +153,8 @@ export default {
  </script>
  
  <style scoped>
- 
+ 	h3{
+		padding-top: 50px;
+		text-align: center;
+	}
  </style>

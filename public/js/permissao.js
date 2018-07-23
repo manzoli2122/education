@@ -614,24 +614,27 @@ var render = function() {
                 "div",
                 { staticClass: "card-body  table-responsive" },
                 [
-                  _c("datatable", { attrs: { config: _vm.config } }, [
-                    _c("th", { staticStyle: { "max-width": "20px" } }, [
-                      _vm._v("ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Nome")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Descricao")]),
-                    _vm._v(" "),
-                    _c(
-                      "th",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { width: "200px" }
-                      },
-                      [_vm._v("Ações")]
-                    )
-                  ])
+                  _c(
+                    "datatableService",
+                    { attrs: { config: _vm.config, id: "datatablePermissao" } },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Nome")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Descricao")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Ações")
+                      ])
+                    ]
+                  )
                 ],
                 1
               )

@@ -193,48 +193,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-Vue.component('permissaoDatatable', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue"));
-Vue.component('permissaoDatatableLog', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue"));
+// Vue.component('permissaoDatatable', require('./_PermissaoDatatable.vue'));
+// Vue.component('permissaoDatatableLog', require('./_PermissaoDatatableLog.vue')); 
 Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoFormAdicionar.vue"));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-  props: ['url'],
+	props: ['url'],
 
-  data: function data() {
-    return {
-      perfil: '',
-      permissoes: ''
-    };
-  },
-  created: function created() {
-    var _this = this;
+	data: function data() {
+		return {
+			perfil: '',
+			permissoes: '',
+			config: {
+				exclusao: {
+					url: this.url + '/' + this.$route.params.id + '/delete/permissao',
+					evento: 'permissaoRemovida',
+					item: 'Permissão'
+				},
+				order: [[1, "asc"]],
+				ajax: {
+					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
+				},
+				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
+			},
 
-    axios.get(this.url + '/' + this.$route.params.id).then(function (response) {
-      _this.perfil = response.data;
-    }).catch(function (error) {
-      //console.log(error.response);
-      toastErro('Não foi possivel achar a Perfil', error.response.data);
-    });
+			config2: {
+				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
+				order: [[0, "asc"]],
+				ajax: {
+					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
+				},
+				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'permissao.nome', name: 'permissao.nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
+			}
 
-    axios.get(this.url + '/' + this.$route.params.id + '/permissao/adicionar').then(function (response) {
-      _this.permissoes = response.data;
-    }).catch(function (error) {
-      toastErro('Não foi possivel achar a Permissoes', error.response.data);
-    });
-  },
+		};
+	},
+	created: function created() {
+		var _this = this;
+
+		axios.get(this.url + '/' + this.$route.params.id).then(function (response) {
+			_this.perfil = response.data;
+		}).catch(function (error) {
+			//console.log(error.response);
+			toastErro('Não foi possivel achar a Perfil', error.response.data);
+		});
+
+		axios.get(this.url + '/' + this.$route.params.id + '/permissao/adicionar').then(function (response) {
+			_this.permissoes = response.data;
+		}).catch(function (error) {
+			toastErro('Não foi possivel achar a Permissoes', error.response.data);
+		});
+	},
 
 
-  methods: {
-    permissaoRemovida: function permissaoRemovida(event) {
-      this.permissoes = event;
-    },
-    permissaoAdicionada: function permissaoAdicionada(event) {
-      this.permissoes = event;
-    }
-  }
+	methods: {
+		permissaoRemovida: function permissaoRemovida(event) {
+			this.permissoes = event;
+		},
+		permissaoAdicionada: function permissaoAdicionada(event) {
+			this.permissoes = event;
+		}
+	}
 
 });
 
@@ -245,6 +290,8 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -300,152 +347,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}).catch(function (error) {
 			toastErro('Não foi possivel achar a Perfil', error.response.data);
 		});
-	}
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-	props: ['url', 'permissoes'],
-
-	watch: {
-		permissoes: function permissoes(newteste, oldteste) {
-			this.datatable.ajax.reload();
-		}
-	},
-
-	data: function data() {
-		return {
-			config: {
-				order: [[1, "asc"]],
-				ajax: {
-					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
-				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
-			},
-			datatable: ''
-		};
-	},
-
-
-	methods: {
-		modelIndexDataTableFunction: function modelIndexDataTableFunction(config) {
-			this.datatable = datatablePadrao('#datatable', config);
-			var vm = this;
-			this.datatable.on('draw', function () {
-				$('[btn-excluir]').click(function () {
-					var id = $(this).data('id');
-
-					axios.post(vm.url + '/' + vm.$route.params.id + '/delete/permissao/' + id).then(function (response) {
-						vm.$emit('permissaoRemovida', response.data);
-					}).catch(function (error) {
-						toastErro('Não foi possivel achar a Perfil', error.response.data);
-					});
-				});
-			});
-		}
-	},
-
-	mounted: function mounted() {
-		this.modelIndexDataTableFunction(this.config);
-	}
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-	props: ['url', 'permissoes'],
-
-	watch: {
-		permissoes: function permissoes(newteste, oldteste) {
-			this.datatable.ajax.reload();
-		}
-	},
-
-	data: function data() {
-		return {
-			config: {
-				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
-				order: [[0, "asc"]],
-				ajax: {
-					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
-				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'permissao.nome', name: 'permissao.nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
-			},
-			datatable: ''
-		};
-	},
-
-
-	methods: {
-		modelIndexDataTableFunction: function modelIndexDataTableFunction(config) {
-			this.datatable = datatablePadrao('#datatableLog', config);
-		}
-	},
-
-	mounted: function mounted() {
-		this.modelIndexDataTableFunction(this.config);
 	}
 });
 
@@ -668,22 +569,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\ntable.dataTable {\n\tclear: both;\n\tmargin-top: 6px !important;\n\tmargin-bottom: 6px !important;\n\tmax-width: none !important;\n\tborder-collapse: separate !important;\n\tborder-spacing: 0;\n}\ntable.dataTable td,\ntable.dataTable th {\n\t-webkit-box-sizing: content-box;\n\tbox-sizing: content-box;\n}\ntable.dataTable td.dataTables_empty,\ntable.dataTable th.dataTables_empty {\n\ttext-align: center;\n}\ntable.dataTable.nowrap th,\ntable.dataTable.nowrap td {\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length label {\n\tfont-weight: normal;\n\ttext-align: left;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length select {\n\twidth: auto;\n\tdisplay: inline-block;\n}\ndiv.dataTables_wrapper div.dataTables_filter {\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_filter label {\n\tfont-weight: normal;\n\twhite-space: nowrap;\n\ttext-align: left;\n}\ndiv.dataTables_wrapper div.dataTables_filter input {\n\tmargin-left: 0.5em;\n\tdisplay: inline-block;\n\twidth: auto;\n}\ndiv.dataTables_wrapper div.dataTables_info {\n\tpadding-top: 0.85em;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_paginate {\n\tmargin: 0;\n\twhite-space: nowrap;\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_paginate ul.pagination {\n\tmargin: 2px 0;\n\twhite-space: nowrap;\n\tjustify-content: flex-end;\n}\ndiv.dataTables_wrapper div.dataTables_processing {\n\tposition: absolute;\n\ttop: 50%;\n\tleft: 50%;\n\twidth: 200px;\n\tmargin-left: -100px;\n\tmargin-top: -26px;\n\ttext-align: center;\n\tpadding: 1em 0;\n}\ntable.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting,\ntable.dataTable thead > tr > td.sorting_asc,\ntable.dataTable thead > tr > td.sorting_desc,\ntable.dataTable thead > tr > td.sorting {\n\tpadding-right: 30px;\n}\ntable.dataTable thead > tr > th:active,\ntable.dataTable thead > tr > td:active {\n\toutline: none;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n\tcursor: pointer;\n\tposition: relative;\n}\ntable.dataTable thead .sorting:before, table.dataTable thead .sorting:after,\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_asc:after,\ntable.dataTable thead .sorting_desc:before,\ntable.dataTable thead .sorting_desc:after,\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_asc_disabled:after,\ntable.dataTable thead .sorting_desc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:after {\n\tposition: absolute;\n\tbottom: 0.9em;\n\tdisplay: block;\n\topacity: 0.3;\n}\ntable.dataTable thead .sorting:before,\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_desc:before,\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:before {\n\tright: 1em;\n\tcontent: \"\\2191\";\n}\ntable.dataTable thead .sorting:after,\ntable.dataTable thead .sorting_asc:after,\ntable.dataTable thead .sorting_desc:after,\ntable.dataTable thead .sorting_asc_disabled:after,\ntable.dataTable thead .sorting_desc_disabled:after {\n\tright: 0.5em;\n\tcontent: \"\\2193\";\n}\ntable.dataTable thead .sorting_asc:before,\ntable.dataTable thead .sorting_desc:after {\n\topacity: 1;\n}\ntable.dataTable thead .sorting_asc_disabled:before,\ntable.dataTable thead .sorting_desc_disabled:after {\n\topacity: 0;\n}\ndiv.dataTables_scrollHead table.dataTable {\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table {\n\tborder-top: none;\n\tmargin-top: 0 !important;\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table thead .sorting:before,\ndiv.dataTables_scrollBody table thead .sorting_asc:before,\ndiv.dataTables_scrollBody table thead .sorting_desc:before,\ndiv.dataTables_scrollBody table thead .sorting:after,\ndiv.dataTables_scrollBody table thead .sorting_asc:after,\ndiv.dataTables_scrollBody table thead .sorting_desc:after {\n\tdisplay: none;\n}\ndiv.dataTables_scrollBody table tbody tr:first-child th,\ndiv.dataTables_scrollBody table tbody tr:first-child td {\n\tborder-top: none;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner {\n\tbox-sizing: content-box;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner > table {\n\tmargin-top: 0 !important;\n\tborder-top: none;\n}\n@media screen and (max-width: 767px) {\ndiv.dataTables_wrapper div.dataTables_length,\n\tdiv.dataTables_wrapper div.dataTables_filter,\n\tdiv.dataTables_wrapper div.dataTables_info,\n\tdiv.dataTables_wrapper div.dataTables_paginate {\n\t\ttext-align: center;\n}\n}\ntable.dataTable.table-sm > thead > tr > th {\n\tpadding-right: 20px;\n}\ntable.dataTable.table-sm .sorting:before,\ntable.dataTable.table-sm .sorting_asc:before,\ntable.dataTable.table-sm .sorting_desc:before {\n\ttop: 5px;\n\tright: 0.85em;\n}\ntable.dataTable.table-sm .sorting:after,\ntable.dataTable.table-sm .sorting_asc:after,\ntable.dataTable.table-sm .sorting_desc:after {\n\ttop: 5px;\n}\ntable.table-bordered.dataTable th,\ntable.table-bordered.dataTable td {\n\tborder-left-width: 0;\n}\ntable.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child,\ntable.table-bordered.dataTable td:last-child,\ntable.table-bordered.dataTable td:last-child {\n\tborder-right-width: 0;\n}\ntable.table-bordered.dataTable tbody th,\ntable.table-bordered.dataTable tbody td {\n\tborder-bottom-width: 0;\n}\ndiv.dataTables_scrollHead table.table-bordered {\n\tborder-bottom-width: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row {\n\tmargin: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"]:first-child {\n\tpadding-left: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"]:last-child {\n\tpadding-right: 0;\n}\n.table th, .table td {\n    padding: 0.3rem;\n    vertical-align: inherit;\n    border-top: 1px solid #dee2e6;\n}\n.table thead th {\n    vertical-align: inherit;\n}\n\n", ""]);
+exports.push([module.i, "\nh3[data-v-1da647ce]{\n\t\tpadding-top: 50px;\n\t\ttext-align: center;\n}\n ", ""]);
 
 // exports
 
@@ -713,7 +599,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -744,21 +630,6 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\nh3[data-v-847e1dbc]{\n  padding-top: 50px;\n  text-align: center;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\nh3[data-v-aca8b8f4]{\n\tpadding-top: 50px;\n\ttext-align: center;\n}\ntable.dataTable[data-v-aca8b8f4] {\n\tclear: both;\n\tmargin-top: 6px !important;\n\tmargin-bottom: 6px !important;\n\tmax-width: none !important;\n\tborder-collapse: separate !important;\n\tborder-spacing: 0;\n}\ntable.dataTable td[data-v-aca8b8f4],\ntable.dataTable th[data-v-aca8b8f4] {\n\t-webkit-box-sizing: content-box;\n\tbox-sizing: content-box;\n}\ntable.dataTable td.dataTables_empty[data-v-aca8b8f4],\ntable.dataTable th.dataTables_empty[data-v-aca8b8f4] {\n\ttext-align: center;\n}\ntable.dataTable.nowrap th[data-v-aca8b8f4],\ntable.dataTable.nowrap td[data-v-aca8b8f4] {\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length label[data-v-aca8b8f4] {\n\tfont-weight: normal;\n\ttext-align: left;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_length select[data-v-aca8b8f4] {\n\twidth: auto;\n\tdisplay: inline-block;\n}\ndiv.dataTables_wrapper div.dataTables_filter[data-v-aca8b8f4] {\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_filter label[data-v-aca8b8f4] {\n\tfont-weight: normal;\n\twhite-space: nowrap;\n\ttext-align: left;\n}\ndiv.dataTables_wrapper div.dataTables_filter input[data-v-aca8b8f4] {\n\tmargin-left: 0.5em;\n\tdisplay: inline-block;\n\twidth: auto;\n}\ndiv.dataTables_wrapper div.dataTables_info[data-v-aca8b8f4] {\n\tpadding-top: 0.85em;\n\twhite-space: nowrap;\n}\ndiv.dataTables_wrapper div.dataTables_paginate[data-v-aca8b8f4] {\n\tmargin: 0;\n\twhite-space: nowrap;\n\ttext-align: right;\n}\ndiv.dataTables_wrapper div.dataTables_paginate ul.pagination[data-v-aca8b8f4] {\n\tmargin: 2px 0;\n\twhite-space: nowrap;\n\tjustify-content: flex-end;\n}\ndiv.dataTables_wrapper div.dataTables_processing[data-v-aca8b8f4] {\n\tposition: absolute;\n\ttop: 50%;\n\tleft: 50%;\n\twidth: 200px;\n\tmargin-left: -100px;\n\tmargin-top: -26px;\n\ttext-align: center;\n\tpadding: 1em 0;\n}\ntable.dataTable thead > tr > th.sorting_asc[data-v-aca8b8f4], table.dataTable thead > tr > th.sorting_desc[data-v-aca8b8f4], table.dataTable thead > tr > th.sorting[data-v-aca8b8f4],\ntable.dataTable thead > tr > td.sorting_asc[data-v-aca8b8f4],\ntable.dataTable thead > tr > td.sorting_desc[data-v-aca8b8f4],\ntable.dataTable thead > tr > td.sorting[data-v-aca8b8f4] {\n\tpadding-right: 30px;\n}\ntable.dataTable thead > tr > th[data-v-aca8b8f4]:active,\ntable.dataTable thead > tr > td[data-v-aca8b8f4]:active {\n\toutline: none;\n}\ntable.dataTable thead .sorting[data-v-aca8b8f4],\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4],\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4],\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4],\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4] {\n\tcursor: pointer;\n\tposition: relative;\n}\ntable.dataTable thead .sorting[data-v-aca8b8f4]:before, table.dataTable thead .sorting[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4]:after {\n\tposition: absolute;\n\tbottom: 0.9em;\n\tdisplay: block;\n\topacity: 0.3;\n}\ntable.dataTable thead .sorting[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4]:before {\n\tright: 1em;\n\tcontent: \"\\2191\";\n}\ntable.dataTable thead .sorting[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4]:after,\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4]:after {\n\tright: 0.5em;\n\tcontent: \"\\2193\";\n}\ntable.dataTable thead .sorting_asc[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc[data-v-aca8b8f4]:after {\n\topacity: 1;\n}\ntable.dataTable thead .sorting_asc_disabled[data-v-aca8b8f4]:before,\ntable.dataTable thead .sorting_desc_disabled[data-v-aca8b8f4]:after {\n\topacity: 0;\n}\ndiv.dataTables_scrollHead table.dataTable[data-v-aca8b8f4] {\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table[data-v-aca8b8f4] {\n\tborder-top: none;\n\tmargin-top: 0 !important;\n\tmargin-bottom: 0 !important;\n}\ndiv.dataTables_scrollBody table thead .sorting[data-v-aca8b8f4]:before,\ndiv.dataTables_scrollBody table thead .sorting_asc[data-v-aca8b8f4]:before,\ndiv.dataTables_scrollBody table thead .sorting_desc[data-v-aca8b8f4]:before,\ndiv.dataTables_scrollBody table thead .sorting[data-v-aca8b8f4]:after,\ndiv.dataTables_scrollBody table thead .sorting_asc[data-v-aca8b8f4]:after,\ndiv.dataTables_scrollBody table thead .sorting_desc[data-v-aca8b8f4]:after {\n\tdisplay: none;\n}\ndiv.dataTables_scrollBody table tbody tr:first-child th[data-v-aca8b8f4],\ndiv.dataTables_scrollBody table tbody tr:first-child td[data-v-aca8b8f4] {\n\tborder-top: none;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner[data-v-aca8b8f4] {\n\tbox-sizing: content-box;\n}\ndiv.dataTables_scrollFoot > .dataTables_scrollFootInner > table[data-v-aca8b8f4] {\n\tmargin-top: 0 !important;\n\tborder-top: none;\n}\n@media screen and (max-width: 767px) {\ndiv.dataTables_wrapper div.dataTables_length[data-v-aca8b8f4],\n\tdiv.dataTables_wrapper div.dataTables_filter[data-v-aca8b8f4],\n\tdiv.dataTables_wrapper div.dataTables_info[data-v-aca8b8f4],\n\tdiv.dataTables_wrapper div.dataTables_paginate[data-v-aca8b8f4] {\n\t\ttext-align: center;\n}\n}\ntable.dataTable.table-sm > thead > tr > th[data-v-aca8b8f4] {\n\tpadding-right: 20px;\n}\ntable.dataTable.table-sm .sorting[data-v-aca8b8f4]:before,\ntable.dataTable.table-sm .sorting_asc[data-v-aca8b8f4]:before,\ntable.dataTable.table-sm .sorting_desc[data-v-aca8b8f4]:before {\n\ttop: 5px;\n\tright: 0.85em;\n}\ntable.dataTable.table-sm .sorting[data-v-aca8b8f4]:after,\ntable.dataTable.table-sm .sorting_asc[data-v-aca8b8f4]:after,\ntable.dataTable.table-sm .sorting_desc[data-v-aca8b8f4]:after {\n\ttop: 5px;\n}\ntable.table-bordered.dataTable th[data-v-aca8b8f4],\ntable.table-bordered.dataTable td[data-v-aca8b8f4] {\n\tborder-left-width: 0;\n}\ntable.table-bordered.dataTable th[data-v-aca8b8f4]:last-child, table.table-bordered.dataTable th[data-v-aca8b8f4]:last-child,\ntable.table-bordered.dataTable td[data-v-aca8b8f4]:last-child,\ntable.table-bordered.dataTable td[data-v-aca8b8f4]:last-child {\n\tborder-right-width: 0;\n}\ntable.table-bordered.dataTable tbody th[data-v-aca8b8f4],\ntable.table-bordered.dataTable tbody td[data-v-aca8b8f4] {\n\tborder-bottom-width: 0;\n}\ndiv.dataTables_scrollHead table.table-bordered[data-v-aca8b8f4] {\n\tborder-bottom-width: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row[data-v-aca8b8f4] {\n\tmargin: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"][data-v-aca8b8f4]:first-child {\n\tpadding-left: 0;\n}\ndiv.table-responsive > div.dataTables_wrapper > div.row > div[class^=\"col-\"][data-v-aca8b8f4]:last-child {\n\tpadding-right: 0;\n}\n.table th[data-v-aca8b8f4], .table td[data-v-aca8b8f4] {\n    padding: 0.3rem;\n    vertical-align: inherit;\n    border-top: 1px solid #dee2e6;\n}\n.table thead th[data-v-aca8b8f4] {\n    vertical-align: inherit;\n}\n\n", ""]);
 
 // exports
 
@@ -994,14 +865,47 @@ var render = function() {
           "div",
           { staticClass: "container-fluid" },
           [
-            _c("permissaoDatatable", {
-              attrs: { permissoes: _vm.permissoes, url: _vm.url },
-              on: {
-                permissaoRemovida: function($event) {
-                  _vm.permissaoRemovida($event)
-                }
-              }
-            }),
+            _c("crudCard", [
+              _c(
+                "div",
+                { staticClass: "card-body  table-responsive" },
+                [
+                  _c(
+                    "datatableService",
+                    {
+                      attrs: {
+                        config: _vm.config,
+                        id: "datatablePerfisPermissao",
+                        reload: _vm.permissoes
+                      },
+                      on: {
+                        permissaoRemovida: function($event) {
+                          _vm.permissaoRemovida($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Nome")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Descrição")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Ações")
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ]),
             _vm._v(" "),
             _vm.permissoes.length > 0
               ? _c("formAdicionarPermissao", {
@@ -1014,14 +918,56 @@ var render = function() {
                 })
               : _vm._e(),
             _vm._v(" "),
-            _c("permissaoDatatableLog", {
-              attrs: { permissoes: _vm.permissoes, url: _vm.url },
-              on: {
-                permissaoRemovida: function($event) {
-                  _vm.permissaoRemovida($event)
-                }
-              }
-            })
+            _c("h3", [_vm._v("Histórico de Permissão")]),
+            _vm._v(" "),
+            _c("crudCard", [
+              _c(
+                "div",
+                { staticClass: "card-body  table-responsive" },
+                [
+                  _c(
+                    "datatableService",
+                    {
+                      attrs: {
+                        config: _vm.config2,
+                        id: "datatablePerfisPermissaoLog",
+                        reload: _vm.permissoes
+                      }
+                    },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Responsável")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Ação")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Perfil")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Usuario")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Data")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("IP")]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Host")])
+                    ]
+                  )
+                ],
+                1
+              )
+            ])
           ],
           1
         )
@@ -1037,63 +983,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1da647ce", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2826df0e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("crudCard", [
-    _c("div", { staticClass: "card-body  table-responsive" }, [
-      _c(
-        "table",
-        {
-          staticClass: "table table-bordered table-striped  table-hover ",
-          attrs: { id: "datatable" }
-        },
-        [
-          _c("thead", [
-            _c("tr", [
-              _c("th", { staticStyle: { "max-width": "20px" } }, [
-                _vm._v("ID")
-              ]),
-              _vm._v(" "),
-              _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Nome")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Descrição")]),
-              _vm._v(" "),
-              _c(
-                "th",
-                { staticClass: "text-center", staticStyle: { width: "200px" } },
-                [_vm._v("Ações")]
-              )
-            ])
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-footer text-right" },
-      [_c("crudBotaoVoltar", { attrs: { url: "/" } })],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2826df0e", module.exports)
   }
 }
 
@@ -1394,15 +1283,23 @@ var render = function() {
                 "div",
                 { staticClass: "card-body  table-responsive" },
                 [
-                  _c("datatable", { attrs: { config: _vm.config } }, [
-                    _c("th", { staticStyle: { "max-width": "20px" } }, [
-                      _vm._v("ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Nome")]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Email")])
-                  ])
+                  _c(
+                    "datatableService",
+                    { attrs: { config: _vm.config, id: "datatableUsuarios" } },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Nome")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Email")
+                      ])
+                    ]
+                  )
                 ],
                 1
               ),
@@ -1570,26 +1467,27 @@ var render = function() {
                 "div",
                 { staticClass: "card-body  table-responsive" },
                 [
-                  _c("datatable", { attrs: { config: _vm.config } }, [
-                    _c("th", { staticStyle: { "max-width": "20px" } }, [
-                      _vm._v("ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Nome")]),
-                    _vm._v(" "),
-                    _c("th", { attrs: { pesquisavel: "" } }, [
-                      _vm._v("Descricao")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "th",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { width: "200px" }
-                      },
-                      [_vm._v("Ações")]
-                    )
-                  ])
+                  _c(
+                    "datatableService",
+                    { attrs: { config: _vm.config, id: "datatablePerfis" } },
+                    [
+                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Nome")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Descricao")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Ações")
+                      ])
+                    ]
+                  )
                 ],
                 1
               )
@@ -1713,70 +1611,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-847e1dbc", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-aca8b8f4\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h3", [_vm._v("Histórico de Permissão")]),
-      _vm._v(" "),
-      _c("crudCard", [
-        _c("div", { staticClass: "card-body  table-responsive" }, [
-          _c(
-            "table",
-            {
-              staticClass: "table table-bordered table-striped  table-hover ",
-              attrs: { id: "datatableLog" }
-            },
-            [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", { staticStyle: { "max-width": "20px" } }, [
-                    _vm._v("ID")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [
-                    _vm._v("Responsável")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Ação")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Perfil")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Usuario")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Data")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("IP")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Host")])
-                ])
-              ])
-            ]
-          )
-        ])
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-aca8b8f4", module.exports)
   }
 }
 
@@ -4440,33 +4274,6 @@ if(false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("22dd08ea", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoDatatable.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoDatatable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-52c50f3f\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/rascunho/Show.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4565,33 +4372,6 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-847e1dbc\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoFormAdicionar.vue", function() {
      var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-847e1dbc\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoFormAdicionar.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("07230406", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoDatatableLog.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./_PermissaoDatatableLog.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -5319,110 +5099,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-694a0863", Component.options)
   } else {
     hotAPI.reload("data-v-694a0863", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2826df0e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue")
-}
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2826df0e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/perfil/paginas/_PermissaoDatatable.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2826df0e", Component.options)
-  } else {
-    hotAPI.reload("data-v-2826df0e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aca8b8f4\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue")
-}
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-aca8b8f4\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-aca8b8f4"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/perfil/paginas/_PermissaoDatatableLog.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-aca8b8f4", Component.options)
-  } else {
-    hotAPI.reload("data-v-aca8b8f4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

@@ -17,8 +17,10 @@
 		],  
 
 		watch: { 
-		 	reload: function (newteste, oldteste) {
+		 	reload: function (newreload, oldreload) {
+		 		//if(oldreload != '' ){ 
 				  this.datatable.ajax.reload();
+		 		//}
 		 	}
 		 },
 	 
@@ -58,7 +60,7 @@
 			            axios.delete( vm.config.exclusao.url + '/'  + id   )
 						.then(response => { 
 							vm.$emit(vm.config.exclusao.evento , response.data );
-							vm.datatable.ajax.reload();
+							//vm.datatable.ajax.reload();
 						})
 						.catch(error => {
 							toastErro('Não foi possivel remover ' + vm.config.exclusao.item , error.response.data.message );
@@ -80,13 +82,10 @@
 					language: { url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" },
 					ajax: { type: 'post',	data: { '_token': csrf_token }	}, 
 			        
-			        initComplete: function() { // Retira a busca a cada caractere digitado. Pesquisando apenas com Enter
-			        	
+			        initComplete:function(){//Retira a busca a cada caractere digitado. Pesquisando apenas com Enter 
 			        	//var $searchInput = $('div.dataTables_filter input');
-			        	var $searchInput = $(seletorTabela  +'_filter input');
-			        	//console.log(seletorTabela);
-			        	$searchInput.unbind();
-			        	
+			        	var $searchInput = $(seletorTabela  +'_filter input'); 
+			        	$searchInput.unbind(); 
 			        	$searchInput.bind('keyup', function(e) {
 			        		if (e.keyCode == 13) {
 			        			dataTable.search(this.value).draw();

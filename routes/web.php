@@ -43,6 +43,7 @@ Route::resource('usuario',                          'Security\UsuarioController'
 //========================================================================================================================
 Route::post('perfil/{perfilId}/adicionar/permissao', 'Security\PerfilController@adicionarPermissaoAoPerfil') ; 
 Route::post('perfil/{perfilId}/delete/permissao/{permissaoId}', 'Security\PerfilController@excluirPermissaoDoPerfil') ;
+Route::delete('perfil/{perfilId}/delete/permissao/{permissaoId}', 'Security\PerfilController@excluirPermissaoDoPerfil') ;
 Route::get('perfil/{perfilId}/permissao/adicionar', 'Security\PerfilController@BuscarPermissoesParaAdicionar') ; 
 Route::post('perfil/{perfilId}/permissao/datatable', 'Security\PerfilController@BuscarPermissaoDataTable') ;
 Route::post('perfil/{perfilId}/permissao/log/datatable',  'Security\PerfilController@BuscarPermissaoDataTableLog'); 

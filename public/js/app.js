@@ -455,8 +455,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	props: ['config', 'id', 'reload'],
 
 	watch: {
-		reload: function reload(newteste, oldteste) {
+		reload: function reload(newreload, oldreload) {
+			//if(oldreload != '' ){ 
 			this.datatable.ajax.reload();
+			//}
 		}
 	},
 
@@ -488,7 +490,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			alertConfimacao('Confirma a Exclusão ', vm.config.exclusao.item, function () {
 				axios.delete(vm.config.exclusao.url + '/' + id).then(function (response) {
 					vm.$emit(vm.config.exclusao.evento, response.data);
-					vm.datatable.ajax.reload();
+					//vm.datatable.ajax.reload();
 				}).catch(function (error) {
 					toastErro('Não foi possivel remover ' + vm.config.exclusao.item, error.response.data.message);
 				});
@@ -508,13 +510,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				ajax: { type: 'post', data: { '_token': csrf_token } },
 
 				initComplete: function initComplete() {
-					// Retira a busca a cada caractere digitado. Pesquisando apenas com Enter
-
+					//Retira a busca a cada caractere digitado. Pesquisando apenas com Enter 
 					//var $searchInput = $('div.dataTables_filter input');
 					var $searchInput = $(seletorTabela + '_filter input');
-					//console.log(seletorTabela);
 					$searchInput.unbind();
-
 					$searchInput.bind('keyup', function (e) {
 						if (e.keyCode == 13) {
 							dataTable.search(this.value).draw();
