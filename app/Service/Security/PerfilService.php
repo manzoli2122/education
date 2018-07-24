@@ -179,10 +179,10 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         return $this->dataTable
                 ->eloquent($models)
                 ->editColumn('created_at', function ($log) {
-                    return $log->created_at->format('d/m/Y');
+                    return $log->created_at->format('d/m/Y H:i');
                 })
                 ->filterColumn('created_at', function ($query, $keyword) {
-                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') like ?", ["%$keyword%"]);
+                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y %H:%i') like ?", ["%$keyword%"]);
                 })
                 ->make(true); 
     }
@@ -192,7 +192,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
 
 
     /**
-    * Funcao para buscar os usuario pelo datatable  
+    * Funcao para buscar os perfis pelo datatable  
     *
     * @param Request $request 
     *
@@ -204,7 +204,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
             ->addColumn('action', function($linha) {
                 return 
                     '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a>'
-                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a> '
+                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a>'
                     .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
             })
             ->make(true); 

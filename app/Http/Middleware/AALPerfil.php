@@ -22,8 +22,17 @@ class AALPerfil
 			$perfis = explode(self::DELIMITER, $perfis);
 		}
 		if ($this->auth->guest() || !$request->user()->hasPerfil($perfis)) {
-			abort(403 , "Você não tem o perfil necessário para essa operação");
+			abort(403 , "Você não tem o perfil necessário para essa operação" . $this->quebraArray($perfis));
 		}
 		return $next($request);
+	}
+
+
+	private function quebraArray($perfis){
+		$string = ' ';
+		foreach ($perfis as $key => $value) {
+			$string .= $value . ', '; 
+		}
+		return $string;
 	}
 }

@@ -196,7 +196,7 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 
 			config2: {
 				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
-				order: [[0, "asc"]],
+				order: [[4, "desc"]],
 				ajax: {
 					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
 				},

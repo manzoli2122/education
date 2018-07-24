@@ -22,8 +22,19 @@ class AALPermissao
 			$permissoes = explode(self::DELIMITER, $permissoes);
 		}
 		if ($this->auth->guest() || !$request->user()->can($permissoes)) {
-			abort(403 , "Você não tem a pemissão necessária para essa operação");
+			abort(403 , "Você não tem a pemissão necessária para essa operação" . $this->quebraArray($permissoes) );
 		}
 		return $next($request);
+	}
+
+
+
+
+	private function quebraArray($permissoes){
+		$string = ' ';
+		foreach ($permissoes as $key => $value) {
+			$string .= $value . ', '; 
+		}
+		return $string;
 	}
 }

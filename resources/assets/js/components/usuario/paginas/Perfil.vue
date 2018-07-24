@@ -81,7 +81,7 @@ export default {
 				        [5, 10, 50, -1],
 				        [5, 10, 50, "Todos"]
 				    ],
-				order: [[ 0, "asc" ]],
+				order: [[ 4, "desc" ]],
 				ajax: { 
 					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
 				},

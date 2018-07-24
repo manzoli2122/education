@@ -28,9 +28,8 @@
 						<datatableService :config="config2" id="datatablePerfisPermissaoLog" :reload="reloadDatatableLog" > 
 							<th style="max-width:20px">ID</th>  
 							<th pesquisavel>Responsável</th>
-							<th pesquisavel>Ação</th>
-							<th pesquisavel>Perfil</th>
-							<th pesquisavel>Usuario</th>
+							<th pesquisavel>Ação</th> 
+							<th pesquisavel>Permissão</th>
 							<th pesquisavel>Data</th>
 							<th pesquisavel>IP</th>
 							<th pesquisavel>Host</th>
@@ -82,15 +81,14 @@ export default {
 				[5, 10, 50, -1],
 				[5, 10, 50, "Todos"]
 				],
-				order: [[ 0, "asc" ]],
+				order: [[ 4, "desc" ]],
 				ajax: { 
 					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
 				},
 				columns: [
 				{ data: 'id', name: 'id'  },
 				{ data: 'autor.name', name: 'autor.name'  },
-				{ data: 'acao', name: 'acao'  },
-				{ data: 'perfil.nome', name: 'perfil.nome'  },
+				{ data: 'acao', name: 'acao'  }, 
 				{ data: 'permissao_nome', name: 'permissao_nome'  },
 				{ data: 'created_at', name: 'created_at'  },
 				{ data: 'ip_v4', name: 'ip_v4'  },

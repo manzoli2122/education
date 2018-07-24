@@ -218,7 +218,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoFormAdicionar.vue"));
@@ -248,11 +247,11 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 
 			config2: {
 				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
-				order: [[0, "asc"]],
+				order: [[4, "desc"]],
 				ajax: {
 					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
 				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'perfil.nome', name: 'perfil.nome' }, { data: 'permissao_nome', name: 'permissao_nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
+				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'permissao_nome', name: 'permissao_nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
 			}
 
 		};
@@ -960,11 +959,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Perfil")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Usuario")
+                        _vm._v("Permissão")
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [

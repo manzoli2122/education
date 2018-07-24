@@ -98,6 +98,12 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         $models = $this->logSeguranca->getDatatable($userId);  
         return $this->dataTable
                 ->eloquent($models)
+                 ->editColumn('created_at', function ($log) {
+                    return $log->created_at->format('d/m/Y H:i');
+                })
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y %H:%i') like ?", ["%$keyword%"]);
+                })
                 ->make(true); 
     }
 
