@@ -17,19 +17,7 @@ let routes = [
     {
         path: '/:id/usuarios',
         component: require('./paginas/Usuarios')
-    },  
-
-
-
-
-    {
-        path: '/edit/:id',
-        component: require('./paginas/rascunho/Edit')
-    },
-    {
-        path: '/show/:id',
-        component: require('./paginas/rascunho/Show')
-    }, 
+    },    
      
 ];
 
@@ -37,8 +25,8 @@ let routes = [
 const perfil = new Vue({
     el: '#perfil',
     router : new VueRouter({
-                                routes,
-                                linkActiveClass: 'is-active'
+            routes,
+            linkActiveClass: 'is-active'
         })
  
 });

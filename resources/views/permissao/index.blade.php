@@ -1,15 +1,6 @@
 @extends('layout.master')
-
-@section('content-header')
-    Permissão
-@endsection
-
-
-@section('header') 
-	<li class="nav-item d-none d-sm-inline-block"> 
-		<a href="permissao#/" class="nav-link">Permissão</a>
-	</li> 
-
+  
+@section('header')  
 	<li class="nav-item d-none d-sm-inline-block"> 
 		<a href="permissao#/create" class="nav-link">Cadastrar Permissão</a>
 	</li>

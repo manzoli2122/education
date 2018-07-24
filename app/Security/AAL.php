@@ -35,18 +35,7 @@ class AAL
 
     
 
-
-
-    /*
-    public function ability($perfis, $permissoes, $options = [])
-    {
-        if ($usuario = $this->usuario()) {
-            return $usuario->ability($perfis, $permissoes, $options);
-        } 
-        return false;
-    } 
-   */ 
-    
+ 
 
 
 

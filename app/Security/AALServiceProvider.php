@@ -59,17 +59,7 @@ class AALServiceProvider extends ServiceProvider
         \Blade::directive('endpermissao', function($expression) {
             return "<?php endif; // AAL::can ?>";
         });
- 
-/*
-        \Blade::directive('ability', function($expression) {
-            return "<?php if (\\AAL::ability({$expression})) : ?>";
-        });
-
-        \Blade::directive('endability', function($expression) {
-            return "<?php endif; // AAL::ability ?>";
-        });
-
-*/ 
+  
     }
  
 

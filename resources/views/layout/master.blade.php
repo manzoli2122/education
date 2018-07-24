@@ -39,7 +39,7 @@
 		<!-- Main Footer -->
 		<footer class="main-footer"> 
 			<div class="float-right d-none d-sm-inline">
-				Versão 0.0.1
+				Versão 0.0.2
 			</div> 
 			<strong>Copyright &copy; 2018 <a href="#">SGPM-EDU</a>.</strong> Todos Direitos Reservados.
 		</footer>

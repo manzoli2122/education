@@ -28,12 +28,7 @@ class AppServiceProvider extends ServiceProvider
             'App\Service\VueServiceInterface',
             'App\Service\VueService'
         );
-
-        $this->app->bind(
-            'App\Service\DisciplinaServiceInterface',
-            'App\Service\DisciplinaService'
-        );
-
+  
         $this->app->bind(
             'App\Service\Security\PermissaoServiceInterface',
             'App\Service\Security\PermissaoService'

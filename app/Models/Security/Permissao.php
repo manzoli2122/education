@@ -45,21 +45,7 @@ class Permissao extends Model
     }
 
    
-
-
-/*
-    public static function boot()
-    {
-        parent::boot();
-        static::deleting(function($permissao) {
-            if (!method_exists('App\Models\Security\Permissao' , 'bootSoftDeletes')) {
-                $permissao->perfis()->sync([]);
-            }
-            return true;
-        });
-    }
-*/
-    
+ 
 
 
 
@@ -73,50 +59,7 @@ class Permissao extends Model
         ->orderBy('nome')->get();  
     }
  
-
-
-
-    
-
-
-    /*
-
-    public function attachPerfil($perfil){
-        
-        if(is_object($perfil)) {
-            $perfil = $perfil->getKey();
-        }
-        $this->perfis()->attach($perfil);
-
-    }
-    
-       
-    public function detachPerfil($perfil){
-        if (is_object($perfil)) {
-            $perfil = $perfil->getKey();
-        }
-        $this->perfis()->detach($perfil);
-    }
-    
-
-
-
-
-        
-    public function attachPerfis($perfis){
-        foreach ($perfis as $perfil) {
-            $this->attachPerfil($perfil);
-        }
-    }
-    
-       
-    public function detachPerfis($perfis=null){
-        if (!$perfis) $perfis = $this->perfis()->get();
-        foreach ($perfis as $perfil) {
-            $this->detachRole($perfil);
-        }
-    }
-
-*/
+ 
+ 
 
 }

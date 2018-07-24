@@ -1,15 +1,6 @@
 @extends('layout.master')
-
-@section('content-header')
-    Usuário
-@endsection
-
-
-@section('header') 
-	<li class="nav-item d-none d-sm-inline-block"> 
-		<a href="usuario#/" class="nav-link">Usuário</a>
-	</li> 
-
+  
+@section('header')  
 	<li class="nav-item d-none d-sm-inline-block"> 
 		<a href="usuario#/create" class="nav-link">Cadastrar Usuário</a>
 	</li>

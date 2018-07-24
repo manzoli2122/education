@@ -21,11 +21,7 @@ class UsuarioController extends VueController
         $this->middleware('auth'); 
         $this->middleware('permissao:usuarios');  
         $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 
-
-      //  $this->middleware('perfil:Gerente') ; 
-
-        $this->middleware('perfil:AdminSuper')->only( 'destroy' ); 
-        $this->middleware('perfil:AdminSuper2')->only( 'destroy' ); 
+ 
     }
 
   

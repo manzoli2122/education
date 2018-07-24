@@ -6,12 +6,17 @@ use Exception;
 
 class ModelNotFoundException extends Exception
 {
+    
+    
     /**
      * All of the guards that were checked.
      *
      * @var array
      */
     protected $guards;
+
+
+
 
     /**
      * Create a new authentication exception.
@@ -27,6 +32,11 @@ class ModelNotFoundException extends Exception
         $this->guards = $guards;
     }
 
+
+
+
+
+
     /**
      * Get the guards that were checked.
      *
@@ -36,4 +46,6 @@ class ModelNotFoundException extends Exception
     {
         return $this->guards;
     }
+
+
 }
