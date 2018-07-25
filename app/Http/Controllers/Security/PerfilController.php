@@ -6,18 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VueController; 
 use App\Service\Security\PerfilServiceInterface; 
 use Auth; 
- 
+use App\Logging\LogService;
 
 
 class PerfilController extends VueController
 {
     
     protected $service;     
-    protected $view = "perfil";   
+    protected $view = "perfil";  
+    protected $model_name = 'Perfil'   ; 
+    protected $logservice   ;
     
-    
-    public function __construct( PerfilServiceInterface $service ){
-        
+    public function __construct( PerfilServiceInterface $service  , LogService $servicelog  ){
+        $this->logservice = $servicelog  ; 
         $this->service = $service ;   
         $this->middleware('auth'); 
         $this->middleware('permissao:perfis');  

@@ -8,6 +8,9 @@ use Exception ;
 use App\Exceptions\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Auth;
+use App\Logging\LogService;
+
 
 class VueController extends Controller
 {
@@ -15,6 +18,17 @@ class VueController extends Controller
     protected $service;     
     protected $view   ;
     protected $model_name = 'Model'   ;
+
+
+    protected $logservice   ;
+
+      
+    // public function __construct( LogService $service ){ 
+    //     $this->logservice = $service ;   
+    // }
+
+
+
 
 
     public function index(Request $request){  
@@ -37,12 +51,21 @@ class VueController extends Controller
         try {  
             if( !$model = $this->service->BuscarPeloId( $id ) ){       
                 return response()->json('Item não encontrado.', 404 );    
-            }                   
-            Log::channel('slack')->info('Showing ' . $this->model_name . ' id = '. $id , ['id' => $id ] );
+            }          
+
+            try {
+                $this->logservice->enviar( [ 'acao' => 'Visualizado', 'model' => $this->model_name,  'id' => $id , 'usuario' => Auth::user()->name ] )  ;
+            }
+            catch(Exception $e) {    
+                Log::info($e);  
+            }
+
+            //Log::channel('slack')->info('Visualizando ' . $this->model_name . ' id = '. $id , ['id' => $id , 'usuario' => Auth::user()->name ] );
             return response()->json( $model , 200);
         }         
-        catch(Exception $e) {           
-            return response()->json( 'Erro interno', 500);    
+        catch(Exception $e) {    
+            Log::info($e);       
+            return response()->json( 'Erro interno'  , 500);    
         }
     }
 
@@ -90,6 +113,12 @@ class VueController extends Controller
         $this->validate( $request  , $this->service->validacoes() );  
         try{
             $this->service->Salvar( $request );
+            try {
+                $this->logservice->enviar( [ 'acao' => 'Cadastro', 'model' => $this->model_name , 'usuario' => Auth::user()->name ,  'dados' => $request->all() ] )  ;
+            }
+            catch(Exception $e) {    
+                Log::info($e);  
+            }
         }  
         catch(Exception $e){
             return response()->json( $e->getMessage() , 500);
@@ -114,6 +143,12 @@ class VueController extends Controller
     { 
         try{
             $this->service->Apagar($id);
+            try {
+                $this->logservice->enviar( [ 'acao' => 'Exclusão', 'model' => $this->model_name , 'usuario' => Auth::user()->name ,  'id' => $id ] )  ;
+            }
+            catch(Exception $e) {    
+                Log::info($e);  
+            }
             return response()->json( 'Exclusão realizada com sucesso' , 200); 
         } 
         catch(ModelNotFoundException $e){

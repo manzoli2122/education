@@ -8,16 +8,19 @@ use App\Service\Security\UsuarioServiceInterface;
 use Auth;   
 use Exception;
 
+use App\Logging\LogService;
 
 class UsuarioController extends VueController
 {
     
     protected $service; 
     protected $view  = " usuario";   
+    protected $model_name = 'Usuário'   ;
+    protected $logservice   ;
     
-    
-    public function __construct( UsuarioServiceInterface $service   ){ 
+    public function __construct( UsuarioServiceInterface $service  , LogService $servicelog  ){ 
         $this->service = $service ;  
+        $this->logservice = $servicelog  ; 
         $this->middleware('auth'); 
         $this->middleware('permissao:usuarios');  
         $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 

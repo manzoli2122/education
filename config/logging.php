@@ -55,7 +55,7 @@ return [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'SGPM-EDU', 
-            //'emoji' => ':boom:',
+            'emoji' => ':boom:',
             'level' => 'debug',
         ],
 

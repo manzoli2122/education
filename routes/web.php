@@ -14,7 +14,9 @@
 
 Route::get('/', function () {    return view('welcome');})->name('inicio');
 Route::get('/home', function () {    return view('welcome');})->middleware('auth')->name('inicio');
-   
+
+Route::get('/log', 'HomeController@log' )  ;
+      
  
  
 // Rotas para autenticação
