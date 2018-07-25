@@ -1,23 +1,29 @@
 <template>  
 	<router-link  :to="url" exact  class="btn btn-secondary">
-		<i class="fa fa-reply"></i> Voltar
+		<i class="fa fa-reply"></i> {{message}}
 	</router-link>	
 </template>
 
-<script>
+<script> 
 
+	export default {
 
+		props:[
+		'url' , 'texto'
+		], 
 
-export default {
+		computed: { 
+			message: function () { 
+				if(this.texto){
+					return this.texto;
+				}
+				return 'Voltar'; 
+			}
+		},
 
-	props:[
-	'url' 
-	], 
-
-}
+	}
 
 </script>
 
-<style>
-
+<style> 
 </style>

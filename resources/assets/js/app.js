@@ -59,7 +59,8 @@ window.alertErro = function(titulo, texto = "", posicao = "center", funcao = fun
         titleSize: '14',
         message: texto,
         messageColor: '#fff',
-        timeout: 5000,
+        // timeout: 5000,
+        timeout: false,
         icon: 'fa fa-ban',
         iconColor: '#fff',
         closeOnEscape: true,
@@ -79,9 +80,10 @@ window.toastErro = function(titulo, texto = "", funcao = function() {}) {
 window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = function() {}) {
     iziToast.show({
         theme: 'dark',
-        timeout: 2000,
+        // timeout: 2000,
+        timeout: false,
         position: posicao,
-        color: '#00A65A',
+        color: '#1F5688',
         title: titulo,
         titleColor: '#fff',
         titleSize: '14',

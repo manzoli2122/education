@@ -7,18 +7,15 @@
 <script>
 	export default {  
 		props:[
-		 'texto'
+		'texto'
 		],  
-
-
-		computed: {
-			 
+		
+		computed: { 
 			message: function () { 
 				if(this.texto){
 					return this.texto;
 				}
-				return 'Salvar';
-					
+				return 'Salvar'; 
 			}
 		},
 
@@ -27,7 +24,7 @@
 </script>
 
 <style scoped>
-	.btn{
-		margin-left: 5px;
-	}
+.btn{
+	margin-left: 5px;
+}
 </style>

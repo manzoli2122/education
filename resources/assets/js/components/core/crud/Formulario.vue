@@ -25,16 +25,8 @@
 			onSubmit() {
 				this.form.submit( this.metodo , this.url )
 				.then(response => {
-					swal({ 
-						type: 'success',
-						showCloseButton: true,
-						title: 'Disciplina Cadastrada com sucesso!!',
-						timer: 5000,
-						width: 400, 
-						confirmButtonColor: '#646464',
-						confirmButtonText: '<h4>OK</h4>',
-						confirmButtonClass: 'bg-green', 
-					}) ;
+					//console.log(response);
+					toastSucesso(response);  
 					this.$router.push('/')
 					})
 				.catch(errors => console.log(errors));

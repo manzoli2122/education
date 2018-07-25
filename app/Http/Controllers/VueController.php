@@ -7,7 +7,7 @@ use View;
 use Exception ;
 use App\Exceptions\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\Log;
 
 class VueController extends Controller
 {
@@ -38,6 +38,7 @@ class VueController extends Controller
             if( !$model = $this->service->BuscarPeloId( $id ) ){       
                 return response()->json('Item não encontrado.', 404 );    
             }                   
+            //Log::channel('slack')->info('Showing user profile for user: ' . $id );
             return response()->json( $model , 200);
         }         
         catch(Exception $e) {           

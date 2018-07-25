@@ -17,10 +17,8 @@
 		],  
 
 		watch: { 
-		 	reload: function (newreload, oldreload) {
-		 		//if(oldreload != '' ){ 
-				  this.datatable.ajax.reload();
-		 		//}
+		 	reload: function (newreload, oldreload) { 
+				  this.datatable.ajax.reload(); 
 		 	}
 		 },
 	 
@@ -61,8 +59,7 @@
 						.then(response => { 
 							vm.$emit(vm.config.exclusao.evento , response.data );
 							vm.datatable.ajax.reload();
-							toastSucesso('Exclusão do(a) ' + vm.config.exclusao.item + ' realizado(a) com sucesso!!' );
-							
+							toastSucesso('Exclusão do(a) ' + vm.config.exclusao.item + ' realizado(a) com sucesso!!' ); 
 						})
 						.catch(error => {
 							toastErro('Não foi possivel remover ' + vm.config.exclusao.item , error.response.data.message );
@@ -84,8 +81,7 @@
 					language: { url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" },
 					ajax: { type: 'post',	data: { '_token': csrf_token }	}, 
 			        
-			        initComplete:function(){//Retira a busca a cada caractere digitado. Pesquisando apenas com Enter 
-			        	//var $searchInput = $('div.dataTables_filter input');
+			        initComplete:function(){//Retira a busca a cada caractere digitado. Pesquisando apenas com Enter  
 			        	var $searchInput = $(seletorTabela  +'_filter input'); 
 			        	$searchInput.unbind(); 
 			        	$searchInput.bind('keyup', function(e) {
