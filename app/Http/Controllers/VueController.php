@@ -14,7 +14,7 @@ class VueController extends Controller
  
     protected $service;     
     protected $view   ;
-
+    protected $model_name = 'Model'   ;
 
 
     public function index(Request $request){  
@@ -38,7 +38,7 @@ class VueController extends Controller
             if( !$model = $this->service->BuscarPeloId( $id ) ){       
                 return response()->json('Item não encontrado.', 404 );    
             }                   
-            //Log::channel('slack')->info('Showing user profile for user: ' . $id );
+            Log::channel('slack')->info('Showing ' . $this->model_name . ' id = '. $id , ['id' => $id ] );
             return response()->json( $model , 200);
         }         
         catch(Exception $e) {           
