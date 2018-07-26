@@ -9,16 +9,13 @@
 		<div class="content">
 			<div class="container-fluid"> 
 				<crudCard>
-					<div class="card-body  table-responsive"> 
-
+					<div class="card-body  table-responsive">  
 						<datatableService :config="config" id="datatableUsuarios"> 
 							<th style="max-width:20px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Email</th>  
-						</datatableService> 
- 
-					</div>
-
+						</datatableService>  
+					</div> 
 					<div class="card-footer text-right">
 						<crudBotaoVoltar url="/" />   
 					</div>        
@@ -60,12 +57,14 @@ export default {
 
 
     created() {
- 		 
+ 		alertProcessando();
  		axios.get(this.url + '/' + this.$route.params.id )
  		.then(response => {
- 			this.perfil = response.data ;
+			 this.perfil = response.data ;
+			 alertProcessandoHide();
  		})
  		.catch(error => { 
+			alertProcessandoHide();
  			toastErro('Não foi possivel achar a Perfil' , error.response.data); 
          });   
 	 }, 
@@ -76,6 +75,5 @@ export default {
  
  </script>
  
- <style scoped>
- 
+ <style scoped> 
  </style>

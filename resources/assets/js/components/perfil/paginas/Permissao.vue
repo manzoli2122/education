@@ -104,14 +104,15 @@ export default {
 
 
 	created() {
-
+		alertProcessando();
 		axios.get(this.url + '/' + this.$route.params.id )
 		.then(response => {
 			this.perfil = response.data ;
+			alertProcessandoHide();
 		})
 		.catch(error => { 
+			alertProcessandoHide();
  			toastErro('Não foi possivel achar a Perfil' , error.response.data);
-
  		});  
 
 		axios.get(this.url + '/' + this.$route.params.id +'/permissao/adicionar')

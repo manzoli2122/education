@@ -58,12 +58,15 @@ export default {
 
 
     created() { 
+		alertProcessando();
  		axios.get(this.url + '/' + this.$route.params.id )
  		.then(response => {
- 			this.permissao = response.data ;
+			 this.permissao = response.data ;
+			 alertProcessandoHide();
  		})
  		.catch(error => { 
- 			toastErro('Não foi possivel achar a Permissão' , error.response.data); 
+			toastErro('Não foi possivel achar a Permissão' , error.response.data); 
+			alertProcessandoHide();
  			this.$router.push('/');
          });   
 	 }, 
@@ -74,6 +77,5 @@ export default {
  
  </script>
  
- <style scoped>
- 
+ <style scoped> 
  </style>

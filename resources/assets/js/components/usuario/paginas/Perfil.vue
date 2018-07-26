@@ -100,9 +100,11 @@ export default {
   
 
 	created() { 
+		alertProcessando();
 		axios.get(this.url + '/' + this.$route.params.id)
 		.then(response => {
 			this.usuario = response.data;
+			alertProcessandoHide();
 		})
 		.catch(error => {
 			toastErro('Não foi possivel achar o Usuário', error.response.data);

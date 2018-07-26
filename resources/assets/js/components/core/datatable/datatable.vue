@@ -55,13 +55,16 @@
  				var vm = this ; 
 			    alertConfimacao('Confirma a Exclusão ', vm.config.exclusao.item , 
 			        function() { 
+						alertProcessando();
 			            axios.delete( vm.config.exclusao.url + '/'  + id   )
 						.then(response => { 
 							vm.$emit(vm.config.exclusao.evento , response.data );
 							vm.datatable.ajax.reload();
+							alertProcessandoHide();
 							toastSucesso('Exclusão do(a) ' + vm.config.exclusao.item + ' realizado(a) com sucesso!!' ); 
 						})
 						.catch(error => {
+							alertProcessandoHide();	
 							toastErro('Não foi possivel remover ' + vm.config.exclusao.item , error.response.data.message );
 						});  
 			        }

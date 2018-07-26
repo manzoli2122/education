@@ -23,13 +23,17 @@
 		methods: {
 
 			onSubmit() {
+				alertProcessando();
 				this.form.submit( this.metodo , this.url )
-				.then(response => {
-					//console.log(response);
+				.then(response => { 
 					toastSucesso(response);  
+					alertProcessandoHide();
 					this.$router.push('/')
-					})
-				.catch(errors => console.log(errors));
+				})
+				.catch(errors => { 
+					alertProcessandoHide();
+					console.log(errors);
+				});
 			} 
 		} 
 	} 

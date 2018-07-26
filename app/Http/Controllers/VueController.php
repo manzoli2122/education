@@ -22,13 +22,7 @@ class VueController extends Controller
 
     protected $logservice   ;
 
-      
-    // public function __construct( LogService $service ){ 
-    //     $this->logservice = $service ;   
-    // }
-
-
-
+       
 
 
     public function index(Request $request){  
@@ -54,7 +48,16 @@ class VueController extends Controller
             }          
 
             try {
-                $this->logservice->enviar( [ 'acao' => 'Visualizado', 'model' => $this->model_name,  'id' => $id , 'usuario' => Auth::user()->name ] )  ;
+                $this->logservice->enviar(  $request, 
+                    [ 
+                        'acao' => 'Visualizado', 
+                        'model' => $this->model_name,  
+                        'id' => $id , 
+                        'usuario' => Auth::user()->name ,
+                        // 'ip' => $request->server('REMOTE_ADDR'),
+                        // 'host' => $request->header('host'),
+                    ] 
+                )  ;
             }
             catch(Exception $e) {    
                 Log::info($e);  
@@ -87,6 +90,19 @@ class VueController extends Controller
         $this->validate( $request  , $this->service->validacoes() );  
         try{
             $this->service->Atualizar( $request ,  $id);
+            try {
+                $this->logservice->enviar(  $request, 
+                    [ 
+                        'acao' => 'Atualizando', 
+                        'model' => $this->model_name,  
+                        'id' => $id , 
+                        'usuario' => Auth::user()->name , 
+                    ] 
+                )  ;
+            }
+            catch(Exception $e) {    
+                Log::info($e);  
+            }
         } 
         catch(ModelNotFoundException $e){
             return response()->json( $e->getMessage() , 404);
@@ -114,7 +130,16 @@ class VueController extends Controller
         try{
             $this->service->Salvar( $request );
             try {
-                $this->logservice->enviar( [ 'acao' => 'Cadastro', 'model' => $this->model_name , 'usuario' => Auth::user()->name ,  'dados' => $request->all() ] )  ;
+                $this->logservice->enviar(  $request, 
+                    [ 
+                        'acao' => 'Cadastro', 
+                        'model' => $this->model_name , 
+                        'usuario' => Auth::user()->name ,  
+                        'dados' => $request->all() ,
+                        // 'ip' => $request->server('REMOTE_ADDR'),
+                        // 'host' => $request->header('host'),
+                    ] 
+                )  ;
             }
             catch(Exception $e) {    
                 Log::info($e);  
@@ -144,7 +169,16 @@ class VueController extends Controller
         try{
             $this->service->Apagar($id);
             try {
-                $this->logservice->enviar( [ 'acao' => 'Exclusão', 'model' => $this->model_name , 'usuario' => Auth::user()->name ,  'id' => $id ] )  ;
+                $this->logservice->enviar( $request ,
+                    [ 
+                        'acao' => 'Exclusão', 
+                        'model' => $this->model_name , 
+                        'usuario' => Auth::user()->name ,  
+                        'id' => $id ,
+                        // 'ip' => $request->server('REMOTE_ADDR'),
+                        // 'host' => $request->header('host'),
+                    ] 
+                );
             }
             catch(Exception $e) {    
                 Log::info($e);  
