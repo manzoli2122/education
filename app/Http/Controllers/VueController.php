@@ -9,7 +9,9 @@ use App\Exceptions\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Auth;
-use App\Logging\LogService;
+
+use App\Jobs\CrudProcessJob;
+//use App\Logging\LogService;
 
 
 class VueController extends Controller
@@ -45,24 +47,42 @@ class VueController extends Controller
         try {  
             if( !$model = $this->service->BuscarPeloId( $id ) ){       
                 return response()->json('Item não encontrado.', 404 );    
-            }          
+            }   
+ 
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'),
+                'usuario' => Auth::user(),
+            ] ;
+ 
+            dispatch( 
+                new CrudProcessJob(  
+                    $this->logservice , 
+                    $this->model_name,   
+                    'Visualizacao' ,  
+                    $model->log()  , 
+                    $info ,  
+                    now()->format('Y-m-d\TH:i:s.u') 
+                )
+            );   
 
+
+ /*
             try {
                 $this->logservice->enviar(  $request, 
                     [ 
                         'acao' => 'Visualizado', 
                         'model' => $this->model_name,  
                         'id' => $id , 
-                        'usuario' => Auth::user()->name ,
-                        // 'ip' => $request->server('REMOTE_ADDR'),
-                        // 'host' => $request->header('host'),
+                        'item' =>$model ,
+                        'usuario' => Auth::user()->name , 
                     ] 
                 )  ;
             }
             catch(Exception $e) {    
                 Log::info($e);  
             }
-
+ */
             //Log::channel('slack')->info('Visualizando ' . $this->model_name . ' id = '. $id , ['id' => $id , 'usuario' => Auth::user()->name ] );
             return response()->json( $model , 200);
         }         
@@ -89,7 +109,27 @@ class VueController extends Controller
     {        
         $this->validate( $request  , $this->service->validacoes() );  
         try{
-            $this->service->Atualizar( $request ,  $id);
+            
+            $model = $this->service->Atualizar( $request ,  $id);
+            
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'),
+                'usuario' => Auth::user(),
+            ] ;
+             
+            dispatch( 
+                new CrudProcessJob(  
+                    $this->logservice , 
+                    $this->model_name,   
+                    'Atualizacao' ,  
+                    $model , 
+                    $info ,  
+                     now()->format('Y-m-d\TH:i:s.u')  
+                )
+            );   
+
+            /*
             try {
                 $this->logservice->enviar(  $request, 
                     [ 
@@ -103,6 +143,8 @@ class VueController extends Controller
             catch(Exception $e) {    
                 Log::info($e);  
             }
+
+            */
         } 
         catch(ModelNotFoundException $e){
             return response()->json( $e->getMessage() , 404);
@@ -128,22 +170,45 @@ class VueController extends Controller
     {
         $this->validate( $request  , $this->service->validacoes() );  
         try{
-            $this->service->Salvar( $request );
+            
+            $model = $this->service->Salvar( $request );
+            
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'),
+                'usuario' => Auth::user(),
+            ] ;
+             
+            dispatch( 
+                new CrudProcessJob(  
+                    $this->logservice , 
+                    $this->model_name,   
+                    'Cadastro' ,  
+                    $model , 
+                    $info ,  
+                     now()->format('Y-m-d\TH:i:s.u') 
+                )
+            );   
+
+
+            /*
             try {
                 $this->logservice->enviar(  $request, 
                     [ 
                         'acao' => 'Cadastro', 
                         'model' => $this->model_name , 
                         'usuario' => Auth::user()->name ,  
-                        'dados' => $request->all() ,
-                        // 'ip' => $request->server('REMOTE_ADDR'),
-                        // 'host' => $request->header('host'),
+                        'dados' => $request->all() , 
                     ] 
                 )  ;
             }
             catch(Exception $e) {    
                 Log::info($e);  
             }
+            */
+
+
+
         }  
         catch(Exception $e){
             return response()->json( $e->getMessage() , 500);
@@ -167,7 +232,34 @@ class VueController extends Controller
     public function destroy( Request $request, $id)
     { 
         try{
+
+            if( !$model = $this->service->BuscarPeloId( $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            }   
+            
+            $dados = $model->log();
+ 
             $this->service->Apagar($id);
+             
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'),
+                'usuario' => Auth::user(),
+            ] ;
+             
+            dispatch( 
+                new CrudProcessJob(  
+                    $this->logservice , 
+                    $this->model_name,   
+                    'Exclusão' ,  
+                    $dados, 
+                    $info ,  
+                     now()->format('Y-m-d\TH:i:s.u') 
+                )
+            );   
+
+
+            /*
             try {
                 $this->logservice->enviar( $request ,
                     [ 
@@ -183,6 +275,7 @@ class VueController extends Controller
             catch(Exception $e) {    
                 Log::info($e);  
             }
+            */
             return response()->json( 'Exclusão realizada com sucesso' , 200); 
         } 
         catch(ModelNotFoundException $e){

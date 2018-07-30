@@ -9,7 +9,7 @@ use App\Service\VueService;
 use App\Models\Security\LogPerfilPermissao;
 use Auth;
 use Cache;
-
+use App\Logging\LogService;
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
@@ -19,15 +19,16 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     protected $dataTable;
     protected $logSeguranca;
     protected $route = "perfil";
+    protected $logservice ;
 
 
 
-
-    public function __construct( Perfil $perfil , Permissao $permissao, LogPerfilPermissao $log , DataTables $dataTable){        
+    public function __construct( Perfil $perfil , Permissao $permissao, LogPerfilPermissao $log , DataTables $dataTable  , LogService $servicelog){        
         $this->model = $perfil ;    
         $this->permissao = $permissao ;  
         $this->dataTable = $dataTable ;    
         $this->logSeguranca = $log ; 
+        $this->logservice = $servicelog  ;
     }
 
  

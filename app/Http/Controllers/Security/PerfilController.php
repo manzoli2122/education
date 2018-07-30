@@ -17,7 +17,7 @@ class PerfilController extends VueController
     protected $model_name = 'Perfil'   ; 
     protected $logservice   ;
     
-    public function __construct( PerfilServiceInterface $service  , LogService $servicelog  ){
+    public function __construct( PerfilServiceInterface $service  , LogService $servicelog   ){
         $this->logservice = $servicelog  ; 
         $this->service = $service ;   
         $this->middleware('auth'); 

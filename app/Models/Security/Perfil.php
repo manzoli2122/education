@@ -25,6 +25,18 @@ class Perfil extends Model
     ];
         
 
+    public function log( )
+    {
+        return [
+            'perfil' => [ 
+                'id' => $this->id,
+                 'nome' => $this->nome , 
+                 'descricao' => $this->descricao , 
+            ]       
+        ];
+    }
+
+
     public function rules($id = '')
     {
             return [

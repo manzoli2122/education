@@ -17,7 +17,7 @@ class PermissaoController extends VueController
     protected $model_name = 'Permissão'   ; 
     protected $logservice   ;
     
-    public function __construct( PermissaoServiceInterface $service    , LogService $servicelog  ){
+    public function __construct( PermissaoServiceInterface $service   , LogService $servicelog   ){
         $this->logservice = $servicelog  ; 
         $this->service = $service ;    
         $this->middleware('auth');
@@ -47,6 +47,13 @@ class PermissaoController extends VueController
             return response()->json( $e->getMessage() , 500);
         }   
     }
+
+
+
+
+
+
+
 
  
 }

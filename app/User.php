@@ -37,6 +37,16 @@ class User extends Authenticatable
     ];
  
 
+    public function log( )
+    {
+        return [
+            'usuario' => [ 
+                'id' => $this->id,
+                 'name' => $this->name , 
+                 'email' => $this->email , 
+            ]       
+        ];
+    }
 
     /**
     * Busca os perfis do usuario no banco de dados
@@ -94,7 +104,8 @@ class User extends Authenticatable
      */
     public function cachedPerfis()
     {
-        $cacheKey = $this->cacheKey . $this->id;
+
+        $cacheKey = $this->cacheKey . $this->id; 
         $value = Cache::rememberForever(  $cacheKey , function () {
             return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        
         }); 

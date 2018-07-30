@@ -8,7 +8,7 @@ use App\Models\Security\LogUsuarioPerfil;
 use App\Service\VueService;
 use Auth;
 use Yajra\DataTables\DataTables;
-
+use App\Logging\LogService;
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
 {
@@ -18,7 +18,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     protected $logSeguranca;
     protected $dataTable;
     protected $route = "user";
-
+    protected $logservice ;
 
     /**
     * Save  
@@ -27,11 +27,12 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     *
     * @return void
     */
-    public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log , DataTables $dataTable){        
+    public function __construct( User $user , Perfil $perfil , LogUsuarioPerfil $log , DataTables $dataTable , LogService $servicelog ){        
         $this->dataTable = $dataTable ;   
         $this->model = $user ;   
         $this->perfil = $perfil ;
-        $this->logSeguranca = $log ;    
+        $this->logSeguranca = $log ;  
+        $this->logservice = $servicelog  ;   
     }
 
 

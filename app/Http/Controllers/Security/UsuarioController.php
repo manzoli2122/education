@@ -18,7 +18,7 @@ class UsuarioController extends VueController
     protected $model_name = 'Usuário'   ;
     protected $logservice   ;
     
-    public function __construct( UsuarioServiceInterface $service  , LogService $servicelog  ){ 
+    public function __construct( UsuarioServiceInterface $service   , LogService $servicelog  ){ 
         $this->service = $service ;  
         $this->logservice = $servicelog  ; 
         $this->middleware('auth'); 

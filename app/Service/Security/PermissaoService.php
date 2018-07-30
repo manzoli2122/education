@@ -6,20 +6,46 @@ use App\Models\Security\Permissao;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 use Cache;
+use App\Jobs\ProcessPermissao;
+use Log;
+use App\Logging\LogService;
 
 class PermissaoService extends VueService  implements PermissaoServiceInterface 
 {
 
     protected $model;   
     protected $dataTable;
+    protected $logservice ;
 
 
-
-    public function __construct( Permissao $permissao , DataTables $dataTable){        
+    public function __construct( Permissao $permissao , DataTables $dataTable , LogService $servicelog ){     
+        $this->logservice = $servicelog  ;    
         $this->model = $permissao ;    
         $this->dataTable = $dataTable ; 
     }
   
+
+
+    /**
+    * Função para criar um model  
+    *
+    * @param Request $request
+    *    
+    * @return void
+    */
+    public function  Salvar1( $request  ){
+        
+        throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class);  
+        
+        //Log::info($insert->nome);
+        dispatch( new ProcessPermissao( $insert , $this->logservice ));
+        //$teste = new ProcessPermissao( ['nome' => $insert->nome ] );
+        //$teste->dispatch( );
+    }
+
+
+
+ 
 
 
     /**

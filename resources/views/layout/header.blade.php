@@ -13,8 +13,8 @@
   <ul class="navbar-nav ml-auto">
     @guest
     <li class="nav-item">
-      <a class="nav-link" href="/home">Entrar
-        <i class="fa fa-sign-in"></i>
+      <a class="nav-link" href="/home">Entrar    
+        <i class="fa fa-sign-in"></i> 
       </a>
     </li> 
     @else

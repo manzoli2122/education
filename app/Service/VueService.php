@@ -4,6 +4,7 @@ namespace App\Service ;
 
 use App\Exceptions\ModelNotFoundException; 
 
+use App\Jobs\CrudProcessJob;
 
 class VueService  implements VueServiceInterface  
 {
@@ -11,7 +12,7 @@ class VueService  implements VueServiceInterface
     
     protected $model;   
     protected $dataTable;
-
+    protected $logservice ;
  
 
 
@@ -22,8 +23,10 @@ class VueService  implements VueServiceInterface
     *
     * @return $model
     */
-    public function  BuscarPeloId( $id ){
-        return   $this->model->find($id)  ;
+    public function  BuscarPeloId( $id ){ 
+        $model = $this->model->find($id)  ;
+        //dispatch( new CrudProcessJob( 'Visualizacao' ,  $model  , $this->logservice ));
+        return   $model   ; 
     }
 
 
@@ -43,6 +46,7 @@ class VueService  implements VueServiceInterface
     public function  Atualizar( $request , $id){ 
         throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class); 
         throw_if( !$update = $model->update($request->all()) , Exception::class); 
+        return $model;
     }
 
 
@@ -58,7 +62,8 @@ class VueService  implements VueServiceInterface
     */
     public function  Salvar( $request  ){
         
-        throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class);  
+        throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class); 
+        return $insert ;  
     }
 
     
@@ -90,8 +95,8 @@ class VueService  implements VueServiceInterface
     * @return void
     */
     public function  Apagar( $id ){
-        throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class); 
-        throw_if( !$delete = $model->delete()  , Exception::class);  
+        throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class);  
+        throw_if( !$delete = $model->delete()  , Exception::class);   
     }
 
 

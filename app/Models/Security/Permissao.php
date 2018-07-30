@@ -22,7 +22,20 @@ class Permissao extends Model
     ];
 
     
+
+    public function log( )
+    {
+        return [
+            'permissao' => [ 
+                'id' => $this->id,
+                 'nome' => $this->nome , 
+                 'descricao' => $this->descricao , 
+            ]       
+        ];
+    }
         
+
+
     public function rules($id = '')
     {
             return [
