@@ -6,8 +6,8 @@
 ## ACL
 
  - Baseado no Projeto ENTRUST disponivel em [ENTRUST](https://github.com/Zizaco/entrust).
- - Utiliza Cache para agilizar a verificação das permissões e perfis de um usuario.
-
+ - Utiliza  [Cache](https://laravel.com/docs/5.6/cache) para agilizar a verificação das permissões e perfis de um usuario.
+ <a href="https://laravel.com/docs/5.6/cache" target="_blank"> Cache </a>
 ### Utilização no Blade templates
 
 No exemplo abaixo o codigo entre @perfil('Admin') e @endperfil só será redenrizado se o usuario possuir o perfil 'Admin'.
@@ -47,16 +47,23 @@ No exemplo abaixo o codigo entre @permissao('visualizar-seguranca') e @endpermis
 
 No exemplo abaixo a rota só será acessivel para usuarios que possuirem o perfil 'Admin'.
 ```php 
-	Route::get('/home', 'HomeController@home' )->middleware('perfil:Admin')->name('inicio');
+Route::get('/home', 'HomeController@home' )->middleware('perfil:Admin')->name('inicio');
 ```
-
+ 
 
 No exemplo abaixo a rota só será acessivel para usuarios que possuirem a permissão  'visualizar-seguranca'.
 ```php 
-	Route::get('/home', 'HomeController@home' )->middleware('permissao:visualizar-seguranca')->name('inicio');
+Route::get('/home', 'HomeController@home' )->middleware('permissao:visualizar-seguranca')->name('inicio');
 ```
 
 
+
+```php
+public function __construct(  ){     
+        $this->middleware('permissao:perfis');  
+        $this->middleware('perfil:Admin');  
+}
+```
 
 
 
