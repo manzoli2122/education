@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-light-warning elevation-4">
 
 	<a href="/" class="bg-white brand-link ">
-		<img src="img/brasao-pmes.png" alt="SGPM-EDU" class="brand-image">
+		<img src="img/brasao-pmes.png" alt="SGPM-TEMPLATE" class="brand-image">
 		<span class="brand-text font-weight-light">
-			<b>SGPM-EDU</b>
+			<b>SGPM-TEMPLATE</b>
 		</span>
 	</a>
 

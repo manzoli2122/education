@@ -9,7 +9,7 @@
 	<meta name="api-token" content="{{session('token_api')}}">
 	<!--meta http-equiv="refresh" content="120"--> 
 	<meta name="theme-color" content="#00a65a">
-	<title> SGPM-EDU </title>
+	<title> SGPM-TEMPLATE </title>
 	<link href="{{ mix('css/select2.css') }}" rel="stylesheet" type="text/css"/>
 	<!--  Bootstrap -->
 	<link href="{{ mix('css/bootstrap.css') }}" rel="stylesheet" type="text/css"/> 
@@ -41,7 +41,7 @@
 			<div class="float-right d-none d-sm-inline">
 				Versão 0.0.2
 			</div> 
-			<strong>Copyright &copy; 2018 <a href="#">SGPM-EDU</a>.</strong> Todos Direitos Reservados.
+			<strong>Copyright &copy; 2018 <a href="#">SGPM-TEMPLATE</a>.</strong> Todos Direitos Reservados.
 		</footer>
 	</div>
  
