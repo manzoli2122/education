@@ -6,7 +6,7 @@
 ## ACL
 
  - Baseado no Projeto ENTRUST disponivel em [ENTRUST](https://github.com/Zizaco/entrust).
- - Utiliza  [Cache](https://laravel.com/docs/5.6/cache target="_black")   para agilizar a verificação das permissões e perfis de um usuario.
+ - Utiliza  [Cache](https://laravel.com/docs/5.6/cache" target="_black)   para agilizar a verificação das permissões e perfis de um usuario.
   
 ### Utilização no Blade templates
 
