@@ -9,20 +9,35 @@
 
 ### Utilização no Blade templates
 
+No exemplo abaixo o codigo entre @perfil('Admin') e @endperfil só será redenrizado se o usuario possuir o perfil 'Admin'.
+
 ```php
 @perfil('Admin')
-<li class="nav-item has-treeview ">
-<a href="#" class="nav-link active">
-<i class="nav-icon fa fa-lock"></i>
-<p>Segurança
-<i class="right fa fa-angle-left"></i>
-</p>
-</a> 
-</li>
+	<li class="nav-item has-treeview ">
+		<a href="#" class="nav-link active">
+			<i class="nav-icon fa fa-lock"></i>
+			<p>Segurança
+				<i class="right fa fa-angle-left"></i>
+			</p>
+		</a> 
+	</li>
 @endperfil
 ```
 	
+No exemplo abaixo o codigo entre @permissao('visualizar-seguranca') e @endpermissao só será redenrizado se o usuario possuir a permissão 'visualizar-seguranca'.
 
+```php
+@permissao('visualizar-seguranca')
+	<li class="nav-item has-treeview ">
+		<a href="#" class="nav-link active">
+			<i class="nav-icon fa fa-lock"></i>
+			<p>Segurança
+				<i class="right fa fa-angle-left"></i>
+			</p>
+		</a> 
+	</li>
+@endpermissao
+```
 
 
 
