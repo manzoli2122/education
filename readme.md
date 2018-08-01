@@ -1,11 +1,28 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 
-## Sobre o SGPM-TEMPLATE
+# Sobre o SGPM-TEMPLATE
 
-### ACL
+## ACL
 
  - Baseado no Projeto ENTRUST disponivel em [ENTRUST](https://github.com/Zizaco/entrust).
+
+### Utilização no Blade templates
+
+```php
+@perfil('Admin')
+<li class="nav-item has-treeview ">
+<a href="#" class="nav-link active">
+<i class="nav-icon fa fa-lock"></i>
+<p>Segurança
+<i class="right fa fa-angle-left"></i>
+</p>
+</a> 
+</li>
+@endperfil
+```
+	
+
 
 
 
