@@ -167,6 +167,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/usuario/paginas/_PerfilFormAdicionar.vue"));
@@ -177,6 +191,7 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 
 	data: function data() {
 		return {
+			logs: '',
 			usuario: '',
 			perfis: '',
 			reloadDatatable: false,
@@ -221,6 +236,8 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 		}).catch(function (error) {
 			toastErro("Não foi possivel achar a Perfil", error.response.data);
 		});
+
+		this.pesquisaElastic();
 	},
 
 
@@ -233,6 +250,33 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 			this.perfis = event;
 			this.reloadDatatable = !this.reloadDatatable;
 			this.reloadDatatableLog = !this.reloadDatatableLog;
+
+			this.pesquisaElastic();
+		},
+		pesquisaElastic: function pesquisaElastic() {
+			var query = {
+				"query": {
+					"bool": {
+						"must": [{ "match": { "dados.dado1.usuario.id": this.$route.params.id } }],
+						"should": [{ "match": { "acao": "adicionarPerfilAoUsuario" } }, { "match": { "acao": "excluirPerfilDoUsuario" } }]
+					}
+				}
+			};
+
+			query = JSON.stringify(query);
+
+			var vm = this;
+			$.ajax({
+				url: "http://localhost:9200/education/education/_search",
+				method: 'post',
+
+				contentType: 'application/json',
+				dataType: 'json',
+				data: query,
+				success: function success(data) {
+					vm.logs = data;
+				}
+			});
 		}
 	}
 
@@ -679,6 +723,36 @@ var render = function() {
                 ],
                 1
               )
+            ]),
+            _vm._v(" "),
+            _c("crudCard", [
+              _vm.logs
+                ? _c(
+                    "div",
+                    { staticClass: "card-body  table-responsive" },
+                    _vm._l(_vm.logs.hits.hits, function(hit) {
+                      return _c("div", [
+                        _vm._v(
+                          "\n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.data) +
+                            " \n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._id) +
+                            " \n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.info.usuario.name) +
+                            "\n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.acao) +
+                            "\n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.dados.dado2.perfil.nome) +
+                            "\n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.info.ip) +
+                            "\n\t\t\t  \t\t\t\t" +
+                            _vm._s(hit._source.info.host) +
+                            "\n\t\t\t  \t\t\t"
+                        )
+                      ])
+                    })
+                  )
+                : _vm._e()
             ])
           ],
           1

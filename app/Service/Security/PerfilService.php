@@ -9,7 +9,10 @@ use App\Service\VueService;
 use App\Models\Security\LogPerfilPermissao;
 use Auth;
 use Cache;
+use Illuminate\Http\Request;
 use App\Logging\LogService;
+use App\Jobs\CrudProcessJob; 
+
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
@@ -41,8 +44,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     *    
     * @return void
     */
-    public function  Apagar( $id ){ 
-        parent::Apagar( $id ) ;  
+    public function  Apagar( Request $request , $id ){ 
+        parent::Apagar( $request , $id ) ;  
         Cache::flush(); 
     }
 
@@ -63,12 +66,29 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     *
     * @return void
     */
-    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host){
+    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId  , Request  $request){
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find( $permissaoId ); 
         $perfil->attachPermissao($permissao);
 
-        $this->Log( $perfilId , $permissaoId , $permissao->nome  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' =>  $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                'Permissao_Perfil' ,   
+                'adicionarPermissaoAoPerfil' ,  
+                ['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        ); 
+
+        $this->Log( $perfilId , $permissaoId , $permissao->nome  , Auth::user()->id , 'Adicionar' , $request->server('REMOTE_ADDR') ,  $request->header('host') );
     }
 
     
@@ -93,11 +113,29 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     *
     * @return void
     */
-    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host){
+    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , Request  $request ){
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find($permissaoId);  
         $perfil->detachPermissao($permissao); 
-        $this->Log( $perfilId  , $permissaoId , $permissao->nome , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
+ 
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                'Permissao_Perfil' ,   
+                'excluirPermissaoDoPerfil' ,  
+                ['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );   
+ 
+        $this->Log( $perfilId  , $permissaoId , $permissao->nome , Auth::user()->id , 'Excluir' , $request->server('REMOTE_ADDR') ,  $request->header('host') ); 
     }
 
 

@@ -6,12 +6,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable; 
 use InvalidArgumentException;
 use Cache;  
+use Log;
+
+use Illuminate\Cache\TaggableStore; 
 
 class User extends Authenticatable
 {
 
     use Notifiable;
 
+    public static $cacheTag = 'usuario';
 
     private $cacheKey = 'todos_perfis_para_usuario_' ;
 
@@ -106,9 +110,17 @@ class User extends Authenticatable
     {
 
         $cacheKey = $this->cacheKey . $this->id; 
-        $value = Cache::rememberForever(  $cacheKey , function () {
-            return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        
-        }); 
+
+        if(Cache::getStore() instanceof TaggableStore){ 
+            $value = Cache::tags( User::$cacheTag )->rememberForever(  $cacheKey , function () {
+                return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        
+            }); 
+        }
+        else{
+            $value = Cache::rememberForever(  $cacheKey , function () {
+                return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        
+            });  
+        }  
         return $value ;
     }
 
@@ -123,7 +135,12 @@ class User extends Authenticatable
     public function cachedPerfisAtualizar()
     {
         $cacheKey = $this->cacheKey . $this->id;
-        Cache::forget($cacheKey);
+        if(Cache::getStore() instanceof TaggableStore){
+            Cache::tags( User::$cacheTag )->forget($cacheKey);
+        }
+        else{
+            Cache::forget($cacheKey);
+        }   
         $this->cachedPerfis();
     }
     

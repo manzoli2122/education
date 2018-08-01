@@ -4,21 +4,17 @@ namespace  App\Http\Controllers\Security;
  
 use Illuminate\Http\Request;   
 use App\Http\Controllers\VueController; 
-use App\Service\Security\PerfilServiceInterface; 
-use Auth; 
-use App\Logging\LogService;
+use App\Service\Security\PerfilServiceInterface;  
 
 
 class PerfilController extends VueController
 {
     
     protected $service;     
-    protected $view = "perfil";  
-    protected $model_name = 'Perfil'   ; 
-    protected $logservice   ;
+    protected $view = "perfil";   
     
-    public function __construct( PerfilServiceInterface $service  , LogService $servicelog   ){
-        $this->logservice = $servicelog  ; 
+    public function __construct( PerfilServiceInterface $service  ){
+         
         $this->service = $service ;   
         $this->middleware('auth'); 
         $this->middleware('permissao:perfis');  
@@ -41,7 +37,7 @@ class PerfilController extends VueController
     public function adicionarPermissaoAoPerfil(Request $request , $perfilId)
     {        
         if( $request->get('permissao') != '' ){ 
-           $this->service->adicionarPermissaoAoPerfil($request->get('permissao'),$perfilId,Auth::user()->id, $request->server('REMOTE_ADDR'),$request->header('host'));
+           $this->service->adicionarPermissaoAoPerfil( $request->get('permissao') , $perfilId , $request ); 
         }   
         return response()->json($this->service->BuscarPermissoesParaAdicionar( $perfilId ),200); 
     }
@@ -66,7 +62,7 @@ class PerfilController extends VueController
     */ 
     public function excluirPermissaoDoPerfil( Request $request , $perfilId , $permissaoId )
     {        
-        $this->service->excluirPermissaoDoPerfil($permissaoId , $perfilId , Auth::user()->id , $request->server('REMOTE_ADDR'),$request->header('host')  );  
+        $this->service->excluirPermissaoDoPerfil($permissaoId , $perfilId , $request  );   
         return response()->json( $this->service->BuscarPermissoesParaAdicionar( $perfilId )  , 200);  
     }
 

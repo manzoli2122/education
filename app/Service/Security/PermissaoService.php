@@ -3,12 +3,14 @@
 namespace App\Service\Security ;
  
 use App\Models\Security\Permissao; 
+use App\Models\Security\Perfil;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
 use Cache;
-use App\Jobs\ProcessPermissao;
-use Log;
-use App\Logging\LogService;
+use App\Logging\LogService; 
+use Illuminate\Http\Request; 
+
+
 
 class PermissaoService extends VueService  implements PermissaoServiceInterface 
 {
@@ -26,24 +28,7 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
   
 
 
-    /**
-    * Função para criar um model  
-    *
-    * @param Request $request
-    *    
-    * @return void
-    */
-    public function  Salvar1( $request  ){
-        
-        throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class);  
-        
-        //Log::info($insert->nome);
-        dispatch( new ProcessPermissao( $insert , $this->logservice ));
-        //$teste = new ProcessPermissao( ['nome' => $insert->nome ] );
-        //$teste->dispatch( );
-    }
-
-
+   
 
  
 
@@ -57,10 +42,13 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
     *    
     * @return void
     */
-    public function  Apagar( $id ){ 
-        parent::Apagar( $id ) ;  
-        Cache::flush(); 
+    public function  Apagar( Request $request , $id ){  
+        parent::Apagar( $request , $id ) ;  
+        //Limpa a cache dos perfis que tem essa permissao
+        Cache::tags(Perfil::$cacheTag)->flush(); 
     }
+
+
 
 
 

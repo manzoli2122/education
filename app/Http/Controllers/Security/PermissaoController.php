@@ -5,25 +5,21 @@ namespace  App\Http\Controllers\Security;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\VueController;  
-use App\Service\Security\PermissaoServiceInterface;
-use App\Logging\LogService;
+use App\Service\Security\PermissaoServiceInterface; 
 
 
 class PermissaoController extends VueController
 {
     
     protected $service;  
-    protected $view = "permissao";    
-    protected $model_name = 'Permissão'   ; 
-    protected $logservice   ;
+    protected $view = "permissao";     
     
-    public function __construct( PermissaoServiceInterface $service   , LogService $servicelog   ){
-        $this->logservice = $servicelog  ; 
+    public function __construct( PermissaoServiceInterface $service       ){
+          
         $this->service = $service ;    
         $this->middleware('auth');
         $this->middleware('permissao:permissoes');
-        $this->middleware('perfil:Admin')->only('update', 'destroy');
-       
+        $this->middleware('perfil:Admin')->only('update', 'destroy');       
     }
 
  

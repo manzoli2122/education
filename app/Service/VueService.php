@@ -3,8 +3,11 @@
 namespace App\Service ; 
 
 use App\Exceptions\ModelNotFoundException; 
-
+use Illuminate\Http\Request; 
 use App\Jobs\CrudProcessJob;
+use Auth;
+use Log;
+
 
 class VueService  implements VueServiceInterface  
 {
@@ -23,9 +26,26 @@ class VueService  implements VueServiceInterface
     *
     * @return $model
     */
-    public function  BuscarPeloId( $id ){ 
+    public function  BuscarPeloId( Request $request , $id ){ 
         $model = $this->model->find($id)  ;
-        //dispatch( new CrudProcessJob( 'Visualizacao' ,  $model  , $this->logservice ));
+
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                get_class( $this->model ),    
+                'Visualizacao' ,  
+                $model->log()  , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );  
+
         return   $model   ; 
     }
 
@@ -46,6 +66,24 @@ class VueService  implements VueServiceInterface
     public function  Atualizar( $request , $id){ 
         throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class); 
         throw_if( !$update = $model->update($request->all()) , Exception::class); 
+
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                get_class( $this->model ),   
+                'Atualizacao' ,  
+                $model->log()  , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u')  
+            )
+        );   
+
         return $model;
     }
 
@@ -63,6 +101,42 @@ class VueService  implements VueServiceInterface
     public function  Salvar( $request  ){
         
         throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class); 
+
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                get_class( $this->model ),     
+                'Cadastro' ,  
+                $insert->log() , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );   
+
+
+
+
+        // try {
+            //     $this->logservice->enviar(   
+            //         [ 
+            //             'acao' =>'Cadastro' , 
+            //             'model' => get_class( $this->model ) ,     
+            //             'dados' => $insert->log() ,     
+            //             'info' =>  $info , 
+            //             'data' => now()->format('Y-m-d\TH:i:s.u')  
+            //         ] 
+            //     )  ;
+            // }
+            // catch(Exception $e) {    
+            //     Log::info($e);  
+            // }
+ 
         return $insert ;  
     }
 
@@ -94,9 +168,30 @@ class VueService  implements VueServiceInterface
     *    
     * @return void
     */
-    public function  Apagar( $id ){
+    public function  Apagar( Request $request , $id ){
         throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class);  
+        
+        $dados = $model->log();
+
         throw_if( !$delete = $model->delete()  , Exception::class);   
+ 
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+         
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                get_class( $this->model ),   
+                'Exclusão' ,  
+                $dados, 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );   
+ 
     }
 
 

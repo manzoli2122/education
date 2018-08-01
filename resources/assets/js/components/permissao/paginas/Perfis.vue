@@ -69,9 +69,9 @@ export default {
 			alertProcessandoHide();
  			this.$router.push('/');
          });   
+ 
 	 }, 
 	 
- 
 
  }
  

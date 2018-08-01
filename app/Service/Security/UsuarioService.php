@@ -7,8 +7,10 @@ use App\Models\Security\Perfil;
 use App\Models\Security\LogUsuarioPerfil;
 use App\Service\VueService;
 use Auth;
+use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Logging\LogService;
+use App\Jobs\CrudProcessJob; 
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
 {
@@ -131,7 +133,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     *
     * @return void
     */
-    public function adicionarPerfilAoUsuario( int $perfilId , int  $userId , int $autorId  , string $ip_v4 , string $host)
+    public function adicionarPerfilAoUsuario( int $perfilId , int  $userId , Request  $request )
     {        
         $usuario = $this->model->find($userId);
         $perfil = $this->perfil->find( $perfilId );
@@ -139,7 +141,25 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
              abort(403, 'Você não tem permissão para adicionar o perfil Admin.');
         }
         $usuario->attachPerfil($perfil);
-        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' , $ip_v4 , $host );  
+
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' =>  $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                'Perfil_Usuario' ,   
+                'adicionarPerfilAoUsuario' ,  
+                ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ] , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );   
+
+        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' ,$request->server('REMOTE_ADDR') , $request->header('host') );  
     }
  
 
@@ -165,7 +185,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     *
     * @return void
     */
-    public function excluirPerfilDoUsuario( int $perfilId , int  $userId , int $autorId  , string $ip_v4 , string $host)
+    public function excluirPerfilDoUsuario( int $perfilId , int  $userId , Request  $request)
     {        
         $usuario = $this->model->find($userId);
         $perfil = $this->perfil->find($perfilId); 
@@ -176,7 +196,25 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
             abort(403, 'Não é possível remover o seu perfil Admin.'); 
         } 
         $usuario->detachPerfil($perfilId); 
-        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir' , $ip_v4 , $host ); 
+ 
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user(),
+        ] ;
+
+        dispatch( 
+            new CrudProcessJob(  
+                $this->logservice , 
+                'Perfil_Usuario' ,   
+                'excluirPerfilDoUsuario' ,  
+                ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ] , 
+                $info ,  
+                now()->format('Y-m-d\TH:i:s.u') 
+            )
+        );   
+ 
+        $this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir'  ,$request->server('REMOTE_ADDR') , $request->header('host') ); 
     }
 
 

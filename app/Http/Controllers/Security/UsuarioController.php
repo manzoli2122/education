@@ -4,23 +4,18 @@ namespace  App\Http\Controllers\Security;
 
 use Illuminate\Http\Request;  
 use App\Http\Controllers\VueController; 
-use App\Service\Security\UsuarioServiceInterface; 
-use Auth;   
+use App\Service\Security\UsuarioServiceInterface;  
 use Exception;
-
-use App\Logging\LogService;
+ 
 
 class UsuarioController extends VueController
 {
     
     protected $service; 
-    protected $view  = " usuario";   
-    protected $model_name = 'Usuário'   ;
-    protected $logservice   ;
+    protected $view  = " usuario";    
     
-    public function __construct( UsuarioServiceInterface $service   , LogService $servicelog  ){ 
-        $this->service = $service ;  
-        $this->logservice = $servicelog  ; 
+    public function __construct( UsuarioServiceInterface $service    ){ 
+        $this->service = $service ;   
         $this->middleware('auth'); 
         $this->middleware('permissao:usuarios');  
         $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 
@@ -43,7 +38,9 @@ class UsuarioController extends VueController
     public function adicionarPerfilAoUsuario(Request $request , $userId)
     {     
         if( $request->get('perfil') != '' ){ 
-           $this->service->adicionarPerfilAoUsuario($request->get('perfil'),$userId,Auth::user()->id, $request->server('REMOTE_ADDR'),$request->header('host'));
+           
+           $this->service->adicionarPerfilAoUsuario( $request->get('perfil') , $userId ,  $request  );
+ 
         }   
         return response()->json($this->service->BuscarPerfisParaAdicionar( $userId ),200);
     }
@@ -67,7 +64,8 @@ class UsuarioController extends VueController
     */
     public function excluirPerfilDoUsuario( Request $request , $userId , $perfilId )
     {        
-        $this->service->excluirPerfilDoUsuario($perfilId , $userId , Auth::user()->id , $request->server('REMOTE_ADDR'),$request->header('host')  );  
+        $this->service->excluirPerfilDoUsuario($perfilId , $userId ,  $request  ); 
+ 
         return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200); 
          
     }

@@ -3,6 +3,7 @@
 namespace App\Service\Security ;
 
 use App\Service\VueServiceInterface;
+use Illuminate\Http\Request;
   
 interface PerfilServiceInterface  extends VueServiceInterface    
 {
@@ -24,7 +25,7 @@ interface PerfilServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host);
+    public function adicionarPermissaoAoPerfil( int $permissaoId , int $perfilId  , Request  $request);
 
 
 
@@ -44,7 +45,7 @@ interface PerfilServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , int $autorId  , string $ip_v4 , string $host);
+    public function excluirPermissaoDoPerfil( int $permissaoId , int $perfilId , Request  $request );
 
 
 

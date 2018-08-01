@@ -33,9 +33,23 @@
 							<th pesquisavel>IP</th>
 							<th pesquisavel>Host</th>
 						</datatableService> 
-					</div>    
-				</crudCard> 
-			  
+					</div>  
+
+				</crudCard > 
+			  		
+			  	<crudCard>
+			  		<div v-if="logs" class="card-body  table-responsive"> 
+			  			<div v-for="hit in logs.hits.hits">
+			  				{{ hit._source.data}} 
+			  				{{ hit._id}} 
+			  				{{ hit._source.info.usuario.name}}
+			  				{{ hit._source.acao}}
+			  				{{ hit._source.dados.dado2.perfil.nome}}
+			  				{{ hit._source.info.ip}}
+			  				{{ hit._source.info.host}}
+			  			</div>
+			  		</div> 
+			  	</crudCard> 		
 			</div> 
 		</div>  
 	</div>
@@ -53,7 +67,8 @@ export default {
 	],  
 
 	data() {
-		return {    
+		return {   
+			logs:'', 
 			usuario:'',
 			perfis:'', 
 			reloadDatatable: false ,
@@ -118,6 +133,15 @@ export default {
 		.catch(error => {
 			toastErro("Não foi possivel achar a Perfil", error.response.data);
 		});  
+
+ 
+		this.pesquisaElastic();
+		
+
+		 
+
+
+
 	}, 
 
 	methods: {
@@ -131,6 +155,40 @@ export default {
 			this.perfis = event;
 			this.reloadDatatable = !this.reloadDatatable;
 			this.reloadDatatableLog = !this.reloadDatatableLog;
+
+			this.pesquisaElastic();
+		},
+
+		pesquisaElastic(){
+			var query = {
+				"query":{ 
+					"bool": {
+						"must":[
+							{"match": {	"dados.dado1.usuario.id": this.$route.params.id	} } 							 
+						],
+						"should": [
+							{"match": {"acao": "adicionarPerfilAoUsuario" } },
+							{"match": {"acao": "excluirPerfilDoUsuario" } }
+						]
+					} 	
+				}  	 
+			}
+
+			query = JSON.stringify(query);
+ 
+			let vm = this;
+			$.ajax({
+				url: "http://localhost:9200/education/education/_search",
+				method: 'post',
+
+				contentType: 'application/json',
+				dataType: 'json',  
+				data: query,
+				success: function(data) { 
+					vm.logs = data;
+
+				}
+			});
 		},
 
 	},

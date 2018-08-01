@@ -4,9 +4,16 @@ namespace App\Models\Security;
 
 use Cache; 
 use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Cache\TaggableStore; 
+
 
 class Perfil extends Model
 {    
+
+    public static $cacheTag = 'perfis';
+
+
+
     
     private $cacheKey = 'todas_permissoes_para_perfil_' ;
 
@@ -31,7 +38,7 @@ class Perfil extends Model
             'perfil' => [ 
                 'id' => $this->id,
                  'nome' => $this->nome , 
-                 'descricao' => $this->descricao , 
+                // 'descricao' => $this->descricao , 
             ]       
         ];
     }
@@ -81,13 +88,23 @@ class Perfil extends Model
     }
     
    
+
+
+
     
     public function cachedPermissoes()
     { 
-        $cacheKey = $this->cacheKey . $this->id;                    
-        $value = Cache::rememberForever(  $cacheKey , function () {
-            return collect(['permissoes' => $this->permissoes()->select('nome')->get()->pluck('nome')])->toJson(); 
-        });
+        $cacheKey = $this->cacheKey . $this->id;    
+        if(Cache::getStore() instanceof TaggableStore){
+            $value = Cache::tags( Perfil::$cacheTag )->rememberForever(  $cacheKey , function () {
+                return collect(['permissoes' => $this->permissoes()->select('nome')->get()->pluck('nome')])->toJson(); 
+            });
+        }
+        else{
+            $value = Cache::rememberForever(  $cacheKey , function () {
+                return collect(['permissoes' => $this->permissoes()->select('nome')->get()->pluck('nome')])->toJson(); 
+            });
+        } 
         return $value ;
     }
 
@@ -95,15 +112,20 @@ class Perfil extends Model
 
 
 
-     /**
+    /**
      * Atualizar a cache com os perfis do usuario
      * 
      * @return void
-     */
+    */
     public function cachedPermissoesAtualizar()
     {
         $cacheKey = $this->cacheKey . $this->id;
-        Cache::forget($cacheKey);
+        if(Cache::getStore() instanceof TaggableStore){
+            Cache::tags(Perfil::$cacheTag)->forget($cacheKey);
+        }
+        else{
+            Cache::forget($cacheKey);
+        }         
         $this->cachedPermissoes();
     }
     

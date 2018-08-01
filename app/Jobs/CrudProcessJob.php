@@ -38,6 +38,10 @@ class CrudProcessJob implements ShouldQueue
         $this->logservice = $servicelog;
     }
 
+
+
+
+
     /**
      * Execute the job.
      *
@@ -52,8 +56,13 @@ class CrudProcessJob implements ShouldQueue
                 'dados' => $this->dados ,     
                 'info' =>  $this->info, 
                 'data' => $this->data ,    
-                'criado' => now() ,    
+                //'criado' => now() ,    
             ] 
         )  ;
     }
+
+
+
+
+    
 }

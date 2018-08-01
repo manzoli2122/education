@@ -3,7 +3,7 @@
 namespace App\Service\Security ;
 
 use App\Service\VueServiceInterface;
-
+use Illuminate\Http\Request;
   
 interface UsuarioServiceInterface  extends VueServiceInterface    
 {
@@ -48,7 +48,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function adicionarPerfilAoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
+    public function adicionarPerfilAoUsuario( int $perfilId , int $userId , Request  $request);
 
 
     /**
@@ -66,7 +66,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function excluirPerfilDoUsuario( int $perfilId , int $userId , int $autorId  , string $ip_v4 , string $host);
+    public function excluirPerfilDoUsuario( int $perfilId , int $userId , Request  $request );
 
     
 

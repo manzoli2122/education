@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Service ;
-  
+
+use Illuminate\Http\Request; 
+
 interface VueServiceInterface  
 {
     
@@ -12,7 +14,7 @@ interface VueServiceInterface
     *
     * @return $model
     */
-    public function  BuscarPeloId( $id );
+    public function  BuscarPeloId( Request $request , $id );
 
 
      /**
@@ -24,7 +26,7 @@ interface VueServiceInterface
     *    
     * @return void
     */
-    public function  Atualizar( $request , $id );  
+    public function  Atualizar( Request $request , $id );  
 
 
 
@@ -58,7 +60,7 @@ interface VueServiceInterface
     *    
     * @return void
     */ 
-    public function  Apagar( $id );  
+    public function  Apagar( Request $request, $id );  
 
 
 
