@@ -181,6 +181,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/usuario/paginas/_PerfilFormAdicionar.vue"));
@@ -260,7 +283,8 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 						"must": [{ "match": { "dados.dado1.usuario.id": this.$route.params.id } }],
 						"should": [{ "match": { "acao": "adicionarPerfilAoUsuario" } }, { "match": { "acao": "excluirPerfilDoUsuario" } }]
 					}
-				}
+				},
+				"size": 15
 			};
 
 			query = JSON.stringify(query);
@@ -725,33 +749,61 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
+            _c("h3", [_vm._v("Histórico de Perfil elasticsearch")]),
+            _vm._v(" "),
             _c("crudCard", [
               _vm.logs
-                ? _c(
-                    "div",
-                    { staticClass: "card-body  table-responsive" },
-                    _vm._l(_vm.logs.hits.hits, function(hit) {
-                      return _c("div", [
-                        _vm._v(
-                          "\n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.data) +
-                            " \n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._id) +
-                            " \n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.info.usuario.name) +
-                            "\n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.acao) +
-                            "\n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.dados.dado2.perfil.nome) +
-                            "\n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.info.ip) +
-                            "\n\t\t\t  \t\t\t\t" +
-                            _vm._s(hit._source.info.host) +
-                            "\n\t\t\t  \t\t\t"
+                ? _c("div", { staticClass: "card-body  table-responsive" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table table-bordered",
+                        attrs: { id: "users-table" }
+                      },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [_vm._v("Id")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Responsável")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Ação")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Perfil")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Ip")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Data")])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.logs.hits.hits, function(hit) {
+                            return _c("tr", [
+                              _c("td", [_vm._v(_vm._s(hit._id))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(hit._source.info.usuario.name))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(hit._source.acao))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(hit._source.dados.dado2.perfil.nome)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(hit._source.info.ip))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(hit._source.data) + " ")])
+                            ])
+                          })
                         )
-                      ])
-                    })
-                  )
+                      ]
+                    )
+                  ])
                 : _vm._e()
             ])
           ],

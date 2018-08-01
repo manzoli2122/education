@@ -36,10 +36,33 @@
 					</div>  
 
 				</crudCard > 
-			  		
+			  	
+			  	<h3>Histórico de Perfil elasticsearch</h3>
 			  	<crudCard>
 			  		<div v-if="logs" class="card-body  table-responsive"> 
-			  			<div v-for="hit in logs.hits.hits">
+			  			<table class="table table-bordered" id="users-table">
+			  				<thead>
+			  					<tr>
+			  						<th>Id</th>
+			  						<th>Responsável</th>
+			  						<th>Ação</th>
+			  						<th>Perfil</th>
+			  						<th>Ip</th>
+			  						<th>Data</th>
+			  					</tr>
+			  				</thead>
+			  				<tbody> 
+			  					<tr v-for="hit in logs.hits.hits">
+			  						<td>{{ hit._id}}</td>
+			  						<td>{{ hit._source.info.usuario.name}}</td>
+			  						<td>{{ hit._source.acao}}</td>
+			  						<td>{{ hit._source.dados.dado2.perfil.nome}}</td>
+			  						<td>{{ hit._source.info.ip}}</td>
+			  						<td>{{ hit._source.data}} </td>
+			  					</tr> 
+			  				</tbody>
+			  			</table>
+			  			<!-- <div v-for="hit in logs.hits.hits">
 			  				{{ hit._source.data}} 
 			  				{{ hit._id}} 
 			  				{{ hit._source.info.usuario.name}}
@@ -47,7 +70,7 @@
 			  				{{ hit._source.dados.dado2.perfil.nome}}
 			  				{{ hit._source.info.ip}}
 			  				{{ hit._source.info.host}}
-			  			</div>
+			  			</div> -->
 			  		</div> 
 			  	</crudCard> 		
 			</div> 
@@ -171,7 +194,8 @@ export default {
 							{"match": {"acao": "excluirPerfilDoUsuario" } }
 						]
 					} 	
-				}  	 
+				},
+				"size":15  	 
 			}
 
 			query = JSON.stringify(query);
