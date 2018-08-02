@@ -52,7 +52,7 @@
 			  					</tr>
 			  				</thead>
 			  				<tbody> 
-			  					<tr v-for="hit in logs.hits.hits " :key="hit._id">
+			  					<tr v-for="hit in logs" :key="hit._id">
 			  						<td>{{ hit._id}}</td>
 			  						<td>{{ hit._source.info.usuario.name}}</td>
 			  						<td>{{ hit._source.acao}}</td>
@@ -177,12 +177,23 @@ export default {
 		perfilAdicionado(event) {
 			this.perfis = event;
 			this.reloadDatatable = !this.reloadDatatable;
-			this.reloadDatatableLog = !this.reloadDatatableLog;
-
+			this.reloadDatatableLog = !this.reloadDatatableLog; 
 			this.pesquisaElastic();
 		},
 
 		pesquisaElastic(){
+
+
+
+			axios.get(this.url + "/" + this.$route.params.id + "/log/elasticsearch")
+				.then(response => {
+					this.logs = response.data;
+				})
+				.catch(error => {
+					toastErro("Não foi possivel achar log de Perfil", error.response.data);
+				});  
+
+
 			var query = {
 				"query":{ 
 					"bool": {
@@ -201,18 +212,22 @@ export default {
 			query = JSON.stringify(query);
  
 			let vm = this;
-			$.ajax({
-				url: "http://localhost:9200/education/education/_search",
-				method: 'post',
+			// $.ajax({
+			// 	url: "http://10.243.22.13:9200/education/log/_search",
+			// 	method: 'get',
+			// 	// method: 'post', 
+			// 	//contentType: 'application/json',
+			// 	//dataType: 'jsonp', 
+			// 	// dataType: 'json',  
+			// 	//data: query,
+			// 	success: function(data) { 
+			// 		vm.logs = data; 
+			// 	},
+			// 	error: function(erro){ 
+			// 		console.log(erro);
+			// 	}      
+			// });
 
-				contentType: 'application/json',
-				dataType: 'json',  
-				data: query,
-				success: function(data) { 
-					vm.logs = data;
-
-				}
-			});
 		},
 
 	},

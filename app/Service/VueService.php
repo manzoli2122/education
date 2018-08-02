@@ -28,7 +28,7 @@ class VueService  implements VueServiceInterface
     */
     public function  BuscarPeloId( Request $request , $id ){ 
         $model = $this->model->find($id)  ;
-
+/*
         $info =   [   
             'ip'   => $request->server('REMOTE_ADDR') ,
             'host' => $request->header('host'),
@@ -45,7 +45,7 @@ class VueService  implements VueServiceInterface
                 now()->format('Y-m-d\TH:i:s.u') 
             )
         );  
-
+*/
         return   $model   ; 
     }
 
@@ -63,7 +63,7 @@ class VueService  implements VueServiceInterface
     *    
     * @return void
     */
-    public function  Atualizar( $request , $id){ 
+    public function  Atualizar( Request $request , $id){ 
         throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class); 
         throw_if( !$update = $model->update($request->all()) , Exception::class); 
 

@@ -83,4 +83,18 @@ interface UsuarioServiceInterface  extends VueServiceInterface
 
 
 
+
+
+    /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function elasticsearch( Request $request , $userId  );
+
+
 } 

@@ -143,4 +143,26 @@ class UsuarioController extends VueController
     }
     
  
+
+
+
+
+
+
+    /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function elasticsearch( Request $request , $userId  )
+    {        
+        $response = $this->service->elasticsearch(   $request , $userId  ); 
+ 
+        return response()->json( $response  , 200); 
+         
+    }
 }

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Logging\LogService;
 use App\Jobs\CrudProcessJob; 
+use Log;
+
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
 {
@@ -158,7 +160,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
                 now()->format('Y-m-d\TH:i:s.u') 
             )
         );   
-
+       // Log::info('dispachou');
         $this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' ,$request->server('REMOTE_ADDR') , $request->header('host') );  
     }
  
@@ -271,6 +273,87 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         return  $this->perfil->perfisParaAdicionarAoUsuario( $userId ,  Auth::user()->hasPerfil('Admin') );
     }
  
-  
+    
+
+
+
+
+
+
+
+     /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function elasticsearch( Request $request , $userId  ){
+
+        $query = [
+            'query' => [   
+                'bool'=>[
+                    'must' => [ 
+                        'match' => [ 'dados.dado1.usuario.id' => $userId ]
+                    ],
+                    'should' => [
+                        'match' => [ "acao" => "adicionarPerfilAoUsuario"],
+                        'match' => [ "acao" => "excluirPerfilDoUsuario"]
+                    ]
+                ]
+            ],
+            'size' => 15
+        ] ;
+            
+            
+            
+        $postString = json_encode(  $query ); 
+        
+        
+
+
+
+        $ch = curl_init();
+        $options = array(
+            CURLOPT_URL => env('LOG_SLACK_URL_SEARCH'), 
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+            CURLOPT_POSTFIELDS => $postString
+        );
+        if (defined('CURLOPT_SAFE_UPLOAD')) {
+            $options[CURLOPT_SAFE_UPLOAD] = true;
+        } 
+        curl_setopt_array($ch, $options); 
+
+        $result = curl_exec($ch) ;
+        if ( $result === false) {
+            $curlErrno = curl_errno($ch); 
+            $curlError = curl_error($ch); 
+            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
+            curl_close($ch); 
+        }  else{ 
+            $resultJson = json_decode( $result );  
+            if( isset($resultJson->error)  ){
+                Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
+            }
+            curl_close($ch);  
+        }
+
+
+        //Log::info($result); 
+        //Log::info($resultJson);
+
+        return  $resultJson->hits->hits  ;
+    }
+
+
+
+
+
+
+
   
 }
