@@ -6,7 +6,7 @@
 ## ACL
 
  - Baseado no Projeto ENTRUST disponivel em [ENTRUST](https://github.com/Zizaco/entrust).
- - Utiliza  [Cache](https://laravel.com/docs/5.6/cache){target="_black"}  para agilizar a verificação das permissões e perfis de um usuario.
+ - Utiliza  [Cache](https://laravel.com/docs/5.6/cache) para agilizar a verificação das permissões e perfis de um usuario.
   
 ### Utilização no Blade templates
 
@@ -42,25 +42,41 @@ No exemplo abaixo o codigo entre @permissao('visualizar-seguranca') e @endpermis
 
 
 
-### Utilização como Middleware
+### Utilização como Middleware nas rotas
 
 
 No exemplo abaixo a rota só será acessivel para usuarios que possuirem o perfil 'Admin'.
 ```php 
 Route::get('/home', 'HomeController@home' )->middleware('perfil:Admin')->name('inicio');
 ```
- 
-
+  
 No exemplo abaixo a rota só será acessivel para usuarios que possuirem a permissão  'visualizar-seguranca'.
 ```php 
 Route::get('/home', 'HomeController@home' )->middleware('permissao:visualizar-seguranca')->name('inicio');
 ```
 
+To filter a route by permission or role you can call the following in your routes/web.php:
+Para filtrar um rota por permissão ou perfil pode chamar em seu routes/web.php o seguinte:
+ 
+```php
+AAL::routeNeedsPermissao('admin/post*', 'create-post');
+```
+ 
+```php
+AAL::routeNeedsPerfil('admin/advanced*', 'owner');
+```
 
 
+
+
+
+
+### Utilização como Middleware nos Controllers
+
+Para proteger os metodos do seu controller
 ```php
 public function __construct(  ){     
-        $this->middleware('permissao:perfis');  
+        $this->middleware('permissao:perfis-create')->only('store');  
         $this->middleware('perfil:Admin');  
 }
 ```
