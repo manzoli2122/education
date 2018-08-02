@@ -52,7 +52,7 @@
 			  					</tr>
 			  				</thead>
 			  				<tbody> 
-			  					<tr v-for="hit in logs.hits.hits">
+			  					<tr v-for="hit in logs.hits.hits " :key="hit._id">
 			  						<td>{{ hit._id}}</td>
 			  						<td>{{ hit._source.info.usuario.name}}</td>
 			  						<td>{{ hit._source.acao}}</td>
