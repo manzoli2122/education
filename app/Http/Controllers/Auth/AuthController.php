@@ -5,21 +5,25 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\User;
 
 class AuthController extends Controller
 {
     
 
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    * Create a new AuthController instance.
+    *
+    * @return void
+    */
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
+
+
+
+
 
 
 
@@ -31,13 +35,48 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        
+        $credentials = request(['id', 'password']);
 
         //$token = auth()->login($user);
+         
+       // $token = request(['token'])  ;
 
-        if (! $token = $this->guard()->attempt($credentials)) {
+        $user = User::first();
+
+        if (! $token = $this->guard()->claims( 
+            [ 
+               'id' => '00000000002',
+                'name' => 'Usuario.dtic',
+                'rg' => 1001,
+                'nf' => 1000001,                
+                'quadro_dsc' =>'Admin',
+                'post_grad_dsc' => "CEL",
+                'status' => 'A', 
+                'password' => bcrypt('123456'),
+
+            ] )->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        
+
+
+        //  if (! $token = $this->guard()->claims( 
+        //     [ 
+        //        'id' => '00000000002',
+        //         'name' => 'Usuario.dtic',
+        //         'rg' => 1001,
+        //         'nf' => 1000001,                
+        //         'quadro_dsc' =>'Admin',
+        //         'post_grad_dsc' => "CEL",
+        //         'status' => 'A', 
+        //         'password' => bcrypt('123456'),
+
+        //     ] )->attempt($credentials)) {
+        //     return response()->json(['error' => 'Unauthorized'], 401);
+        // }
+
 
         return $this->respondWithToken($token);
 
@@ -115,9 +154,11 @@ class AuthController extends Controller
     {
 
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'access_token' => env('APP_URL') .'login/token?token=' .$token ,
+
+
+            //'token_type' => 'bearer',
+           // 'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
 
 

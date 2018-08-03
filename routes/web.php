@@ -24,7 +24,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('login/token', 'Auth\LoginController@authenticate')->middleware('auth:api');
+Route::get('login/token', 'Auth\LoginController@authenticate');//->middleware('auth:api');
  
  /*
 
