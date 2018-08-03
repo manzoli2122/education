@@ -17,7 +17,11 @@ let routes = [
     {
         path: '/:id/usuarios',
         component: require('./paginas/Usuarios')
-    },    
+    },  
+    {
+        path: '/:id/permissao/historico',
+        component: require('./paginas/HistoricoPermissao')
+    },   
      
 ];
 

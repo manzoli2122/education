@@ -2,7 +2,9 @@
   
 @section('header')  
 	<li class="nav-item d-none d-sm-inline-block"> 
-		<a href="permissao#/create" class="nav-link">Cadastrar Permissão</a>
+		<a href="permissao#/create" class="nav-link"> 
+			<i class="fa fa-plus"></i> Cadastrar Permissão
+		</a>
 	</li>
 @endsection
 

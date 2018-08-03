@@ -2,7 +2,7 @@
 	<div>
 		<crudHeader texto="Alterar Permissão">
 			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Permissão </a></router-link> 
+				<router-link   to="/" exact><a>Permissões </a></router-link> 
 			</li>
 			<li class="breadcrumb-item active">Edição</li>
 		</crudHeader>  

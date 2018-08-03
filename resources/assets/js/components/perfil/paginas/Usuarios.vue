@@ -1,6 +1,6 @@
 <template>             
 	<div> 
-		<crudHeader :texto="'Usuários do perfil ' + perfil.nome">
+		<crudHeader :texto="'Perfil ' + perfil.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li> 
@@ -9,11 +9,16 @@
 		<div class="content">
 			<div class="container-fluid"> 
 				<crudCard>
+					<div class="card-header text-center">
+						<h3 class="card-title">Usuários</h3>  
+					</div>
 					<div class="card-body  table-responsive">  
-						<datatableService :config="config" id="datatableUsuarios"> 
-							<th style="max-width:20px">ID</th>
-							<th pesquisavel>Nome</th>
-							<th pesquisavel>Email</th>  
+						<datatableService :config="config" id="datatableUsuarios">  
+							<th pesquisavel>CPF</th> 
+							<th pesquisavel>RG</th> 
+							<th pesquisavel>Posto/Graduação</th> 
+							<th pesquisavel>Nome</th> 
+							<th pesquisavel>OME</th> 
 						</datatableService>  
 					</div> 
 					<div class="card-footer text-right">
@@ -44,9 +49,11 @@ export default {
 					url: this.url+ '/' + this.$route.params.id + '/usuarios/datatable'
 				},
 				columns: [
-				{ data: 'id', name: 'id'  },
-				{ data: 'name', name: 'name' },
-				{ data: 'email', name: 'email' },  
+				{ data: 'user_id', name: 'id'  }, 
+				{ data: 'rg', name: 'rg'  }, 
+				{ data: 'post_grad_dsc', name: 'post_grad_dsc'  }, 
+				{ data: 'name', name: 'name' }, 
+				{ data: 'ome_qdi_dsc', name: 'ome_qdi_dsc' }, 
 				],
 			} , 
        	}

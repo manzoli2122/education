@@ -270,7 +270,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     *
     * @return void
     */
-    private function Log( int $perfilId , int $permissaoId , string $permissao_nome , int $autorId , string $acao , string $ip_v4 , string $host )
+    private function Log( int $perfilId , int $permissaoId , string $permissao_nome , string $autorId , string $acao , string $ip_v4 , string $host )
     {         
         $log =  new LogPerfilPermissao();
         $log->permissao_id = $permissaoId;

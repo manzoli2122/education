@@ -1,17 +1,20 @@
 <template>             
 	<div> 
-		<crudHeader :texto="'Perfis da Permissao ' + permissao.nome">
+		<crudHeader :texto="'Permissao ' + permissao.nome">
 			<li class="breadcrumb-item">
-				<router-link   to="/" exact><a>Permissão </a></router-link> 
+				<router-link   to="/" exact><a>Permissões </a></router-link> 
 			</li>
 			<li class="breadcrumb-item active">Perfis</li>
 		</crudHeader> 
 		<div class="content">
-			<div class="container-fluid"> 
+			<div class="container-fluid">  
 				<crudCard>
+					<div class="card-header text-center">
+						<h3 class="card-title">Perfis</h3>  
+					</div>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatablePerfis"> 
-							<th style="max-width:20px">ID</th>
+							<th style="max-width:30px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descrição</th>  
 						</datatableService>  

@@ -1,7 +1,7 @@
 <template>  
 	<div>  
 		<crudHeader texto="Permissões Cadastradas">
-			<li class="breadcrumb-item">Permissoes 	</li>
+			<li class="breadcrumb-item">Permissões 	</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">

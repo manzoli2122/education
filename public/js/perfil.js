@@ -115,6 +115,85 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+	props: ['url'],
+
+	data: function data() {
+		return {
+			perfil: '',
+			config: {
+				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
+				order: [[4, "desc"]],
+				ajax: {
+					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
+				},
+				columns: [{ data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'permissao_nome', name: 'permissao_nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
+			}
+
+		};
+	},
+	created: function created() {
+		var _this = this;
+
+		alertProcessando();
+		axios.get(this.url + '/' + this.$route.params.id).then(function (response) {
+			_this.perfil = response.data;
+			alertProcessandoHide();
+		}).catch(function (error) {
+			alertProcessandoHide();
+			toastErro('Não foi possivel achar a Perfil', error.response.data);
+		});
+	}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/Index.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -210,14 +289,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/js/components/perfil/paginas/_PermissaoFormAdicionar.vue"));
@@ -243,15 +314,6 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
 				},
 				columns: [{ data: 'id', name: 'id' }, { data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
-			},
-
-			config2: {
-				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
-				order: [[4, "desc"]],
-				ajax: {
-					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
-				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'autor.name', name: 'autor.name' }, { data: 'acao', name: 'acao' }, { data: 'permissao_nome', name: 'permissao_nome' }, { data: 'created_at', name: 'created_at' }, { data: 'ip_v4', name: 'ip_v4' }, { data: 'host', name: 'host' }]
 			}
 
 		};
@@ -279,12 +341,10 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 	methods: {
 		permissaoRemovida: function permissaoRemovida(event) {
 			this.permissoes = event;
-			this.reloadDatatableLog = !this.reloadDatatableLog;
 		},
 		permissaoAdicionada: function permissaoAdicionada(event) {
 			this.permissoes = event;
 			this.reloadDatatable = !this.reloadDatatable;
-			this.reloadDatatableLog = !this.reloadDatatableLog;
 		}
 	}
 
@@ -297,6 +357,11 @@ Vue.component('formAdicionarPermissao', __webpack_require__("./resources/assets/
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -339,7 +404,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 								ajax: {
 										url: this.url + '/' + this.$route.params.id + '/usuarios/datatable'
 								},
-								columns: [{ data: 'id', name: 'id' }, { data: 'name', name: 'name' }, { data: 'email', name: 'email' }]
+								columns: [{ data: 'user_id', name: 'id' }, { data: 'rg', name: 'rg' }, { data: 'post_grad_dsc', name: 'post_grad_dsc' }, { data: 'name', name: 'name' }, { data: 'ome_qdi_dsc', name: 'ome_qdi_dsc' }]
 						}
 				};
 		},
@@ -386,37 +451,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-  props: ["url", "permissoes"],
+	props: ["url", "permissoes"],
 
-  data: function data() {
-    return {
-      form: new __WEBPACK_IMPORTED_MODULE_0__core_Form__["a" /* default */]({
-        permissao: ""
-      })
-    };
-  },
+	data: function data() {
+		return {
+			form: new __WEBPACK_IMPORTED_MODULE_0__core_Form__["a" /* default */]({
+				permissao: ""
+			})
+		};
+	},
 
 
-  methods: {
-    AdicionarPermissao: function AdicionarPermissao() {
-      var _this = this;
+	methods: {
+		AdicionarPermissao: function AdicionarPermissao() {
+			var _this = this;
 
-      if (this.form.permissao) {
-        this.form.submit("post", this.url + "/" + this.$route.params.id + "/adicionar/permissao").then(function (response) {
-          toastSucesso("permissao adicionado co successo.");
-          _this.$emit('permissaoAdicionada', response);
-        }).catch(function (errors) {
-          return console.log(errors);
-        });
-      }
-    }
-  }
+			if (this.form.permissao) {
+				this.form.submit("post", this.url + "/" + this.$route.params.id + "/adicionar/permissao").then(function (response) {
+					toastSucesso("permissao adicionado co successo.");
+					_this.$emit('permissaoAdicionada', response);
+				}).catch(function (errors) {
+					return console.log(errors);
+				});
+			}
+		}
+	}
 });
 
 /***/ }),
@@ -429,7 +497,22 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nh3[data-v-1da647ce]{\n\tpadding-top: 50px;\n\ttext-align: center;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -444,7 +527,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -474,7 +557,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nh3[data-v-847e1dbc]{\n  padding-top: 50px;\n  text-align: center;\n}\n", ""]);
+exports.push([module.i, "\nh3[data-v-847e1dbc]{\n\tpadding-top: 50px;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 
@@ -684,26 +767,22 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "crudHeader",
-        { attrs: { texto: "Permissões do perfil " + _vm.perfil.nome } },
-        [
-          _c(
-            "li",
-            { staticClass: "breadcrumb-item" },
-            [
-              _c("router-link", { attrs: { to: "/", exact: "" } }, [
-                _c("a", [_vm._v("Perfis ")])
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("li", { staticClass: "breadcrumb-item active" }, [
-            _vm._v("Permissões")
-          ])
-        ]
-      ),
+      _c("crudHeader", { attrs: { texto: "Perfil " + _vm.perfil.nome } }, [
+        _c(
+          "li",
+          { staticClass: "breadcrumb-item" },
+          [
+            _c("router-link", { attrs: { to: "/", exact: "" } }, [
+              _c("a", [_vm._v("Perfis ")])
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item active" }, [
+          _vm._v("Permissões")
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
         _c(
@@ -711,6 +790,10 @@ var render = function() {
           { staticClass: "container-fluid" },
           [
             _c("crudCard", [
+              _c("div", { staticClass: "card-header text-center" }, [
+                _c("h2", { staticClass: "card-title" }, [_vm._v("Permissões")])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "card-body  table-responsive" },
@@ -730,7 +813,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                      _c("th", { staticStyle: { "max-width": "30px" } }, [
                         _vm._v("ID")
                       ]),
                       _vm._v(" "),
@@ -754,7 +837,25 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "card-footer text-right" },
-                [_c("crudBotaoVoltar", { attrs: { url: "/" } })],
+                [
+                  _c("crudBotaoVoltar", { attrs: { url: "/" } }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-warning",
+                      attrs: {
+                        to:
+                          "/" + this.$route.params.id + "/permissao/historico",
+                        exact: ""
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-database" }),
+                      _vm._v(" Historico\n\t\t\t\t\t")
+                    ]
+                  )
+                ],
                 1
               )
             ]),
@@ -768,54 +869,7 @@ var render = function() {
                     }
                   }
                 })
-              : _vm._e(),
-            _vm._v(" "),
-            _c("h3", [_vm._v("Histórico de Permissão")]),
-            _vm._v(" "),
-            _c("crudCard", [
-              _c(
-                "div",
-                { staticClass: "card-body  table-responsive" },
-                [
-                  _c(
-                    "datatableService",
-                    {
-                      attrs: {
-                        config: _vm.config2,
-                        id: "datatablePerfisPermissaoLog",
-                        reload: _vm.reloadDatatableLog
-                      }
-                    },
-                    [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
-                        _vm._v("ID")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Responsável")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Ação")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Permissão")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Data")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("IP")]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Host")])
-                    ]
-                  )
-                ],
-                1
-              )
-            ])
+              : _vm._e()
           ],
           1
         )
@@ -970,6 +1024,132 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-44936455\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("crudHeader", { attrs: { texto: "Perfil " + _vm.perfil.nome } }, [
+        _c(
+          "li",
+          { staticClass: "breadcrumb-item" },
+          [
+            _c("router-link", { attrs: { to: "/", exact: "" } }, [
+              _c("a", [_vm._v("Perfis ")])
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "breadcrumb-item active" },
+          [
+            _c(
+              "router-link",
+              {
+                attrs: {
+                  to: "/" + this.$route.params.id + "/permissao",
+                  exact: ""
+                }
+              },
+              [_c("a", [_vm._v("Permissões")])]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item active" }, [
+          _vm._v("Historico")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "content" }, [
+        _c(
+          "div",
+          { staticClass: "container-fluid" },
+          [
+            _c("crudCard", [
+              _c("div", { staticClass: "card-header text-center" }, [
+                _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Histórico de Permissão")
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body  table-responsive" },
+                [
+                  _c(
+                    "datatableService",
+                    {
+                      attrs: {
+                        config: _vm.config,
+                        id: "datatablePerfisPermissaoLog"
+                      }
+                    },
+                    [
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Responsável")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Ação")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Permissão")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Data")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("IP")]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("Host")])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer text-right" },
+                [
+                  _c("crudBotaoVoltar", {
+                    attrs: { url: "/" + this.$route.params.id + "/permissao" }
+                  })
+                ],
+                1
+              )
+            ])
+          ],
+          1
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-44936455", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-694a0863\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/Usuarios.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -980,26 +1160,22 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "crudHeader",
-        { attrs: { texto: "Usuários do perfil " + _vm.perfil.nome } },
-        [
-          _c(
-            "li",
-            { staticClass: "breadcrumb-item" },
-            [
-              _c("router-link", { attrs: { to: "/", exact: "" } }, [
-                _c("a", [_vm._v("Perfis ")])
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("li", { staticClass: "breadcrumb-item active" }, [
-            _vm._v("Usuários")
-          ])
-        ]
-      ),
+      _c("crudHeader", { attrs: { texto: "Perfil " + _vm.perfil.nome } }, [
+        _c(
+          "li",
+          { staticClass: "breadcrumb-item" },
+          [
+            _c("router-link", { attrs: { to: "/", exact: "" } }, [
+              _c("a", [_vm._v("Perfis ")])
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item active" }, [
+          _vm._v("Usuários")
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
         _c(
@@ -1007,6 +1183,10 @@ var render = function() {
           { staticClass: "container-fluid" },
           [
             _c("crudCard", [
+              _c("div", { staticClass: "card-header text-center" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Usuários")])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "card-body  table-responsive" },
@@ -1015,17 +1195,19 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatableUsuarios" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
-                        _vm._v("ID")
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("CPF")]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("RG")]),
+                      _vm._v(" "),
+                      _c("th", { attrs: { pesquisavel: "" } }, [
+                        _vm._v("Posto/Graduação")
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
                         _vm._v("Nome")
                       ]),
                       _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Email")
-                      ])
+                      _c("th", { attrs: { pesquisavel: "" } }, [_vm._v("OME")])
                     ]
                   )
                 ],
@@ -1087,7 +1269,7 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatablePerfis" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                      _c("th", { staticStyle: { "max-width": "30px" } }, [
                         _vm._v("ID")
                       ]),
                       _vm._v(" "),
@@ -1166,10 +1348,6 @@ var render = function() {
                 }
               },
               [
-                _c("label", { attrs: { for: "descricao" } }, [
-                  _vm._v("Permissão:")
-                ]),
-                _vm._v(" "),
                 _c(
                   "select2",
                   {
@@ -3890,6 +4068,33 @@ if(false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("1052b8a1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./HistoricoPermissao.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./HistoricoPermissao.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-694a0863\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/Usuarios.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4543,6 +4748,58 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44936455\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-44936455\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-44936455"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-44936455", Component.options)
+  } else {
+    hotAPI.reload("data-v-44936455", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/perfil/paginas/Index.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4772,6 +5029,9 @@ var routes = [{
 }, {
     path: '/:id/usuarios',
     component: __webpack_require__("./resources/assets/js/components/perfil/paginas/Usuarios.vue")
+}, {
+    path: '/:id/permissao/historico',
+    component: __webpack_require__("./resources/assets/js/components/perfil/paginas/HistoricoPermissao.vue")
 }];
 
 var perfil = new Vue({

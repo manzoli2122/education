@@ -1,6 +1,6 @@
 <template>             
 	<div> 
-		<crudHeader :texto="'Permissões do perfil ' + perfil.nome">
+		<crudHeader :texto="'Perfil ' + perfil.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li> 
@@ -9,33 +9,25 @@
 		<div class="content">
 			<div class="container-fluid">  
 				<crudCard>
+					<div class="card-header text-center">
+						<h2 class="card-title">Permissões</h2>  
+					</div>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatablePerfisPermissao" :reload="reloadDatatable" v-on:permissaoRemovida="permissaoRemovida($event)"> 
-							<th style="max-width:20px">ID</th>
+							<th style="max-width:30px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descrição</th>  
 							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
-					<div class="card-footer text-right">
+					<div class="card-footer text-right">  
 						<crudBotaoVoltar url="/" />   
+						<router-link :to="'/' + this.$route.params.id + '/permissao/historico'" exact  class="btn btn-warning">
+							<i class="fa fa-database"></i> Historico
+						</router-link>
 					</div>  
 				</crudCard> 
-				<formAdicionarPermissao v-if="permissoes.length > 0" v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao> 
-				<h3>Histórico de Permissão</h3>
-				<crudCard>
-					<div class="card-body  table-responsive"> 
-						<datatableService :config="config2" id="datatablePerfisPermissaoLog" :reload="reloadDatatableLog" > 
-							<th style="max-width:20px">ID</th>  
-							<th pesquisavel>Responsável</th>
-							<th pesquisavel>Ação</th> 
-							<th pesquisavel>Permissão</th>
-							<th pesquisavel>Data</th>
-							<th pesquisavel>IP</th>
-							<th pesquisavel>Host</th>
-						</datatableService> 
-					</div>    
-				</crudCard>  
+				<formAdicionarPermissao v-if="permissoes.length > 0" v-on:permissaoAdicionada="permissaoAdicionada($event)" :permissoes="permissoes" :url="url"> </formAdicionarPermissao>  
 			</div> 
 		</div>   
 	</div>
@@ -75,33 +67,11 @@ export default {
 				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} ,
-
-			config2: {
-				lengthMenu:[
-				[5, 10, 50, -1],
-				[5, 10, 50, "Todos"]
-				],
-				order: [[ 4, "desc" ]],
-				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
-				},
-				columns: [
-				{ data: 'id', name: 'id'  },
-				{ data: 'autor.name', name: 'autor.name'  },
-				{ data: 'acao', name: 'acao'  }, 
-				{ data: 'permissao_nome', name: 'permissao_nome'  },
-				{ data: 'created_at', name: 'created_at'  },
-				{ data: 'ip_v4', name: 'ip_v4'  },
-				{ data: 'host', name: 'host'  }, 
-				],
-			} ,    
-
+ 
 		}
 	},
 
-
-
-
+ 
 
 	created() {
 		alertProcessando();
@@ -130,14 +100,12 @@ export default {
 	methods: {
 
 		permissaoRemovida(event) {
-			this.permissoes = event; 
-			this.reloadDatatableLog = !this.reloadDatatableLog;
+			this.permissoes = event;  
 		},
 
 		permissaoAdicionada(event) {
 			this.permissoes = event;
-			this.reloadDatatable = !this.reloadDatatable;
-			this.reloadDatatableLog = !this.reloadDatatableLog;
+			this.reloadDatatable = !this.reloadDatatable; 
 		},
 
 	},
@@ -146,9 +114,5 @@ export default {
 
 </script>
 
-<style scoped>
-h3{
-	padding-top: 50px;
-	text-align: center;
-}
+<style scoped> 
 </style>

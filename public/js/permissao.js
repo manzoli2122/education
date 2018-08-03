@@ -278,6 +278,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -321,7 +324,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -548,14 +551,14 @@ var render = function() {
     [
       _c(
         "crudHeader",
-        { attrs: { texto: "Perfis da Permissao " + _vm.permissao.nome } },
+        { attrs: { texto: "Permissao " + _vm.permissao.nome } },
         [
           _c(
             "li",
             { staticClass: "breadcrumb-item" },
             [
               _c("router-link", { attrs: { to: "/", exact: "" } }, [
-                _c("a", [_vm._v("Permissão ")])
+                _c("a", [_vm._v("Permissões ")])
               ])
             ],
             1
@@ -573,6 +576,10 @@ var render = function() {
           { staticClass: "container-fluid" },
           [
             _c("crudCard", [
+              _c("div", { staticClass: "card-header text-center" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Perfis")])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "card-body  table-responsive" },
@@ -581,7 +588,7 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatablePerfis" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                      _c("th", { staticStyle: { "max-width": "30px" } }, [
                         _vm._v("ID")
                       ]),
                       _vm._v(" "),
@@ -641,7 +648,7 @@ var render = function() {
           { staticClass: "breadcrumb-item" },
           [
             _c("router-link", { attrs: { to: "/", exact: "" } }, [
-              _c("a", [_vm._v("Permissão ")])
+              _c("a", [_vm._v("Permissões ")])
             ])
           ],
           1
@@ -776,7 +783,7 @@ var render = function() {
     "div",
     [
       _c("crudHeader", { attrs: { texto: "Permissões Cadastradas" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Permissoes \t")])
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Permissões \t")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -850,7 +857,7 @@ var render = function() {
           { staticClass: "breadcrumb-item" },
           [
             _c("router-link", { attrs: { to: "/", exact: "" } }, [
-              _c("a", [_vm._v("Permissão ")])
+              _c("a", [_vm._v("Permissões ")])
             ])
           ],
           1
