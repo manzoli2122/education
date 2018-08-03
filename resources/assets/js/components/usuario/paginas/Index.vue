@@ -8,9 +8,9 @@
 				<crudCard>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatableUsuarios"> 
-							<th style="max-width:20px">ID</th>
+							<th style="max-width:90px">CPF</th>
 							<th pesquisavel>Nome</th>
-							<th pesquisavel>Email</th>  
+							 
 							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
@@ -43,7 +43,6 @@ export default {
 				columns: [
 				{ data: 'id', name: 'id'  },
 				{ data: 'name', name: 'name' },
-				{ data: 'email', name: 'email' }, 
 				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 				],
 			} ,  

@@ -16,11 +16,15 @@ class CreateUsuarioPerfilLogTable extends Migration
         Schema::create('usuario_perfil_log', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('user_id'); 
+            // $table->unsignedInteger('user_id'); 
+            // $table->unsignedInteger('autor_id')->nullable();
+
+            $table->char('user_id',11);
+            $table->char('autor_id',11)->nullable();
 
             $table->string('acao');
             
-            $table->unsignedInteger('autor_id')->nullable(); 
+             
 
             $table->unsignedInteger('perfil_id');
  
@@ -30,6 +34,7 @@ class CreateUsuarioPerfilLogTable extends Migration
 
             $table->foreign('autor_id')->references('id')->on('users')->onDelete('set null'); 
 
+           
             $table->timestamps();
 
 

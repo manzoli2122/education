@@ -28,12 +28,12 @@
                     <form method="POST" action="{{ route('login') }}" aria-label="Entrar">
                         @csrf 
                         <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail</label>
+                            <label for="id" class="col-sm-4 col-form-label text-md-right">E-Mail</label>
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{old('email')}}" required autofocus>
-                                @if ($errors->has('email'))
+                                <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id" value="{{old('id')}}" required autofocus>
+                                @if ($errors->has('id'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('id') }}</strong>
                                     </span>
                                 @endif
                             </div>

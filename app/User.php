@@ -28,7 +28,7 @@ class User extends Authenticatable  implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'password',
     ];
 
 
@@ -41,6 +41,12 @@ class User extends Authenticatable  implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',   'deleted_at' ,  'updated_at' ,  'created_at' , 'pivot'
     ];
+
+    protected $casts = [
+        'id' => 'string' ,
+    ];
+
+
  
 
     public function log( )
@@ -49,7 +55,7 @@ class User extends Authenticatable  implements JWTSubject
             'usuario' => [ 
                 'id' => $this->id,
                  'name' => $this->name , 
-                 'email' => $this->email , 
+                // 'email' => $this->email , 
             ]       
         ];
     }
@@ -95,7 +101,7 @@ class User extends Authenticatable  implements JWTSubject
      */
     public function getDatatable()
     {
-        return $this->select(['id', 'name', 'email'  ]);        
+        return $this->select(['id', 'name'  ]);        
     }
 
  

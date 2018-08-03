@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request; 
 
 class LoginController extends Controller
 {
@@ -20,6 +22,15 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+
+
+    public function username(){
+        return 'id';
+    } 
+
+
+
+
     /**
      * Where to redirect users after login.
      *
@@ -34,6 +45,43 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        //$this->middleware('guest')->except('logout');
     }
+
+
+
+
+
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function authenticate(Request $request)
+    {
+
+
+        $credentials = $request->only('token');
+
+        //Auth::login(Auth::guard('api')->user() );
+        // return Auth::guard('api')->user()->id;
+        Auth::guard('web')->loginUsingId( Auth::guard('api')->user()->id );
+        return  redirect()->intended('/home');
+
+
+       //  return response()->json( Auth::guard('api')->user() ) ;
+       // //return $credentials['token'];
+        
+       //  if (Auth::attempt($credentials)) {
+       //      // Authentication passed...
+       //      return  redirect()->intended('/home');
+       //  }
+
+    }
+
+
+
+
 }

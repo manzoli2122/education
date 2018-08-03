@@ -27,8 +27,10 @@ class CreatePerfilsTable extends Migration
             
             $table->increments('id');
             $table->unsignedInteger('perfil_id');
-            $table->unsignedInteger('user_id');
-            
+            //$table->unsignedInteger('user_id');
+            $table->char('user_id',11);
+
+
 
             $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -45,7 +45,7 @@ return [
         'api' => [
             //'driver' => 'token',
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'token_jwt',
         ],
     ],
 
@@ -67,6 +67,17 @@ return [
     */
 
     'providers' => [
+        
+        // 'users' => [
+        //     'driver' => 'token',
+        //     'model' => App\User::class,
+        // ],
+
+        'token_jwt' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,

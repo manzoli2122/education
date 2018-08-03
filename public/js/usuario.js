@@ -110,7 +110,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				ajax: {
 					url: this.url + '/datatable'
 				},
-				columns: [{ data: 'id', name: 'id' }, { data: 'name', name: 'name' }, { data: 'email', name: 'email' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
+				columns: [{ data: 'id', name: 'id' }, { data: 'name', name: 'name' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
 			}
 		};
 	}
@@ -865,16 +865,12 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatableUsuarios" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
-                        _vm._v("ID")
+                      _c("th", { staticStyle: { "max-width": "90px" } }, [
+                        _vm._v("CPF")
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
                         _vm._v("Nome")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Email")
                       ]),
                       _vm._v(" "),
                       _c("th", { staticClass: "text-center" }, [

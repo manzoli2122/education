@@ -33,6 +33,8 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
+        //$token = auth()->login($user);
+
         if (! $token = $this->guard()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -61,7 +63,7 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json($this->guard()->user());
-        
+
         // return response()->json(auth()->user());
     }
 
