@@ -133,13 +133,13 @@ class Perfil extends Model
  
 
 
-    public function perfisParaAdicionarAoUsuario( $usuario_id, $isAdmin = false)
+    public function perfisParaAdicionarAoUsuario( string $usuario_id, $isAdmin = false)
     {
         if($isAdmin){
             return $this->whereNotIn('id', function($query) use ($usuario_id){
                 $query->select("perfils_users.perfil_id");
                 $query->from("perfils_users");
-                $query->whereRaw("perfils_users.user_id = {$usuario_id} ");
+                $query->whereRaw("perfils_users.user_id = '{$usuario_id}' ");
             })
             ->orderBy('nome')->get();  
         } 
@@ -147,7 +147,7 @@ class Perfil extends Model
         return $this->whereNotIn('id', function($query) use ($usuario_id){
                     $query->select("perfils_users.perfil_id");
                     $query->from("perfils_users");
-                    $query->whereRaw("perfils_users.user_id = {$usuario_id} ");
+                    $query->whereRaw("perfils_users.user_id = '{$usuario_id}' ");
                 })
                 ->where('nome', '<>' , 'Admin')
                 ->orderBy('nome')->get(); 

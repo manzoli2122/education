@@ -17,7 +17,7 @@ interface VueServiceInterface
     public function  BuscarPeloId( Request $request , $id );
 
 
-     /**
+    /**
     * Função para atualizar um model ja existente  
     *
     * @param Request $request

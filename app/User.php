@@ -5,12 +5,14 @@ namespace App;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Cache\TaggableStore;
 use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 use Cache;  
 use Log;
-
-use Illuminate\Cache\TaggableStore; 
+use DB;
+ 
 
 class User extends Authenticatable  implements JWTSubject
 {
@@ -28,7 +30,7 @@ class User extends Authenticatable  implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'password', 'id', 'rg', 'nf', 'quadro_dsc', 'post_grad_dsc', 'ome_qdi_id', 
+        'name', 'email', 'password', 'id', 'rg', 'nf', 'quadro_dsc', 'post_grad_dsc', 'ome_qdi_id', 
         'ome_qdi_dsc', 'ome_qdi_lft', 'ome_qdi_rgt', 'status','obs',
         
 
@@ -50,15 +52,22 @@ class User extends Authenticatable  implements JWTSubject
     ];
 
 
- 
+    
+
+
+
+   
+
+
+
 
     public function log( )
     {
         return [
             'usuario' => [ 
-                'id' => $this->id,
-                 'name' => $this->name , 
-                // 'email' => $this->email , 
+                'cpf' => $this->id,
+                'name' => $this->name , 
+                'rg' => $this->rg , 
             ]       
         ];
     }
@@ -104,13 +113,22 @@ class User extends Authenticatable  implements JWTSubject
      */
     public function getDatatable()
     {
-        return $this->select(['id', 'name'  ]);        
+        return $this->withoutGlobalScope('ativo')
+                    ->select([
+                        'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' , 
+                        //DB::raw('status AS status'),
+                        DB::raw("CASE status      
+                                     WHEN 'A' THEN 'Ativo'      
+                                     WHEN 'I' THEN 'Inativo' 
+                                  END AS status "),
+                        //'status' 
+                    ]);        
     }
 
  
 
- 
- 
+  
+
      /**
      * Save  
      *
@@ -127,6 +145,10 @@ class User extends Authenticatable  implements JWTSubject
             }
             return true;
         });
+
+        static::addGlobalScope('ativo', function (Builder $builder) {
+            $builder->where('status', 'A');
+        });
     }
 
 
@@ -138,10 +160,8 @@ class User extends Authenticatable  implements JWTSubject
      * @return Json $perfis
      */
     public function cachedPerfis()
-    {
-
-        $cacheKey = $this->cacheKey . $this->id; 
-
+    { 
+        $cacheKey = $this->cacheKey . $this->id;  
         if(Cache::getStore() instanceof TaggableStore){ 
             $value = Cache::tags( User::$cacheTag )->rememberForever(  $cacheKey , function () {
                 return collect(['perfis' => $this->perfis()->select('nome')->get()->pluck('nome')])->toJson() ;        

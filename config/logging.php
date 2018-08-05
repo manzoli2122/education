@@ -76,6 +76,13 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+
+        'elastic' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/elastic.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];

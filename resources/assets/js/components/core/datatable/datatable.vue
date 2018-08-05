@@ -34,11 +34,69 @@
 			if(this.config.exclusao){
 				this.adicionarFuncaoExcluir();				
 			} 
+			if(this.config.ativacao){
+				this.adicionarFuncaoAtivacao();				
+			} 
 		},
 
 
 		methods: { 
- 
+ 			
+ 			adicionarFuncaoAtivacao(  ) {  
+				var vm = this ; 
+				this.datatable.on('draw', function () {
+					$('[btn-ativar]').click(function (){  
+						let id =  $(this).data('id');  
+						vm.ativarRecursoPeloId( id  ); 
+					}); 
+					$('[btn-desativar]').click(function (){  
+						let id =  $(this).data('id');  
+						vm.desativarRecursoPeloId( id  ); 
+					}); 
+				}); 
+			} ,
+
+			desativarRecursoPeloId(  id   ) { 
+ 				var vm = this ; 
+			    alertConfimacao('Confirma a Desativação do ', vm.config.ativacao.item , 
+			        function() { 
+						alertProcessando();
+			            axios.delete( vm.config.ativacao.url + '/desativacao/'  + id   )
+						.then(response => {  
+							vm.datatable.ajax.reload();
+							alertProcessandoHide();
+							toastSucesso('Desativação do(a) ' + vm.config.ativacao.item + ' realizado(a) com sucesso!!' ); 
+						})
+						.catch(error => {
+							alertProcessandoHide();	
+							toastErro('Não foi possivel Desativar ' + vm.config.ativacao.item , error.response.data.message );
+						});  
+			        }
+			    );
+			},
+
+			ativarRecursoPeloId(  id   ) { 
+ 				var vm = this ; 
+			    alertConfimacao('Confirma a Ativação ', vm.config.ativacao.item , 
+			        function() { 
+						alertProcessando();
+			            axios.post( vm.config.ativacao.url + '/ativacao/'  + id   )
+						.then(response => {  
+							vm.datatable.ajax.reload();
+							alertProcessandoHide();
+							toastSucesso('Ativação do(a) ' + vm.config.ativacao.item + ' realizado(a) com sucesso!!' ); 
+						})
+						.catch(error => {
+							alertProcessandoHide();	
+							toastErro('Não foi possivel Ativar ' + vm.config.ativacao.item , error.response.data.message );
+						});  
+			        }
+			    );
+			},
+
+
+
+
 
 			adicionarFuncaoExcluir(  ) {  
 				var vm = this ; 

@@ -14,7 +14,7 @@ class PermissaoController extends VueController
     protected $service;  
     protected $view = "permissao";     
     
-    public function __construct( PermissaoServiceInterface $service       ){
+    public function __construct( PermissaoServiceInterface $service  ){
           
         $this->service = $service ;    
         $this->middleware('auth');

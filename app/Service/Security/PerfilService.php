@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service\Security ;
- 
+
 use App\Models\Security\Perfil;
 use App\Models\Security\Permissao;
 use Yajra\DataTables\DataTables;
@@ -9,8 +9,7 @@ use App\Service\VueService;
 use App\Models\Security\LogPerfilPermissao;
 use Auth;
 use Cache;
-use Illuminate\Http\Request;
-use App\Logging\LogService;
+use Illuminate\Http\Request; 
 use App\Jobs\CrudProcessJob; 
 
 
@@ -21,20 +20,18 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     protected $permissao; 
     protected $dataTable;
     protected $logSeguranca;
-    protected $route = "perfil";
-    protected $logservice ;
+    protected $route = "perfil"; 
 
 
 
-    public function __construct( Perfil $perfil , Permissao $permissao, LogPerfilPermissao $log , DataTables $dataTable  , LogService $servicelog){        
+    public function __construct( Perfil $perfil , Permissao $permissao, LogPerfilPermissao $log , DataTables $dataTable  ){        
         $this->model = $perfil ;    
         $this->permissao = $permissao ;  
         $this->dataTable = $dataTable ;    
-        $this->logSeguranca = $log ; 
-        $this->logservice = $servicelog  ;
+        $this->logSeguranca = $log ;  
     }
 
- 
+
 
 
     /**
@@ -70,24 +67,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find( $permissaoId ); 
         $perfil->attachPermissao($permissao);
-
-        $info =   [   
-            'ip'   => $request->server('REMOTE_ADDR') ,
-            'host' =>  $request->header('host'),
-            'usuario' => Auth::user(),
-        ] ;
-
-        dispatch( 
-            new CrudProcessJob(  
-                $this->logservice , 
-                'Permissao_Perfil' ,   
-                'adicionarPermissaoAoPerfil' ,  
-                ['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] , 
-                $info ,  
-                now()->format('Y-m-d\TH:i:s.u') 
-            )
-        ); 
-
+        if(env('LOG_ELASTIC_LOG')){
+            $this->EnviarFilaLog( $request, 'Permissao_Perfil', 'adicionarPermissaoAoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
+        }
         $this->Log( $perfilId , $permissaoId , $permissao->nome  , Auth::user()->id , 'Adicionar' , $request->server('REMOTE_ADDR') ,  $request->header('host') );
     }
 
@@ -117,24 +99,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $perfil = $this->model->find($perfilId);
         $permissao = $this->permissao->find($permissaoId);  
         $perfil->detachPermissao($permissao); 
- 
-        $info =   [   
-            'ip'   => $request->server('REMOTE_ADDR') ,
-            'host' => $request->header('host'),
-            'usuario' => Auth::user(),
-        ] ;
-
-        dispatch( 
-            new CrudProcessJob(  
-                $this->logservice , 
-                'Permissao_Perfil' ,   
-                'excluirPermissaoDoPerfil' ,  
-                ['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] , 
-                $info ,  
-                now()->format('Y-m-d\TH:i:s.u') 
-            )
-        );   
- 
+        if(env('LOG_ELASTIC_LOG')){ 
+            $this->EnviarFilaLog( $request, 'Permissao_Perfil', 'excluirPermissaoDoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
+        } 
         $this->Log( $perfilId  , $permissaoId , $permissao->nome , Auth::user()->id , 'Excluir' , $request->server('REMOTE_ADDR') ,  $request->header('host') ); 
     }
 
@@ -149,8 +116,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     * @return List $permissoes
     */
     public function BuscarPermissoesParaAdicionar(   int $perfilId  ){
-         return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
-    }
+     return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
+ }
 
 
 
@@ -171,8 +138,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $perfil = $this->model->find($perfilId); 
         $models = $perfil->usuarios( );  
         return $this->dataTable
-            ->eloquent($models) 
-            ->make(true);  
+        ->eloquent($models) 
+        ->make(true);  
     }
 
 
@@ -189,15 +156,15 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     * @return json
     */
     public function  BuscarPermissaoDataTable( $request , $perfilId ){
-        
+
         $perfil = $this->model->find($perfilId); 
         $models = $perfil->permissoes( );  
         return $this->dataTable
-            ->eloquent($models)
-            ->addColumn('action', function($linha) {
-                return  '<button data-id="'.$linha->permissao_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
-            })
-            ->make(true);  
+        ->eloquent($models)
+        ->addColumn('action', function($linha) {
+            return  '<button data-id="'.$linha->permissao_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
+        })
+        ->make(true);  
     }
 
 
@@ -216,17 +183,17 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     public function  BuscarPermissaoDataTableLog( $request , $perfilId ){
         $models = $this->logSeguranca->getDatatable($perfilId);  
         return $this->dataTable
-                ->eloquent($models)
-                ->editColumn('created_at', function ($log) {
-                    return $log->created_at->format('d/m/Y H:i');
-                })
-                ->filterColumn('created_at', function ($query, $keyword) {
-                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y %H:%i') like ?", ["%$keyword%"]);
-                })
-                ->make(true); 
+        ->eloquent($models)
+        ->editColumn('created_at', function ($log) {
+            return $log->created_at->format('d/m/Y H:i');
+        })
+        ->filterColumn('created_at', function ($query, $keyword) {
+            $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y %H:%i') like ?", ["%$keyword%"]);
+        })
+        ->make(true); 
     }
 
- 
+
 
 
 
@@ -240,15 +207,15 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     public function  BuscarDataTable( $request ){
         $models = $this->model->getDatatable();
         return $this->dataTable->eloquent($models)
-            ->addColumn('action', function($linha) {
-                return 
-                    '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a>'
-                    .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a>'
-                    .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
-            })
-            ->make(true); 
+        ->addColumn('action', function($linha) {
+            return 
+            '<a href="#/'.$linha->id.'/permissao" class="btn btn-primary btn-sm" title="Permissões"><i class="fa fa-unlock"></i></a>'
+            .'<a href="#/'.$linha->id.'/usuarios" class="btn btn-warning btn-sm" title="Usuarios"><i class="fa fa-users"></i></a>'
+            .'<button data-id="'.$linha->id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' ;
+        })
+        ->make(true); 
     }
- 
+
     
 
 
@@ -284,5 +251,5 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     }
 
 
-  
+
 }

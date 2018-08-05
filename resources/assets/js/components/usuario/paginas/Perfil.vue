@@ -1,15 +1,18 @@
 <template>             
 	<div>  
-		<crudHeader :texto="'Perfis do usuário ' + usuario.name ">
+		<crudHeader :texto="'Usuário ' + usuario.name ">
 			<li class="breadcrumb-item"><router-link to="/" exact><a>Usuários</a></router-link></li> 
 			<li class="breadcrumb-item">Perfis</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid">   
 				<crudCard>
+					<div class="card-header text-center">
+						<h2 class="card-title">Perfis</h2>  
+					</div>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="reloadDatatable" v-on:perfilRemovido="perfilRemovido($event)"> 
-							<th style="max-width:20px">ID</th>
+							<th style="max-width:30px">ID</th>
                         	<th pesquisavel>Nome</th>
                         	<th pesquisavel>Descrição</th>  
                         	<th class="text-center">Ações</th>
@@ -17,62 +20,14 @@
 					</div>    
 					<div class="card-footer text-right">
         				<crudBotaoVoltar url="/" />   
+        				<router-link :to="'/' + this.$route.params.id + '/perfil/historico'" exact  class="btn btn-warning">
+							<i class="fa fa-database"></i> Historico
+						</router-link>
         			</div>
 				</crudCard>  
  
 				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>    
-				<h3>Histórico de Perfil</h3>
-				<crudCard>
-					<div class="card-body  table-responsive"> 
-						<datatableService :config="config2" id="datatableUsuariosPerfisLog" :reload="reloadDatatableLog" > 
-							<th style="max-width:20px">ID</th>  
-							<th pesquisavel>Responsável</th>
-							<th pesquisavel>Ação</th>
-							<th pesquisavel>Perfil</th> 
-							<th pesquisavel>Data</th>
-							<th pesquisavel>IP</th>
-							<th pesquisavel>Host</th>
-						</datatableService> 
-					</div>  
-
-				</crudCard > 
-			  	
-			  	<h3>Histórico de Perfil elasticsearch</h3>
-			  	<crudCard>
-			  		<div v-if="logs" class="card-body  table-responsive"> 
-			  			<table class="table table-bordered" id="users-table">
-			  				<thead>
-			  					<tr>
-			  						<th>Id</th>
-			  						<th>Responsável</th>
-			  						<th>Ação</th>
-			  						<th>Perfil</th>
-			  						<th>Ip</th>
-			  						<th>Data</th>
-			  					</tr>
-			  				</thead>
-			  				<tbody> 
-			  					<tr v-for="hit in logs" :key="hit._id">
-			  						<td>{{ hit._id}}</td>
-			  						<td>{{ hit._source.info.usuario.name}}</td>
-			  						<td>{{ hit._source.acao}}</td>
-			  						<td>{{ hit._source.dados.dado2.perfil.nome}}</td>
-			  						<td>{{ hit._source.info.ip}}</td>
-			  						<td>{{ hit._source.data}} </td>
-			  					</tr> 
-			  				</tbody>
-			  			</table>
-			  			<!-- <div v-for="hit in logs.hits.hits">
-			  				{{ hit._source.data}} 
-			  				{{ hit._id}} 
-			  				{{ hit._source.info.usuario.name}}
-			  				{{ hit._source.acao}}
-			  				{{ hit._source.dados.dado2.perfil.nome}}
-			  				{{ hit._source.info.ip}}
-			  				{{ hit._source.info.host}}
-			  			</div> -->
-			  		</div> 
-			  	</crudCard> 		
+				  
 			</div> 
 		</div>  
 	</div>
@@ -90,12 +45,10 @@ export default {
 	],  
 
 	data() {
-		return {   
-			logs:'', 
+		return {    
 			usuario:'',
 			perfis:'', 
-			reloadDatatable: false ,
-			reloadDatatableLog: false ,
+			reloadDatatable: false , 
 			config: {
 				exclusao:{
 					url:this.url + '/' + this.$route.params.id + '/delete/perfil'  ,
@@ -114,25 +67,7 @@ export default {
 				],
 			} ,  
 
-			config2: {
-				lengthMenu:[
-				        [5, 10, 50, -1],
-				        [5, 10, 50, "Todos"]
-				    ],
-				order: [[ 4, "desc" ]],
-				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil/log/datatable'
-				},
-				columns: [
-                { data: 'id', name: 'usuario_perfil_log.id'  },
-                { data: 'autor.name', name: 'autor.name'  },
-                { data: 'acao', name: 'usuario_perfil_log.acao'  },
-                { data: 'perfil.nome', name: 'perfil.nome'  }, 
-                { data: 'created_at', name: 'created_at'  },
-                { data: 'ip_v4', name: 'ip_v4'  },
-                { data: 'host', name: 'host'  }, 
-				],
-			} ,   
+			  
 		}
 	},
   
@@ -156,89 +91,26 @@ export default {
 		.catch(error => {
 			toastErro("Não foi possivel achar a Perfil", error.response.data);
 		});  
-
  
-		this.pesquisaElastic();
-		
-
-		 
-
-
-
+		  
 	}, 
 
 	methods: {
 
 		perfilRemovido(event) {
-			this.perfis = event; 
-			this.reloadDatatableLog = !this.reloadDatatableLog;
+			this.perfis = event;  
 		},
 
 		perfilAdicionado(event) {
 			this.perfis = event;
-			this.reloadDatatable = !this.reloadDatatable;
-			this.reloadDatatableLog = !this.reloadDatatableLog; 
-			this.pesquisaElastic();
+			this.reloadDatatable = !this.reloadDatatable; 
 		},
-
-		pesquisaElastic(){
-
-
-
-			axios.get(this.url + "/" + this.$route.params.id + "/log/elasticsearch")
-				.then(response => {
-					this.logs = response.data;
-				})
-				.catch(error => {
-					toastErro("Não foi possivel achar log de Perfil", error.response.data);
-				});  
-
-
-			var query = {
-				"query":{ 
-					"bool": {
-						"must":[
-							{"match": {	"dados.dado1.usuario.id": this.$route.params.id	} } 							 
-						],
-						"should": [
-							{"match": {"acao": "adicionarPerfilAoUsuario" } },
-							{"match": {"acao": "excluirPerfilDoUsuario" } }
-						]
-					} 	
-				},
-				"size":15  	 
-			}
-
-			query = JSON.stringify(query);
  
-			let vm = this;
-			// $.ajax({
-			// 	url: "http://10.243.22.13:9200/education/log/_search",
-			// 	method: 'get',
-			// 	// method: 'post', 
-			// 	//contentType: 'application/json',
-			// 	//dataType: 'jsonp', 
-			// 	// dataType: 'json',  
-			// 	//data: query,
-			// 	success: function(data) { 
-			// 		vm.logs = data; 
-			// 	},
-			// 	error: function(erro){ 
-			// 		console.log(erro);
-			// 	}      
-			// });
-
-		},
-
 	},
 
  }
  
  </script>
  
- <style scoped> 
- 	h3{
-		padding-top: 50px;
-		text-align: center;
-	}
+ <style scoped>  
  </style>

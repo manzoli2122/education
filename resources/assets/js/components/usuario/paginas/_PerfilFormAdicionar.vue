@@ -43,7 +43,7 @@
 				if (this.form.perfil) {
 					this.form.submit("post", this.url + "/" + this.$route.params.id + "/adicionar/perfil")
 					.then(response => { 
-						toastSucesso("Perfil adicionado co successo."); 
+						toastSucesso("Perfil adicionado com successo."); 
 						this.$emit('perfilAdicionado', response ) 
 					})
 					.catch(errors => console.log(errors));

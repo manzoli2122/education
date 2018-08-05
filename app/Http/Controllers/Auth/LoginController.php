@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Log;
 use App\User;
 
+
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+
+
 class LoginController extends Controller
 {
     /*
@@ -40,6 +44,11 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+
+
+
+
+
     /**
      * Create a new controller instance.
      *
@@ -69,12 +78,21 @@ class LoginController extends Controller
 
         //Auth::login(Auth::guard('api')->user() );
         // return Auth::guard('api')->user()->id;
+       
+        //$payload = Auth::guard('api')->payload();
+
+        try{
+            $payload = Auth::guard('api')->payload();
+        }
+        catch(TokenInvalidException $e){
+             return response()->json( $e->getMessage() , 403);
+        }
         
-        $payload = Auth::guard('api')->payload();
         //Log::info($payload); 
 
 
-        if(!User::find($payload['id'])){
+        if(!User::withoutGlobalScope('ativo')
+                    ->find($payload['id'])){
              $this->cadastro($payload);
         }
 
@@ -115,6 +133,7 @@ class LoginController extends Controller
                 'id' => $payload['id'] ,
                 'name' => $payload['name'],
                 'rg' => $payload['rg'],
+                'email' => $payload['email'],
                 'nf' =>$payload['nf'],                
                 'quadro_dsc' =>$payload['quadro_dsc'] ,
                 'post_grad_dsc' => $payload['post_grad_dsc'] ,

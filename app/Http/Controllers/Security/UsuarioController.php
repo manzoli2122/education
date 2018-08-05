@@ -25,6 +25,39 @@ class UsuarioController extends VueController
   
 
 
+    /**
+    * Função para ativar um usuario ja existente  
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return void
+    */
+    public function  Ativar( Request $request , $userId ){
+        return response()->json( $this->service->Ativar( $request , $userId ), 200 );
+    }
+
+
+
+
+    /**
+    * Função para desativar um usuario ja existente  
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return void
+    */
+    public function  Desativar( Request $request , $userId ){
+       return response()->json( $this->service->Desativar( $request , $userId ), 200 );
+    }
+
+
+
+
+
 
     /**
     * Função para Adicionar um Perfil a um usuario atraves do UsuarioServiceInterface
@@ -37,10 +70,8 @@ class UsuarioController extends VueController
     */
     public function adicionarPerfilAoUsuario(Request $request , $userId)
     {     
-        if( $request->get('perfil') != '' ){ 
-           
-           $this->service->adicionarPerfilAoUsuario( $request->get('perfil') , $userId ,  $request  );
- 
+        if( $request->get('perfil') != '' ){  
+           $this->service->adicionarPerfilAoUsuario( $request->get('perfil'), $userId, $request); 
         }   
         return response()->json($this->service->BuscarPerfisParaAdicionar( $userId ),200);
     }
@@ -64,10 +95,8 @@ class UsuarioController extends VueController
     */
     public function excluirPerfilDoUsuario( Request $request , $userId , $perfilId )
     {        
-        $this->service->excluirPerfilDoUsuario($perfilId , $userId ,  $request  ); 
- 
-        return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200); 
-         
+        $this->service->excluirPerfilDoUsuario($perfilId , $userId ,  $request  );  
+        return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200);  
     }
 
 
@@ -138,7 +167,7 @@ class UsuarioController extends VueController
             return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId ) , 200);
         }         
         catch(Exception $e) {           
-            return response()->json( 'Erro interno', 500);    
+            return response()->json( $e, 500);    
         }   
     }
     

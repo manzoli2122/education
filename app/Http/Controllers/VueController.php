@@ -88,10 +88,8 @@ class VueController extends Controller
     public function store(Request $request)
     {
         $this->validate( $request  , $this->service->validacoes() );  
-        try{
-            
-            $model = $this->service->Salvar( $request ); 
-
+        try{ 
+            $model = $this->service->Salvar( $request );  
         }  
         catch(Exception $e){
             return response()->json( $e->getMessage() , 500);
@@ -114,10 +112,8 @@ class VueController extends Controller
     */
     public function destroy( Request $request, $id)
     { 
-        try{ 
-
-            $this->service->Apagar( $request , $id); 
- 
+        try{  
+            $this->service->Apagar( $request , $id);  
             return response()->json( 'Exclusão realizada com sucesso' , 200); 
         } 
         catch(ModelNotFoundException $e){

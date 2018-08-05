@@ -7,7 +7,35 @@ use Illuminate\Http\Request;
   
 interface UsuarioServiceInterface  extends VueServiceInterface    
 {
+
+
+
+    /**
+    * Função para ativar um usuario ja existente  
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return void
+    */
+    public function  Ativar( Request $request , $id );  
    
+
+
+    /**
+    * Função para desativar um usuario ja existente  
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return void
+    */
+    public function  Desativar( Request $request , $id );
+
+
+
     /**
     * Função para buscar os perfis de um usuario pelo datatable
     *
@@ -48,7 +76,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function adicionarPerfilAoUsuario( int $perfilId , int $userId , Request  $request);
+    public function adicionarPerfilAoUsuario( int $perfilId , string $userId , Request  $request);
 
 
     /**
@@ -66,7 +94,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     *
     * @return void
     */
-    public function excluirPerfilDoUsuario( int $perfilId , int $userId , Request  $request );
+    public function excluirPerfilDoUsuario( int $perfilId , string $userId , Request  $request );
 
     
 
@@ -78,7 +106,7 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     *
     * @return List $pefis
     */
-    public function BuscarPerfisParaAdicionar(   int $userId  );
+    public function BuscarPerfisParaAdicionar(   string $userId  );
 
 
 

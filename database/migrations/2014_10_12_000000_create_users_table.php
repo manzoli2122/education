@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
             $table->char('id', 11)->primary('id')->comment('CPF DO USUARIO');
             $table->string('name', 150);
             $table->integer('rg')->nullable()->unique()->comment('RG da PMES');
-            $table->integer('nf')->nullable()->unique()->comment('NUMERO FUNCIONAL DO SIARHES');                
+            $table->integer('nf')->nullable()->unique()->comment('NUMERO FUNCIONAL DO SIARHES');     
+            $table->string('email')->unique();  
             $table->string('quadro_dsc', 50);
             $table->string('post_grad_dsc', 50);
             $table->integer('ome_qdi_id')->default('1')->unsigned()->comment('ID QDI OME DO EFETIVO');

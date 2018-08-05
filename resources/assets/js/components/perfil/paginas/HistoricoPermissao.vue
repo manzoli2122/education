@@ -4,7 +4,7 @@
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li> 
-			<li class="breadcrumb-item active">
+			<li class="breadcrumb-item">
 				<router-link :to="'/' + this.$route.params.id + '/permissao'" exact><a>Permissões</a></router-link>
 			</li>
 			<li class="breadcrumb-item active">Historico</li>
@@ -49,17 +49,12 @@ export default {
 	data() {
 		return {        
 			perfil:'',  
-			config: {
-				lengthMenu:[
-				[5, 10, 50, -1],
-				[5, 10, 50, "Todos"]
-				],
+			config: { 
 				order: [[ 4, "desc" ]],
 				ajax: { 
 					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
 				},
-				columns: [
-				 
+				columns: [ 
 				{ data: 'autor.name', name: 'autor.name'  },
 				{ data: 'acao', name: 'acao'  }, 
 				{ data: 'permissao_nome', name: 'permissao_nome'  },

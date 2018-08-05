@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
 
 
             'id' => '00000000001',
-            'name' => 'Administrador',
+            'name' => 'Administrador.dtic',
+            'email' => 'manzoli2122@gmail.com',
             'rg' => 1000,
             'nf' => 1000000,                
             'quadro_dsc' =>'Admin',

@@ -385,10 +385,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		if (this.config.exclusao) {
 			this.adicionarFuncaoExcluir();
 		}
+		if (this.config.ativacao) {
+			this.adicionarFuncaoAtivacao();
+		}
 	},
 
 
 	methods: {
+		adicionarFuncaoAtivacao: function adicionarFuncaoAtivacao() {
+			var vm = this;
+			this.datatable.on('draw', function () {
+				$('[btn-ativar]').click(function () {
+					var id = $(this).data('id');
+					vm.ativarRecursoPeloId(id);
+				});
+				$('[btn-desativar]').click(function () {
+					var id = $(this).data('id');
+					vm.desativarRecursoPeloId(id);
+				});
+			});
+		},
+		desativarRecursoPeloId: function desativarRecursoPeloId(id) {
+			var vm = this;
+			alertConfimacao('Confirma a Desativação do ', vm.config.ativacao.item, function () {
+				alertProcessando();
+				axios.delete(vm.config.ativacao.url + '/desativacao/' + id).then(function (response) {
+					vm.datatable.ajax.reload();
+					alertProcessandoHide();
+					toastSucesso('Desativação do(a) ' + vm.config.ativacao.item + ' realizado(a) com sucesso!!');
+				}).catch(function (error) {
+					alertProcessandoHide();
+					toastErro('Não foi possivel Desativar ' + vm.config.ativacao.item, error.response.data.message);
+				});
+			});
+		},
+		ativarRecursoPeloId: function ativarRecursoPeloId(id) {
+			var vm = this;
+			alertConfimacao('Confirma a Ativação ', vm.config.ativacao.item, function () {
+				alertProcessando();
+				axios.post(vm.config.ativacao.url + '/ativacao/' + id).then(function (response) {
+					vm.datatable.ajax.reload();
+					alertProcessandoHide();
+					toastSucesso('Ativação do(a) ' + vm.config.ativacao.item + ' realizado(a) com sucesso!!');
+				}).catch(function (error) {
+					alertProcessandoHide();
+					toastErro('Não foi possivel Ativar ' + vm.config.ativacao.item, error.response.data.message);
+				});
+			});
+		},
 		adicionarFuncaoExcluir: function adicionarFuncaoExcluir() {
 			var vm = this;
 			this.datatable.on('draw', function () {

@@ -46,8 +46,9 @@ class AuthController extends Controller
 
         if (! $token = $this->guard()->claims( 
             [ 
-               'id' => '00000000002',
+               'id' => '10000000000',
                 'name' => 'Usuario.dtic',
+                'email' => 'usuario@pmes.com',
                 'rg' => 1001,
                 'nf' => 1000001,                
                 'quadro_dsc' =>'Admin',

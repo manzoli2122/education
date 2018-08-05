@@ -8,10 +8,13 @@
 				<crudCard>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatableUsuarios"> 
-							<th style="max-width:90px">CPF</th>
-							<th pesquisavel>Nome</th>
-							 
-							<th class="text-center">Ações</th>
+							<th pesquisavel style="max-width:90px">CPF</th>
+							<th pesquisavel>RG</th> 
+							<th pesquisavel>Post/Grad</th> 
+							<th pesquisavel>Nome</th> 
+							<th pesquisavel>OME</th> 
+							<th pesquisavel>Status</th> 
+							<th style="min-width:90px" class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
 				</crudCard> 
@@ -22,39 +25,47 @@
 
 <script>
 
-export default {
+	export default {
 
-	props:[
-	'url' 
-	],  
+		props:[
+		'url' 
+		],  
 
-	data() {
-		return {                
-			config: {
-				exclusao:{
-					url:this.url,
-					evento:'usuarioRemovido',
-					item:'Usuário',
-				},
-				order: [[ 1, "asc" ]],
-				ajax: { 
-					url: this.url + '/datatable'
-				},
-				columns: [
-				{ data: 'id', name: 'id'  },
-				{ data: 'name', name: 'name' },
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
-				],
-			} ,  
-		}
-	},
+		data() {
+			return {                
+				config: {
+					exclusao:{
+						url:this.url,
+						evento:'usuarioRemovido',
+						item:'Usuário',
+					},
+					ativacao:{
+						url:this.url , 
+						item:'Usuário',
+					},
+					order: [[ 1, "asc" ]],
+					ajax: { 
+						url: this.url + '/datatable'
+					},
+					columns: [
+					{ data: 'id', name: 'id'  },
+					{ data: 'rg', name: 'rg'  }, 
+					{ data: 'post_grad_dsc', name: 'post_grad_dsc'  }, 
+					{ data: 'name', name: 'name' }, 
+					{ data: 'ome_qdi_dsc', name: 'ome_qdi_dsc' }, 
+					{ data: 'status', name: 'status' }, 
+					{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+					],
+				} ,  
+			}
+		},
 
-}
+	}
 
 </script>
- 
+
 <style > 
 .btn-sm{
-	 margin-left: 10px; 
+	margin-left: 10px; 
 }
 </style>

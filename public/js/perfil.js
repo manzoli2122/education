@@ -168,7 +168,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			perfil: '',
 			config: {
-				lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "Todos"]],
 				order: [[4, "desc"]],
 				ajax: {
 					url: this.url + '/' + this.$route.params.id + '/permissao/log/datatable'
@@ -512,7 +511,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1048,7 +1047,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "li",
-          { staticClass: "breadcrumb-item active" },
+          { staticClass: "breadcrumb-item" },
           [
             _c(
               "router-link",

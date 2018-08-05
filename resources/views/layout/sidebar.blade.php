@@ -3,7 +3,7 @@
 	<a href="/" class="bg-white brand-link ">
 		<img src="img/brasao-pmes.png" alt="SGPM-TEMPLATE" class="brand-image">
 		<span class="brand-text font-weight-light">
-			<b>SGPM-TEMPLATE</b>
+			<b>{{env('APP_NAME')}}</b>
 		</span>
 	</a>
 

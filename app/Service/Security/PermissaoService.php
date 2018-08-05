@@ -6,8 +6,7 @@ use App\Models\Security\Permissao;
 use App\Models\Security\Perfil;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
-use Cache;
-use App\Logging\LogService; 
+use Cache; 
 use Illuminate\Http\Request; 
 
 
@@ -16,12 +15,10 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
 {
 
     protected $model;   
-    protected $dataTable;
-    protected $logservice ;
+    protected $dataTable; 
 
 
-    public function __construct( Permissao $permissao , DataTables $dataTable , LogService $servicelog ){     
-        $this->logservice = $servicelog  ;    
+    public function __construct( Permissao $permissao , DataTables $dataTable ){  
         $this->model = $permissao ;    
         $this->dataTable = $dataTable ; 
     }

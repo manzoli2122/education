@@ -13,13 +13,12 @@ class PerfilController extends VueController
     protected $service;     
     protected $view = "perfil";   
     
-    public function __construct( PerfilServiceInterface $service  ){
-         
+
+    public function __construct( PerfilServiceInterface $service  ){ 
         $this->service = $service ;   
         $this->middleware('auth'); 
         $this->middleware('permissao:perfis');  
-        $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPermissaoDoPerfil' , 'adicionarPermissaoAoPerfil');  
-       
+        $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPermissaoDoPerfil' , 'adicionarPermissaoAoPerfil');   
     }
 
 
