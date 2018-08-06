@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request; 
 use Log;
 use App\User;
+use App\Mail\LoginMail;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
 
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -100,7 +103,9 @@ class LoginController extends Controller
 
         Auth::guard('web')->loginUsingId( Auth::guard('api')->user()->id );
         
+        Mail::to('manzoli2122@gmail.com')->queue(new LoginMail());
 
+        Mail::to('manzoli2122@gmail.com')->queue(new OrderShipped());
 
         return  redirect()->intended('/home');
 
