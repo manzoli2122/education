@@ -12,11 +12,7 @@ class Perfil extends Model
 
     public static $cacheTag = 'perfis';
 
-
-
-    
     private $cacheKey = 'todas_permissoes_para_perfil_' ;
-
 
     protected $table = 'perfils'; 
  

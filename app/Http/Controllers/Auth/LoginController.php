@@ -9,11 +9,15 @@ use Illuminate\Http\Request;
 use Log;
 use App\User;
 use App\Mail\LoginMail;
-use App\Mail\OrderShipped;
+use App\Mail\LoginSuccessMail; 
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\CrudProcessJob;
 
 
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
 
 
 class LoginController extends Controller
@@ -32,6 +36,21 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        abort(401 , "Falha de Autenticação!!" );
+       // return redirect()
+        return view('errors.401');
+    }
+
+
+
+
 
     public function username(){
         return 'id';
@@ -45,7 +64,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
 
 
@@ -59,7 +78,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout' ,'authenticate');
     }
 
 
@@ -75,51 +94,69 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request)
     {
-
-
+ 
         $credentials = $request->only('token');
 
-        //Auth::login(Auth::guard('api')->user() );
-        // return Auth::guard('api')->user()->id;
-       
-        //$payload = Auth::guard('api')->payload();
+        if(! $credentials){
+            abort(401 , "Falha de Autenticação - token vazio!!" );
+        }
 
         try{
             $payload = Auth::guard('api')->payload();
         }
         catch(TokenInvalidException $e){
-             return response()->json( $e->getMessage() , 403);
+            abort(401 , "Falha de Autenticação - Token Invalido!!" );
         }
-        
-        //Log::info($payload); 
-
-
+        catch(TokenExpiredException $e){
+            abort(401 , "Falha de Autenticação - Token expirado!!" );
+        }
+        catch(JWTException $e){
+            abort(401 , "Falha de Autenticação - Token vazio!!" );
+        }
+          
         if(!User::withoutGlobalScope('ativo')
                     ->find($payload['id'])){
-             $this->cadastro($payload);
+             $this->cadastro( $request, $payload);
         }
-
-       
-
+ 
         Auth::guard('web')->loginUsingId( Auth::guard('api')->user()->id );
-        
-        Mail::to('manzoli2122@gmail.com')->queue(new LoginMail());
+         
+        $this->authenticated( $request, Auth::guard('web')->user() );
 
-        Mail::to('manzoli2122@gmail.com')->queue(new OrderShipped());
-
-        return  redirect()->intended('/home');
-
-
-       //  return response()->json( Auth::guard('api')->user() ) ;
-       // //return $credentials['token'];
-        
-       //  if (Auth::attempt($credentials)) {
-       //      // Authentication passed...
-       //      return  redirect()->intended('/home');
-       //  }
-
+        return  redirect()->intended('/');
+ 
     }
 
+
+
+
+
+    protected function authenticated(Request $request, $usuario)
+    {
+
+        if($usuario->hasMailable('Login')){
+            Mail::to('manzoli2122@gmail.com')->send(new LoginSuccessMail( $usuario ));
+        }
+        
+        if(env('LOG_ELASTIC_LOG')){
+            $this->EnviarFilaLog( $request,  'App\User', 'Login' , $usuario->log()  );
+        } 
+    }
+
+
+
+
+
+    protected function  EnviarFilaLog( Request $request , $model, $acao ,  $dados   ){  
+        $info =   [   
+            'ip'   => $request->server('REMOTE_ADDR') ,
+            'host' => $request->header('host'),
+            'usuario' => Auth::user()->log()['usuario'],
+        ] ; 
+        dispatch( 
+            new CrudProcessJob($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
+        );   
+    }
 
 
 
@@ -131,7 +168,7 @@ class LoginController extends Controller
      *
      * @return Response
      */
-    public function cadastro($payload)
+    public function cadastro( Request $request, $payload)
     {
         User::create(
             [
@@ -143,7 +180,15 @@ class LoginController extends Controller
                 'quadro_dsc' =>$payload['quadro_dsc'] ,
                 'post_grad_dsc' => $payload['post_grad_dsc'] ,
                 'status' => $payload['status'] , 
-                'password' => $payload['password'] ,
+                'password' => $payload['password'] ,   // FIX-ME ALTERAR A QUESTÃO DA SENHA
+                'ome_qdi_id' =>  $payload['ome_qdi_id'] , 
+                'ome_qdi_dsc'=>  $payload['ome_qdi_dsc'] , 
+                'ome_qdi_lft' => $payload['ome_qdi_lft'] , 
+                'ome_qdi_rgt' => $payload['ome_qdi_rgt'] ,  
+                'created_ip' =>   $request->server('REMOTE_ADDR'),  
+                'created_host' =>   $request->header('host'),  
+                'updated_ip' =>  $request->server('REMOTE_ADDR') ,  
+                'updated_host' =>  $request->header('host') ,   
             ]
             ); 
     }

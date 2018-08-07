@@ -7,14 +7,33 @@ use Illuminate\Http\Request;
 interface VueServiceInterface  
 {
     
+    
+
     /**
     * Busca um model pelo id
     *
+    * @param Request $request
+    * 
     * @param int $id
     *
     * @return $model
     */
     public function  BuscarPeloId( Request $request , $id );
+
+
+
+    /**
+    * Busca todos registros de um model 
+    *
+    * @param Request $request
+    *
+    * @return $model
+    */
+    public function  BuscarTodos( Request $request  );
+
+
+
+
 
 
     /**

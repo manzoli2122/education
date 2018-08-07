@@ -1,17 +1,12 @@
-<html>	
-
-
-<body>
-	
-
-
-	<p>
-		Voce fez Login!!	
-	</p>
-
-
-</body>
+@component('mail::message')
+# Acesso ao {{ config('app.name') }}
 
 
 
-</html>
+
+Mensagem enviada automaticamente, favor não responder.
+ 
+
+Obrigado,<br>
+{{ config('app.name') }}
+@endcomponent

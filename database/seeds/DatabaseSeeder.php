@@ -50,8 +50,30 @@ class DatabaseSeeder extends Seeder
         //     'email' =>  'teste@gmail.com',
         //     'password' => bcrypt('teste'),
         // ]);
+         
+
+          
+
+        DB::table('mailable')->insert([ 
+            'nome' =>  'Login', 
+            'descricao' =>  'Envio de email a cada acesso', 
+        ]);
+
+        DB::table('mailable')->insert([ 
+            'nome' =>  'Perfil', 
+            'descricao' =>  'Envio de email ao ser adicionado ou retirado um perfil do Usuário', 
+        ]);
 
 
+        DB::table('users_mailable')->insert([
+            'mailable_id' => 1,
+            'user_id' => '00000000001' , 
+        ]);
+
+        DB::table('users_mailable')->insert([
+            'mailable_id' => 2,
+            'user_id' => '00000000001' , 
+        ]);
 
     }
 }

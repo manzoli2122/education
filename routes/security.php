@@ -28,6 +28,9 @@ Route::get('usuario/{userId}/log/elasticsearch',            'UsuarioController@e
 Route::post('usuario/ativacao/{userId}',          	        'UsuarioController@Ativar') ;  
 Route::delete('usuario/desativacao/{userId}',          	    'UsuarioController@Desativar') ;  
 
+
+ 
+
 Route::post('usuario/datatable',                            'UsuarioController@getDatatable') ;
 Route::resource('usuario',                                  'UsuarioController')->only(['index', 'show']);
 

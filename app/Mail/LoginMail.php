@@ -6,8 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Exception;
+use Log;
 
-class LoginMail extends Mailable
+
+class LoginMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -21,17 +24,18 @@ class LoginMail extends Mailable
         //
     }
 
-
+    public $tries = 1 ;
 
 
     /**
-     * Build the message.
-     *
-     * @return $this
-     */
+    * Build the message.
+    *
+    * @return $this
+    */
     public function build()
     {
-        return $this->view('emails.login');
+        return $this->markdown('emails.login');
+       
     }
 
 

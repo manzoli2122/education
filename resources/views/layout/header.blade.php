@@ -13,7 +13,7 @@
   <ul class="navbar-nav ml-auto">
     @guest
     <li class="nav-item">
-      <a class="nav-link" href="/home">Entrar    
+      <a class="nav-link" href="{{env('APP_URL_LOGIN_BAON')}}">Entrar    
         <i class="fa fa-sign-in"></i> 
       </a>
     </li> 

@@ -7,6 +7,7 @@ use App\Http\Controllers\VueController;
 use App\Service\Security\UsuarioServiceInterface;  
 use Exception;
  
+use View;
 
 class UsuarioController extends VueController
 {
@@ -23,6 +24,8 @@ class UsuarioController extends VueController
     }
 
   
+     
+
 
 
     /**

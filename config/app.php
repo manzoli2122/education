@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'pt',
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,6 +151,10 @@ return [
          * Package Service Providers...
          */
         
+
+        
+
+        
         App\Security\AALServiceProvider::class,
 
         Yajra\Datatables\DatatablesServiceProvider::class,
@@ -213,7 +217,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         "AAL" => App\Security\AALFacade::class,
-
+         
 
     ],
 

@@ -37,11 +37,7 @@ class AuthController extends Controller
     {
         
         $credentials = request(['id', 'password']);
-
-        //$token = auth()->login($user);
-         
-       // $token = request(['token'])  ;
-
+ 
         $user = User::first();
 
         if (! $token = $this->guard()->claims( 
@@ -55,40 +51,17 @@ class AuthController extends Controller
                 'post_grad_dsc' => "CEL",
                 'status' => 'A', 
                 'password' => bcrypt('123456'),
+                'ome_qdi_id' => 1 , 
+                'ome_qdi_dsc'=> 'PMES' , 
+                'ome_qdi_lft' => 1, 
+                'ome_qdi_rgt' => 10000,  
 
             ] )->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        
-
-
-        //  if (! $token = $this->guard()->claims( 
-        //     [ 
-        //        'id' => '00000000002',
-        //         'name' => 'Usuario.dtic',
-        //         'rg' => 1001,
-        //         'nf' => 1000001,                
-        //         'quadro_dsc' =>'Admin',
-        //         'post_grad_dsc' => "CEL",
-        //         'status' => 'A', 
-        //         'password' => bcrypt('123456'),
-
-        //     ] )->attempt($credentials)) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
-
-
+ 
         return $this->respondWithToken($token);
-
-
-        // $credentials = request(['email', 'password']);
-
-        // if (! $token = auth()->attempt($credentials)) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
-
-        // return $this->respondWithToken($token);
+ 
     }
 
 
@@ -102,9 +75,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json($this->guard()->user());
-
-        // return response()->json(auth()->user());
+        return response()->json($this->guard()->user()); 
     }
 
 
@@ -118,10 +89,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        $this->guard()->logout();
-
-        // auth()->logout();
-
+        $this->guard()->logout(); 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -136,9 +104,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken($this->guard()->refresh());
-
-        // return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken($this->guard()->refresh()); 
     }
 
 
@@ -155,19 +121,12 @@ class AuthController extends Controller
     {
 
         return response()->json([
-            'access_token' => env('APP_URL') .'login/token?token=' .$token ,
-
-
+            'access_token' => env('APP_URL') .'login/token?token=' .$token ,  
             //'token_type' => 'bearer',
            // 'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
 
-
-        // return response()->json([
-        //     'access_token' => $token,
-        //     'token_type' => 'bearer',
-        //     'expires_in' => auth()->factory()->getTTL() * 60
-        // ]);
+ 
     }
 
 

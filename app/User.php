@@ -84,6 +84,54 @@ class User extends Authenticatable  implements JWTSubject
 
 
 
+
+
+    /**
+    * 
+    * @return Query $query
+    */
+    public function mailable()
+    {
+        return $this->belongsToMany('App\Models\Mailable','users_mailable', 'user_id', 'mailable_id');
+    }
+
+
+    /**
+     * FIX-ME ADICIONAR CACHE
+    * Verifica se um usuario tem deternmindo perfil  
+    *
+    * @param array/String   $name
+    *
+    * @param boolean  $requireAll
+    *
+    * @return boolean 
+    */
+    public function hasMailable($name, $requireAll = false)
+    {
+        if (is_array($name)) {
+            foreach ($name as $mailName) {
+                $hasMailable = $this->hasMailable($mailName);
+
+                if ($hasMailable && !$requireAll) {
+                    return true;
+                } elseif (!$hasMailable && $requireAll) {
+                    return false;
+                }
+            }
+            return $requireAll;
+        } else {
+            $mailables  = json_decode(collect(['mailable' => $this->mailable()->select('nome')->get()->pluck('nome')])->toJson())->mailable; 
+            foreach ($mailables as $mailable) {
+                if ( str_is( $mailable, $name )  ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

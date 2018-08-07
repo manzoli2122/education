@@ -14,39 +14,13 @@
 
 Route::get('/', function () {    return view('welcome');})->name('inicio');
 Route::get('/home', function () {    return view('welcome');})->middleware('auth')->name('inicio');
-
-Route::get('/log', 'HomeController@log' )  ;
-      
  
+Route::get('profile', 'ProfileController@profile')->name('profile'); 
  
 // Rotas para autenticação
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
+Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 Route::get('login/token', 'Auth\LoginController@authenticate');//->middleware('auth:api');
- 
- /*
 
-Route::get('/redis', function () {    
-	$queue = Queue::push('LogMessage', array('message'=>'Time: '. time()   ));
-	return $queue;
-});
-
-
-class LogMessage{
-	public function fire($job,$date){
-		File::append(app_path().'/queue.txt', $date['message'].PHP_EOL);
-
-		App\Logging\LogService::enviarQueue(   
-                    [ 
-                        'acao' => 'Criar', 
-                        'model' => $date ,  
-                    ] 
-                )  ;
-
-		$job->delete();
-		 
-	}
-}
-*/
+  
