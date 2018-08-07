@@ -44,7 +44,7 @@ class AuthController extends Controller
             [ 
                'id' => '10000000000',
                 'name' => 'Usuario.dtic',
-                'email' => 'usuario@pmes.com',
+                'email' => 'manzoli.elisandra@gmail.com',
                 'rg' => 1001,
                 'nf' => 1000001,                
                 'quadro_dsc' =>'Admin',

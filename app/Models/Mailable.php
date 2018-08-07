@@ -19,13 +19,13 @@ class Mailable extends Model
 
     
     protected $fillable = [
-              'descricao', 
+              'descricao', 'nome'
     ];
 
 
-    // protected $hidden = [
-    //     'deleted_at' ,     'updated_at' ,  
-    // ];
+    protected $hidden = [
+        'created_at' ,     'updated_at' ,  
+    ];
         
 
     // public function log( )
@@ -57,10 +57,10 @@ class Mailable extends Model
     }
 
 
-    // public function getDatatable()
-    // {
-    //     return $this->select(['id', 'nome', 'descricao'  ]);        
-    // }
+    public function getDatatable()
+    {
+        return $this->select(['id', 'nome', 'descricao'  ]);        
+    }
     
  
      

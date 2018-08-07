@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+<nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom" id="header">
   <!-- Left navbar links -->
   <ul class="navbar-nav">
     <li class="nav-item">
@@ -18,6 +18,16 @@
       </a>
     </li> 
     @else
+
+
+    <notifications>      </notifications>
+
+
+    
+
+
+
+
     <li class="nav-item">
       <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         Sair

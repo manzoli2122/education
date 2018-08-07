@@ -6,15 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\User;
 
-
-class LoginSuccessMail extends Mailable implements ShouldQueue
+class PerfilRemovido extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-
-    protected $user;
 
     /**
      * The subject of the message.
@@ -24,19 +20,24 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
     public $subject ;
 
 
+
+
+    public $perfil ;
+
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct( string $perfil )
     {
-        $this->user = $user;
-        $this->subject = "Acesso ao " . env('APP_NAME') ;
+        $this->perfil = $perfil;        
+        $this->subject = "Perfil removido" ;
     }
 
 
-     public $tries = 1 ;
+    public $tries = 1 ;
 
 
     /**
@@ -46,8 +47,7 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $usuario =  $this->user;
-        return $this->markdown('emails.login.success' )
-        ->with('usuario' , $this->user );
+        return $this->markdown('emails.perfil.remover')
+         ->with('perfil' , $this->perfil );
     }
 }

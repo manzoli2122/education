@@ -51,8 +51,24 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('teste'),
         // ]);
          
-
+        DB::table('perfils')->insert([
+            'nome' => 'Professor',
+            'descricao' =>  'Professor', 
+        ]);
           
+        DB::table('perfils')->insert([
+            'nome' => 'Gerente',
+            'descricao' =>  'Gerente', 
+        ]);
+
+
+        DB::table('perfils')->insert([
+            'nome' => 'Diretor',
+            'descricao' =>  'Diretor', 
+        ]);
+
+
+
 
         DB::table('mailable')->insert([ 
             'nome' =>  'Login', 

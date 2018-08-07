@@ -31,7 +31,14 @@ Vue.component('Formulario', require('./components/core/crud/Formulario.vue'));
 Vue.component('select2', require('./components/core/crud/SelectComponente.vue'));
 
 
+Vue.component('notifications', require('./components/notification/Notifications'));
+Vue.component('notification', require('./components/notification/Notification'));
 
+
+
+const header = new Vue({
+    el: '#header',      
+});
  
 
 

@@ -21,6 +21,8 @@ mix.js('resources/assets/js/components/perfil/rotas.js', 'public/js/perfil.js');
 
 mix.js('resources/assets/js/components/usuario/rotas.js', 'public/js/usuario.js');
 
+mix.js('resources/assets/js/components/profile/rotas.js', 'public/js/profile.js');
+
 
 /*
 ==========================================================================================================

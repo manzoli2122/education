@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use Cache;  
 use Log;
 use DB;
+use Illuminate\Notifications\DatabaseNotification;
  
 
 class User extends Authenticatable  implements JWTSubject
@@ -22,6 +23,10 @@ class User extends Authenticatable  implements JWTSubject
     public static $cacheTag = 'usuario';
 
     private $cacheKey = 'todos_perfis_para_usuario_' ;
+
+
+
+
 
 
     /**
@@ -48,11 +53,21 @@ class User extends Authenticatable  implements JWTSubject
     ];
 
     protected $casts = [
-        'id' => 'string' ,
+        'id' => 'string' , 
     ];
 
 
-    
+    // /**
+    //  * Get the entity's notifications.
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+    //  */
+    // public function notifications()
+    // {
+    //     return strlen($this->id);
+    //     return DB::table('notifications')->where('notifiable_id' , '=' , '1' )->get();
+    //     return $this->morphMany(DatabaseNotification::class, 'notifiable')->orderBy('created_at', 'desc');
+    // }
 
 
 
@@ -367,5 +382,38 @@ class User extends Authenticatable  implements JWTSubject
         $this->cachedPerfisAtualizar();
     }
 
+
+
+
+
+    /**
+    * Atrela um mailable a um usuario 
+    *
+    * @param int/object $mailable
+    *
+    * @return void
+    */
+    public function attachMailable($mailable)
+    {
+        if(is_object($mailable)) {
+            $mailable = $mailable->getKey();
+        }
+        $this->mailable()->attach($mailable); 
+    }
     
+
+    /**
+    * Save  
+    *
+    * @param mixed $mailable
+    *
+    * @return void
+    */
+    public function detachMailable($mailable)
+    {
+        if (is_object($mailable)) {
+            $mailable = $mailable->getKey();
+        }
+        $this->mailable()->detach($mailable); 
+    }   
 }

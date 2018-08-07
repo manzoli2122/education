@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request; 
 use Log;
 use App\User;
+use App\Models\Mailable;
 use App\Mail\LoginMail;
 use App\Mail\LoginSuccessMail; 
 use Illuminate\Support\Facades\Mail;
@@ -133,11 +134,9 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $usuario)
     {
-
-        if($usuario->hasMailable('Login')){
-            Mail::to('manzoli2122@gmail.com')->send(new LoginSuccessMail( $usuario ));
+        if($usuario->hasMailable('Login') and  $usuario->email!== ''  ){
+            Mail::to($usuario->email)->send(new LoginSuccessMail( $usuario ));
         }
-        
         if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaLog( $request,  'App\User', 'Login' , $usuario->log()  );
         } 
@@ -170,7 +169,7 @@ class LoginController extends Controller
      */
     public function cadastro( Request $request, $payload)
     {
-        User::create(
+        $user = User::create(
             [
                 'id' => $payload['id'] ,
                 'name' => $payload['name'],
@@ -190,7 +189,11 @@ class LoginController extends Controller
                 'updated_ip' =>  $request->server('REMOTE_ADDR') ,  
                 'updated_host' =>  $request->header('host') ,   
             ]
-            ); 
+        ); 
+
+        foreach(Mailable::get() as $mailable){
+            $user->attachMailable( $mailable);
+        }
     }
 
 

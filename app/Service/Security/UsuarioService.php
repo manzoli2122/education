@@ -13,6 +13,10 @@ use Yajra\DataTables\DataTables;
 use App\Jobs\CrudProcessJob; 
 use Log;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PerfilAdicionado; 
+use App\Notifications\PerfilAdicionado as PerfilAdicionadoNotification ; 
+use App\Mail\PerfilRemovido; 
 
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
@@ -201,6 +205,15 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     		abort(403, 'Você não tem permissão para adicionar o perfil Admin.');
     	}
     	$usuario->attachPerfil($perfil);
+
+
+
+        if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
+            Mail::to($usuario->email)->send(new PerfilAdicionado( $perfil->nome ));
+            $usuario->notify( new PerfilAdicionadoNotification( $perfil ) ); 
+        }
+
+
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaLog( $request, 'Perfil_Usuario', 'adicionarPerfilAoUsuario',['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]); 
     	} 
@@ -242,6 +255,10 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	} 
     	$usuario->detachPerfil($perfilId); 
 
+        if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
+            Mail::to($usuario->email)->send(new PerfilRemovido( $perfil->nome ));
+        }
+        
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaLog( $request, 'Perfil_Usuario', 'excluirPerfilDoUsuario', ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]);  
     	}

@@ -25,7 +25,7 @@
 </head>
 <body class="hold-transition sidebar-mini">
 	
-	<div class="wrapper">
+	<div class="wrapper" >
 
 		@include('layout.header')
 
