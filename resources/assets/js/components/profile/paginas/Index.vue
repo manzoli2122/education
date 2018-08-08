@@ -1,7 +1,7 @@
 <template>  
 	<div>  
-		<crudHeader texto="Profile">
-			<li class="breadcrumb-item">User Profile</li>
+		<crudHeader texto="Meu perfil">
+			<li class="breadcrumb-item">Meu perfil</li>
 		</crudHeader> 
 		<div class="content">
 			<div class="container-fluid"> 

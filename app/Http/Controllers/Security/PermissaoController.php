@@ -11,8 +11,14 @@ use App\Service\Security\PermissaoServiceInterface;
 class PermissaoController extends VueController
 {
     
+
     protected $service;  
-    protected $view = "permissao";     
+
+
+    protected $view = "permissao";   
+
+
+
     
     public function __construct( PermissaoServiceInterface $service  ){
           
@@ -21,6 +27,10 @@ class PermissaoController extends VueController
         $this->middleware('permissao:permissoes');
         $this->middleware('perfil:Admin')->only('update', 'destroy');       
     }
+
+ 
+
+
 
  
 

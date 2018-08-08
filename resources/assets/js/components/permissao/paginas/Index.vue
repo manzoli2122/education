@@ -8,9 +8,9 @@
 				<crudCard>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatablePermissao"> 
-							<th style="max-width:20px">ID</th>
+							<th style="max-width:50px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th pesquisavel>Descricao</th>  
+							<th pesquisavel>Descrição</th>  
 							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    

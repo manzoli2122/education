@@ -10,7 +10,7 @@
 						<datatableService :config="config"  id="datatablePerfis"> 
 							<th style="max-width:30px">ID</th>
 							<th pesquisavel>Nome</th>
-							<th pesquisavel>Descricao</th>  
+							<th pesquisavel>Descrição</th>  
 							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    

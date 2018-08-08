@@ -72,6 +72,10 @@ class ProfileController extends Controller
 
 
 
+
+
+
+
     /**
      * FIX-ME FAZER LOG
     * Função para ativar 
@@ -88,6 +92,12 @@ class ProfileController extends Controller
         $usuario->attachMailable($mailable);  
         return response()->json( 'Ativado', 200 );
     }
+
+
+
+
+
+
 
 
 
@@ -113,8 +123,11 @@ class ProfileController extends Controller
 
 
 
+
+
+
     /**
-    *  Função que busca as notificações no banco de dados
+    *  Função que busca as notificações não lidas no banco de dados
     *
     * @param Request $request
     *    
@@ -124,6 +137,12 @@ class ProfileController extends Controller
         $notifications = $request->user()->unreadNotifications ;
         return response()->json( $notifications , 200 );
     }
+
+
+
+
+
+
 
 
 
@@ -141,4 +160,8 @@ class ProfileController extends Controller
     }
 
     
+
+
+
+
 }

@@ -11,10 +11,16 @@ use App\User;
 
 class LoginSuccessMail extends Mailable implements ShouldQueue
 {
+
+
     use Queueable, SerializesModels;
 
 
+
+
     protected $user;
+
+
 
     /**
      * The subject of the message.
@@ -22,6 +28,10 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
      * @var string
      */
     public $subject ;
+
+
+
+
 
 
     /**
@@ -36,7 +46,13 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
     }
 
 
+
+
+
     public $tries = 1 ;
+
+
+
 
 
     /**
@@ -50,4 +66,9 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
         return $this->markdown('emails.login.success' )
         ->with('usuario' , $this->user );
     }
+
+
+
+
+    
 }

@@ -10,41 +10,72 @@ class Permissao extends Model
 {
      
       
+
     protected $table = 'permissoes';
      
+
 
     protected $fillable = [
             'nome', 'descricao', 
     ];
 
+
+
+
     protected $hidden = [
-        'deleted_at' ,   'updated_at' ,  'created_at' , 'pivot'
+        'updated_at' ,  'created_at' , 'pivot'
     ];
+
 
     
 
+
+    /**
+     * retorna um array dos dados para gravar em log
+     *
+     * @return $array
+     */
     public function log( )
     {
         return [
             'permissao' => [ 
                 'id' => $this->id,
                  'nome' => $this->nome , 
-                 //'descricao' => $this->descricao , 
+                 'descricao' => $this->descricao , 
             ]       
         ];
     }
         
 
 
+
+
+
+
+    /**
+     * Retorna as regras de validações para cadastro e atualização
+     *
+     * @return $rules
+     */
     public function rules($id = '')
     {
             return [
                 'nome' => 'required|min:3|max:100',
-                'descricao' => "required|min:0|max:100",     
+                'descricao' => "required|min:1|max:100",     
             ];
     }
 
 
+
+
+
+
+
+    /**
+     * Funcao para auxiliar o datatable de listar os perfis.
+     *
+     * @return $permissoes
+     */
     public function getDatatable()
     {
         return $this->select(['id', 'nome', 'descricao'  ]);        
@@ -52,7 +83,16 @@ class Permissao extends Model
 
  
     
-     public function perfis()
+
+
+
+
+    /**
+     * Retorna os perfis que possui a permissao.
+     *
+     * @return $usuarios
+     */
+    public function perfis()
     {
         return $this->belongsToMany('App\Models\Security\Perfil' , 'permissao_perfils', 'permissao_id', 'perfil_id');
     }
@@ -62,6 +102,12 @@ class Permissao extends Model
 
 
 
+
+    /**
+     * Retorna as permissoes que um perfil não possui
+     *
+     * @return $permissoes
+     */
     public  function permissaoParaAdicionarAoPerfil($perfil_id)
     {
         return $this->whereNotIn('id', function($query) use ($perfil_id){

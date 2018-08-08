@@ -177,7 +177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				},
 				order: [[1, "asc"]],
 				ajax: {
-					url: this.url + '/notificacao/datatable'
+					url: this.url + '/mailable/datatable'
 				},
 				columns: [{ data: 'nome', name: 'nome' }, { data: 'descricao', name: 'descricao' }, { data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center' }]
 			}
@@ -422,8 +422,8 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Profile" } }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("User Profile")])
+      _c("crudHeader", { attrs: { texto: "Meu perfil" } }, [
+        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Meu perfil")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -557,7 +557,7 @@ var render = function() {
           { staticClass: "breadcrumb-item" },
           [
             _c("router-link", { attrs: { to: "/", exact: "" } }, [
-              _c("a", [_vm._v("User Profile")])
+              _c("a", [_vm._v("Meu perfil")])
             ])
           ],
           1

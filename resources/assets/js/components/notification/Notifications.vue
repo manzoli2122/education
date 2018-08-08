@@ -16,7 +16,9 @@
 
     		<perfilAdicionadoNotification  v-for="notification in perfilAdicionado" :key="notification.id" :notification="notification">  
     		</perfilAdicionadoNotification>
- 
+ 		
+ 			<perfilRemovidoNotification  v-for="notification in perfilRemovido" :key="notification.id" :notification="notification">  
+    		</perfilRemovidoNotification>
 			 
 			
 			<div class="dropdown-divider"></div>
@@ -32,6 +34,7 @@
 <script>
 	
 	Vue.component('perfilAdicionadoNotification', require('./perfilAdicionadoNotification'));
+	Vue.component('perfilRemovidoNotification', require('./perfilRemovidoNotification'));
 
 
 	export default {
@@ -46,10 +49,19 @@
 			perfilAdicionado:  function(){
 				return this.notifications.filter(
 					function( item ){
-						return item.type.match('PerfilAdicionado');
+						return item.type.match('PerfilAdicionadoNotification');
 					}
 				)
-			}
+			},
+
+			perfilRemovido:  function(){
+				return this.notifications.filter(
+					function( item ){
+						return item.type.match('PerfilRemovidoNotification');
+					}
+				)
+			},
+
 		},
 
 

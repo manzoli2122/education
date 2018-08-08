@@ -14,8 +14,14 @@ use Illuminate\Http\Request;
 class PermissaoService extends VueService  implements PermissaoServiceInterface 
 {
 
+
     protected $model;   
+
+
     protected $dataTable; 
+
+
+
 
 
     public function __construct( Permissao $permissao , DataTables $dataTable ){  
@@ -55,6 +61,9 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
 
 
 
+
+
+
   	 /**
     * Funcao para buscar as permissoes pelo datatable  
     *
@@ -76,6 +85,13 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
 
 
 
+
+
+
+
+
+
+
     /**
     * Função para buscar as Perfis de uma Permissao pelo datatable
     *
@@ -92,6 +108,10 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
             ->eloquent($models) 
             ->make(true);  
     }
+
+
+
+
 
   
 }

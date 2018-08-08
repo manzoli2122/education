@@ -1,6 +1,6 @@
 <template>             
 	<div>  
-		<crudHeader :texto="'Usuário ' + usuario.name ">
+		<crudHeader :texto="'Usuário - ' + usuario.name ">
 			<li class="breadcrumb-item"><router-link to="/" exact><a>Usuários</a></router-link></li> 
 			<li class="breadcrumb-item">Perfis</li>
 		</crudHeader> 
@@ -89,7 +89,7 @@ export default {
 			this.perfis = response.data;
 		})
 		.catch(error => {
-			toastErro("Não foi possivel achar a Perfil", error.response.data);
+			toastErro("Não foi possivel achar os Perfis para adiocionar", error.response.data);
 		});  
  
 		  

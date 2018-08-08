@@ -1,7 +1,7 @@
 <template>             
 	<div>  
 		<crudHeader texto="Notificações">
-			<li class="breadcrumb-item"><router-link to="/" exact><a>User Profile</a></router-link></li> 
+			<li class="breadcrumb-item"><router-link to="/" exact><a>Meu perfil</a></router-link></li> 
 			<li class="breadcrumb-item">Notificações</li>
 		</crudHeader> 
 		<div class="content">
@@ -40,7 +40,7 @@
 					},
 					order: [[ 1, "asc" ]],
 					ajax: { 
-						url: this.url +  '/notificacao/datatable'
+						url: this.url +  '/mailable/datatable'
 					},
 					columns: [ 
 					{ data: 'nome', name: 'nome' },

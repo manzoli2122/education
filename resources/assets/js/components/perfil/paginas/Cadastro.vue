@@ -14,7 +14,7 @@
 						<input type="text" id="nome" name="nome" class="form-control" v-model="form.nome" v-bind:class="{ 'is-invalid': form.errors.has('nome') }"> 
 					</crudFormElemento> 
 					<crudFormElemento :errors="form.errors.has('descricao')" :errors_texto="form.errors.get('descricao')">
-						<label for="descricao">Descricao:</label>
+						<label for="descricao">Descrição:</label>
 						<input type="text" id="descricao" name="descricao" class="form-control" v-model="form.descricao" v-bind:class="{ 'is-invalid': form.errors.has('descricao') }">
 					</crudFormElemento> 
 				</Formulario> 

@@ -1,6 +1,6 @@
 <template>             
 	<div> 
-		<crudHeader :texto="'Perfil ' + perfil.nome">
+		<crudHeader :texto="'Perfil - ' + perfil.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
 			</li> 

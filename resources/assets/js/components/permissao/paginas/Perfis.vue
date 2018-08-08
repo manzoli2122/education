@@ -1,6 +1,6 @@
 <template>             
 	<div> 
-		<crudHeader :texto="'Permissao ' + permissao.nome">
+		<crudHeader :texto="'Permissão - ' + permissao.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Permissões </a></router-link> 
 			</li>
@@ -14,7 +14,7 @@
 					</div>
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatablePerfis"> 
-							<th style="max-width:30px">ID</th>
+							<th style="max-width:50px">ID</th>
 							<th pesquisavel>Nome</th>
 							<th pesquisavel>Descrição</th>  
 						</datatableService>  

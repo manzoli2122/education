@@ -10,9 +10,15 @@ use App\Service\Security\PerfilServiceInterface;
 class PerfilController extends VueController
 {
     
-    protected $service;     
+
+
+    protected $service;   
+
+      
     protected $view = "perfil";   
     
+
+
 
     public function __construct( PerfilServiceInterface $service  ){ 
         $this->service = $service ;   
@@ -20,6 +26,9 @@ class PerfilController extends VueController
         $this->middleware('permissao:perfis');  
         $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPermissaoDoPerfil' , 'adicionarPermissaoAoPerfil');   
     }
+
+
+
 
 
 
@@ -48,6 +57,8 @@ class PerfilController extends VueController
 
 
 
+
+
     /**
     * Função para retirar um Permissao de um Perfil  atraves do PerfilServiceInterface
     *
@@ -66,6 +77,8 @@ class PerfilController extends VueController
     }
 
  
+
+
 
 
 
@@ -122,6 +135,8 @@ class PerfilController extends VueController
 
 
 
+
+
     /**
     * Função para buscar as Usuarios de um Perfil pelo datatable
     *
@@ -140,6 +155,10 @@ class PerfilController extends VueController
             return response()->json( $e->getMessage() , 500);
         }   
     }
+
+
+
+
 
 
 
@@ -164,5 +183,7 @@ class PerfilController extends VueController
     }
 
   
+
+
 
 }

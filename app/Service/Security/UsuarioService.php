@@ -15,17 +15,35 @@ use Log;
 use Exception;
 use Illuminate\Support\Facades\Mail; 
 use App\Notifications\PerfilAdicionadoNotification  ; 
+use App\Notifications\PerfilRemovidoNotification  ; 
 use App\Mail\PerfilRemovido; 
 
 
 class UsuarioService extends VueService  implements UsuarioServiceInterface 
 {
 
+
+
+
 	protected $model; 
+
+
 	protected $perfil; 
+
+
 	protected $logSeguranca;
+
+
 	protected $dataTable;
+
+
 	protected $route = "user";
+
+
+
+
+
+
 
 
 
@@ -43,6 +61,11 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	$this->logSeguranca = $log ;  
 
     }
+
+
+
+
+
 
 
 
@@ -66,6 +89,14 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         }
     	return 'Ativado';
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -93,6 +124,12 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
+
+
+
+
+
+
     /**
     * Funcao para buscar os usuario pelo datatable  
     *
@@ -110,15 +147,14 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     		return '<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> ' 
     		.'<button data-id="'.$linha->id.'" btn-desativar class="btn btn-danger btn-sm" title="Destivar"><i class="fa fa-lock"></i></button>' ; 
     	})
-            //->editColumn('status', '{{$status}}')
-            // ->editColumn('status', function ($user) {
-            //     return $user->status === 'A' ? 'Ativo' : 'Inativo';
-            // })
     	->setRowClass(function ($user) {
     		return $user->status === 'Ativo' ? '' : 'alert-warning';
     	})
     	->make(true); 
     }
+
+
+
 
 
 
@@ -145,6 +181,11 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	})
     	->make(true);  
     }
+
+
+
+
+
 
 
 
@@ -181,6 +222,8 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
+
+
     /**
     * Função para Adicionar um Perfil a um usuario e salvar em log 
     *
@@ -206,11 +249,6 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	$usuario->attachPerfil($perfil);
  
         $usuario->notify( new PerfilAdicionadoNotification( $perfil ) );
-
-        // if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
-        //    Mail::to($usuario->email)->send(new PerfilAdicionado( $perfil->nome ));             
-        // }
-
 
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'adicionarPerfilAoUsuario',['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]); 
@@ -253,15 +291,18 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	} 
     	$usuario->detachPerfil($perfilId); 
 
-        if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
-            Mail::to($usuario->email)->send(new PerfilRemovido( $perfil->nome ));
-        }
-        
+        $usuario->notify( new PerfilRemovidoNotification( $perfil ) );
+
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'excluirPerfilDoUsuario', ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]);  
     	}
     	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir'  ,$request->server('REMOTE_ADDR') , $request->header('host') ); 
     }
+
+
+
+
+
 
 
 

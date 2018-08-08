@@ -9,22 +9,18 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Security\Perfil; 
 
 
-class PerfilAdicionadoNotification extends Notification implements ShouldQueue
+class PerfilRemovidoNotification extends Notification implements ShouldQueue
 {
 
 
+
     use Queueable;
-    
-
-
-    //public $tries = 1 ; // Não funciona aqui, feito atrave do comando --tries=1
 
 
 
 
     public $perfil  ;
 
-   
 
 
 
@@ -37,10 +33,9 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
     public function __construct(Perfil $perfil)
     {
         $this->perfil = $perfil;
-        
     }
 
- 
+
 
 
 
@@ -68,6 +63,8 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
 
 
 
+
+
     /**
      * Get the mail representation of the notification.
      *
@@ -75,17 +72,13 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {   
-        return (new MailMessage) 
-                    ->subject('Perfil Adicionado')
-                    ->markdown('emails.perfil.adicionar' , ['perfil' =>$this->perfil->nome  ]);
-
-                    // ->greeting('Perfil adicionado no ' . config('app.name')  ) 
-                    // ->line('Agora você possui o perfil ' .$this->perfil->nome ) 
-                    // ->line('Mensagem enviada automaticamente.' )
-                    // ->line('Para desativar esta notificação entre no sistema e na parte de profile do usuário selecione gerenciar notificações.' )
-                    // ->salutation('Obrigado, ' .config('app.name') );
+    {
+        return (new MailMessage)
+                    ->subject(' Perfil removido')
+                    ->markdown('emails.perfil.remover' , ['perfil' =>$this->perfil->nome  ] );
+                    
     }
+
 
 
 
@@ -113,6 +106,8 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
 
 
 
+
+
     /**
      * Get the array representation of the notification.
      *
@@ -125,8 +120,6 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
             'perfil' => $this->perfil 
         ];
     }
-
-
 
 
 

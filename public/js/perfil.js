@@ -476,7 +476,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			if (this.form.permissao) {
 				this.form.submit("post", this.url + "/" + this.$route.params.id + "/adicionar/permissao").then(function (response) {
-					toastSucesso("permissao adicionado co successo.");
+					toastSucesso("Permissão adicionado com successo.");
 					_this.$emit('permissaoAdicionada', response);
 				}).catch(function (errors) {
 					return console.log(errors);
@@ -766,7 +766,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Perfil " + _vm.perfil.nome } }, [
+      _c("crudHeader", { attrs: { texto: "Perfil - " + _vm.perfil.nome } }, [
         _c(
           "li",
           { staticClass: "breadcrumb-item" },
@@ -969,7 +969,7 @@ var render = function() {
                   },
                   [
                     _c("label", { attrs: { for: "descricao" } }, [
-                      _vm._v("Descricao:")
+                      _vm._v("Descrição:")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -1159,7 +1159,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Perfil " + _vm.perfil.nome } }, [
+      _c("crudHeader", { attrs: { texto: "Perfil - " + _vm.perfil.nome } }, [
         _c(
           "li",
           { staticClass: "breadcrumb-item" },
@@ -1277,7 +1277,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Descricao")
+                        _vm._v("Descrição")
                       ]),
                       _vm._v(" "),
                       _c("th", { staticClass: "text-center" }, [

@@ -11,15 +11,22 @@ use Illuminate\Database\QueryException;
 class VueController extends Controller
 {
  
-    protected $service;     
+    protected $service;   
+
+
     protected $view   ;   
 
        
 
 
+
     public function index(Request $request){  
         return view("{$this->view}.index");         
     }
+
+
+
+
 
 
 
@@ -44,6 +51,10 @@ class VueController extends Controller
             return response()->json( 'Erro interno'  , 500);    
         }
     }
+
+
+
+
 
 
 
@@ -78,6 +89,9 @@ class VueController extends Controller
 
 
 
+
+
+
     /**
     * Função para criar um model
     *
@@ -96,6 +110,11 @@ class VueController extends Controller
         }   
         return response()->json( 'Cadastro realizado com sucesso' , 200); 
     }
+
+
+
+
+
 
 
 
@@ -130,6 +149,11 @@ class VueController extends Controller
 
 
 
+
+
+
+
+
     /**
     * Função para buscar models para datatable
     *
@@ -145,6 +169,9 @@ class VueController extends Controller
             return response()->json( $e->getMessage() , 500);
         } 
     }
+
+  
+
 
   
 }

@@ -12,9 +12,14 @@ class Perfil extends Model
 
     public static $cacheTag = 'perfis';
 
+
     private $cacheKey = 'todas_permissoes_para_perfil_' ;
 
+
+
+
     protected $table = 'perfils'; 
+
  
 
     
@@ -23,11 +28,22 @@ class Perfil extends Model
     ];
 
 
+
+
+
     protected $hidden = [
         'deleted_at' ,     'updated_at' ,  
     ];
         
 
+
+
+
+    /**
+     * retorna um array dos dados para gravar em log
+     *
+     * @return $array
+     */
     public function log( )
     {
         return [
@@ -40,6 +56,14 @@ class Perfil extends Model
     }
 
 
+
+
+
+    /**
+     * Retorna as regras de validações para cadastro e atualização
+     *
+     * @return $rules
+     */
     public function rules($id = '')
     {
             return [
@@ -49,27 +73,57 @@ class Perfil extends Model
     }
  
 
+
+
+
+    /**
+     * Retorna as permissoes de um perfil.
+     *
+     * @return $permissoes
+     */
     public function permissoes()
     {
         return $this->belongsToMany( 'App\Models\Security\Permissao', 'permissao_perfils', 'perfil_id', 'permissao_id');
     }
 
-    
+
+
+
+
+
+    /**
+     * Retorna os usuarios que possui o perfil.
+     *
+     * @return $usuarios
+     */
     public function usuarios()
     {
         return $this->belongsToMany('App\User', 'perfils_users', 'perfil_id', 'user_id' );
     }
 
 
+
+
+
+
+    /**
+     * Funcao para auxiliar o datatable de listar os perfis.
+     *
+     * @return $perfis
+     */
     public function getDatatable()
     {
         return $this->select(['id', 'nome', 'descricao'  ]);        
     }
     
 
+
+
  
 
-
+    /**
+     * Exclui a cache do perfil no caso de exclusão do mesmo  
+     */
     public function delete()
     {
         $cacheKey = $this->cacheKey . $this->id;
@@ -84,6 +138,8 @@ class Perfil extends Model
 
 
 
+
+
      
     public static function boot()
     {
@@ -92,8 +148,7 @@ class Perfil extends Model
             if (!method_exists( 'App\Models\Security\Perfil' , 'bootSoftDeletes')) {
                 $perfil->usuarios()->sync([]);
                 $perfil->permissoes()->sync([]);
-            }
-
+            } 
             return true;
         });
     }
@@ -102,7 +157,14 @@ class Perfil extends Model
 
 
 
-    
+
+
+    /**
+     * Busca as permissoes de um perfil
+     * primeiramente na cache, caso não tenha no banco de dados e salva na cache.
+     *
+     * @return $permissoes
+     */
     public function cachedPermissoes()
     { 
         $cacheKey = $this->cacheKey . $this->id;    
@@ -118,6 +180,8 @@ class Perfil extends Model
         } 
         return $value ;
     }
+
+
 
 
 
@@ -144,6 +208,12 @@ class Perfil extends Model
  
 
 
+
+    /**
+     * Busca os perfis que um usuario não possui.
+     *
+     * @return $perfis
+     */
     public function perfisParaAdicionarAoUsuario( string $usuario_id, $isAdmin = false)
     {
         if($isAdmin){
@@ -167,8 +237,14 @@ class Perfil extends Model
 
 
 
-    
 
+
+    
+    /**
+     * Verifica se um perfil possui uma permissão ou um conjunto delas 
+     *
+     * @return $bool
+     */
     public function hasPermissao($name, $requireAll = false)
     {
         if (is_array($name)) {
@@ -197,7 +273,11 @@ class Perfil extends Model
     
 
 
-
+    /**
+     * Atrela uma permissao ao perfil.
+     *
+     * @return void
+     */
     public function attachPermissao($permissao)
     {
         if (is_object($permissao)) {
@@ -211,6 +291,13 @@ class Perfil extends Model
 
 
 
+
+
+    /**
+     * remove uma permissao de um perfil.
+     *
+     * @return $permissoes
+     */
     public function detachPermissao($permissao)
     {
         if (is_object($permissao)) {

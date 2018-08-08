@@ -7,13 +7,18 @@ use App\Http\Controllers\VueController;
 use App\Service\Security\UsuarioServiceInterface;  
 use Exception;
  
-use View;
 
 class UsuarioController extends VueController
 {
     
     protected $service; 
-    protected $view  = " usuario";    
+
+
+    protected $view  = " usuario";
+
+
+
+
     
     public function __construct( UsuarioServiceInterface $service    ){ 
         $this->service = $service ;   
@@ -25,6 +30,7 @@ class UsuarioController extends VueController
 
   
      
+
 
 
 
@@ -44,6 +50,10 @@ class UsuarioController extends VueController
 
 
 
+
+
+
+
     /**
     * Função para desativar um usuario ja existente  
     *
@@ -56,6 +66,9 @@ class UsuarioController extends VueController
     public function  Desativar( Request $request , $userId ){
        return response()->json( $this->service->Desativar( $request , $userId ), 200 );
     }
+
+
+
 
 
 
@@ -82,6 +95,8 @@ class UsuarioController extends VueController
 
  
 
+
+
     
 
 
@@ -101,6 +116,11 @@ class UsuarioController extends VueController
         $this->service->excluirPerfilDoUsuario($perfilId , $userId ,  $request  );  
         return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200);  
     }
+
+
+
+
+
 
 
 
@@ -133,6 +153,8 @@ class UsuarioController extends VueController
 
 
 
+
+
     /**
     * Função para buscar os logs de perfis de um usuario pelo datatable
     *
@@ -153,6 +175,10 @@ class UsuarioController extends VueController
     }
 
  
+
+
+
+
 
 
 
@@ -181,6 +207,7 @@ class UsuarioController extends VueController
 
 
 
+
     /**
     * Função para buscar log de perfis do usuario
     *
@@ -197,4 +224,10 @@ class UsuarioController extends VueController
         return response()->json( $response  , 200); 
          
     }
+
+
+
+
+
+    
 }

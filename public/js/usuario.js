@@ -329,7 +329,7 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar").then(function (response) {
 			_this.perfis = response.data;
 		}).catch(function (error) {
-			toastErro("Não foi possivel achar a Perfil", error.response.data);
+			toastErro("Não foi possivel achar os Perfis para adiocionar", error.response.data);
 		});
 	},
 
@@ -673,7 +673,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Usuário " + _vm.usuario.name } }, [
+      _c("crudHeader", { attrs: { texto: "Usuário - " + _vm.usuario.name } }, [
         _c(
           "li",
           { staticClass: "breadcrumb-item" },
@@ -855,7 +855,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("crudHeader", { attrs: { texto: "Usuário " + _vm.usuario.name } }, [
+      _c("crudHeader", { attrs: { texto: "Usuário - " + _vm.usuario.name } }, [
         _c(
           "li",
           { staticClass: "breadcrumb-item" },

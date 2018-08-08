@@ -24,11 +24,12 @@ Route::get('login/token', 'Auth\LoginController@authenticate');//->middleware('a
 
 Route::post('profile/ativacao/{mailable_id}',      'ProfileController@AtivarNotificacaoEmail') ;  
 Route::delete('profile/desativacao/{mailable_id}', 'ProfileController@DesativarNotificacaoEmail') ; 
+Route::post('profile/mailable/datatable',  'ProfileController@getNotificacaoDatatable') ;
 
 
 Route::get('profile/notificacoes',  'ProfileController@notifications') ; 
 Route::post('profile/limpar/notificacoes',  'ProfileController@limparNotifications') ; 
 
 
-Route::post('profile/notificacao/datatable',  'ProfileController@getNotificacaoDatatable') ; 
+ 
 Route::get('profile',                         'ProfileController@profile')->name('profile'); 

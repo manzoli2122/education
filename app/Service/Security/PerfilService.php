@@ -12,14 +12,31 @@ use App\Jobs\FIlaElasticSearchLog;
 use App\User;
 use Cache;
 
+
+
+
+
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
 
+
+
     protected $model; 
+
+
     protected $permissao; 
+
+
     protected $dataTable;
+
+
     protected $logSeguranca;
+
+
     protected $route = "perfil"; 
+
+
+
 
 
 
@@ -30,12 +47,17 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $this->logSeguranca = $log ;  
     }
 
- 
+
+
+
+
+
+
 
     /**
     * Função para excluir um model  e limpar a cache
-    * neccesário pois um perfil pode ficar com a permissao 
-    * mesmo depois dela ser excluida
+    * neccesário pois um ususario pode ficar com o perfil 
+    * mesmo depois dele ser excluido
     *
     * @param int $id
     *    
@@ -43,15 +65,19 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     */
     public function  Apagar( Request $request , $id ){  
         parent::Apagar( $request , $id ) ;  
-        //Limpa a cache 
+        //Limpa a cache de usuarios ou toda cache dependendo do tipo de driver da cache
         if(Cache::getStore() instanceof TaggableStore){
             Cache::tags(User::$cacheTag)->flush(); 
         }
         else{
             Cache::flush( );
-        }  
-        
+        }   
     }
+
+
+
+
+
 
 
     /**
@@ -114,6 +140,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
 
 
 
+
+
     /**
     * Função para buscar os Permissao que um Perfil não possui; 
     *  
@@ -122,8 +150,10 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     * @return List $permissoes
     */
     public function BuscarPermissoesParaAdicionar(   int $perfilId  ){
-     return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
- }
+        return  $this->permissao->permissaoParaAdicionarAoPerfil( $perfilId );
+    }
+
+
 
 
 
@@ -152,6 +182,11 @@ class PerfilService extends VueService  implements PerfilServiceInterface
 
 
 
+
+
+
+
+
     /**
     * Função para buscar os permissoes de um Perfil pelo datatable
     *
@@ -172,6 +207,12 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         })
         ->make(true);  
     }
+
+
+
+
+
+
 
 
 
@@ -203,6 +244,12 @@ class PerfilService extends VueService  implements PerfilServiceInterface
 
 
 
+
+
+
+
+
+
     /**
     * Funcao para buscar os perfis pelo datatable  
     *
@@ -223,6 +270,13 @@ class PerfilService extends VueService  implements PerfilServiceInterface
     }
 
     
+
+
+
+
+
+
+
 
 
 
@@ -255,6 +309,11 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $log->host = $host; 
         $log->save(); 
     }
+
+
+
+
+
 
 
 

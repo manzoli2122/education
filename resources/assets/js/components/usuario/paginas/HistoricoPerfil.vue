@@ -1,6 +1,6 @@
 <template>             
 	<div>  
-		<crudHeader :texto="'Usuário ' + usuario.name ">
+		<crudHeader :texto="'Usuário - ' + usuario.name ">
 			<li class="breadcrumb-item"><router-link to="/" exact><a>Usuários</a></router-link></li> 
 			<li class="breadcrumb-item">
 				<router-link :to="'/' + this.$route.params.id + '/perfil'" exact><a>Perfis</a></router-link>

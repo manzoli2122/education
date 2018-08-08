@@ -46,7 +46,7 @@
 				if (this.form.permissao) {
 					this.form.submit("post", this.url + "/" + this.$route.params.id + "/adicionar/permissao")
 					.then(response => { 
-						toastSucesso("permissao adicionado co successo."); 
+						toastSucesso("Permissão adicionado com successo."); 
 						this.$emit('permissaoAdicionada', response ) 
 					})
 					.catch(errors => console.log(errors));

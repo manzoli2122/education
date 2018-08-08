@@ -551,7 +551,7 @@ var render = function() {
     [
       _c(
         "crudHeader",
-        { attrs: { texto: "Permissao " + _vm.permissao.nome } },
+        { attrs: { texto: "Permissão - " + _vm.permissao.nome } },
         [
           _c(
             "li",
@@ -588,7 +588,7 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatablePerfis" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "30px" } }, [
+                      _c("th", { staticStyle: { "max-width": "50px" } }, [
                         _vm._v("ID")
                       ]),
                       _vm._v(" "),
@@ -718,7 +718,7 @@ var render = function() {
                   },
                   [
                     _c("label", { attrs: { for: "descricao" } }, [
-                      _vm._v("Descricao:")
+                      _vm._v("Descrição:")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -800,7 +800,7 @@ var render = function() {
                     "datatableService",
                     { attrs: { config: _vm.config, id: "datatablePermissao" } },
                     [
-                      _c("th", { staticStyle: { "max-width": "20px" } }, [
+                      _c("th", { staticStyle: { "max-width": "50px" } }, [
                         _vm._v("ID")
                       ]),
                       _vm._v(" "),
@@ -809,7 +809,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Descricao")
+                        _vm._v("Descrição")
                       ]),
                       _vm._v(" "),
                       _c("th", { staticClass: "text-center" }, [
@@ -921,7 +921,7 @@ var render = function() {
                   },
                   [
                     _c("label", { attrs: { for: "descricao" } }, [
-                      _vm._v("Descricao:")
+                      _vm._v("Descrição:")
                     ]),
                     _vm._v(" "),
                     _c("input", {

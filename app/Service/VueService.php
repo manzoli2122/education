@@ -9,15 +9,27 @@ use Auth;
 use Log;
 use Exception;
 
+
+
 class VueService  implements VueServiceInterface  
 {
 
 
     protected $model;   
+
+
     protected $dataTable;
 
 
+
+
+
+
+
+
+
     /**
+    *  FIX-ME PODE SER GRAVADO NO ELASTICSEARCH A VISUALIZAÇÃO
     * Busca um model pelo id
     *
     * @param int $id
@@ -26,13 +38,13 @@ class VueService  implements VueServiceInterface
     */
     public function  BuscarPeloId( Request $request , $id ){ 
         $model = $this->model->find($id)  ;
-        /* 
-        if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaElasticSearchLog( $request,  get_class( $this->model ), 'Visualizacao' ,  $model->log() );
-        } 
-        */
         return   $model   ; 
     }
+
+
+
+
+
 
 
 
@@ -47,6 +59,10 @@ class VueService  implements VueServiceInterface
     public function  BuscarTodos( Request $request  ){
         return $this->model->get();
     }
+
+
+
+
 
 
 
@@ -69,6 +85,11 @@ class VueService  implements VueServiceInterface
         }
         return $model;
     }
+
+
+
+
+
 
 
 
@@ -97,6 +118,9 @@ class VueService  implements VueServiceInterface
 
 
 
+
+
+
     /**
     * Função para buscar as validacoes do modelo 
     * 
@@ -105,6 +129,8 @@ class VueService  implements VueServiceInterface
     public function  validacoes(){
         return $this->model->rules();
     }  
+
+
 
 
 
@@ -131,6 +157,18 @@ class VueService  implements VueServiceInterface
 
 
 
+
+
+
+
+
+    /**
+    * Função padrao para enviar log para o elasticsearch 
+    *
+    * @param int $id
+    *    
+    * @return void
+    */
     protected function  EnviarFilaElasticSearchLog( Request $request , $model, $acao ,  $dados   ){  
         $info =   [   
             'ip'   => $request->server('REMOTE_ADDR') ,
@@ -141,6 +179,11 @@ class VueService  implements VueServiceInterface
             new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
         );   
     }
+
+
+
+
+
 
 
 
@@ -167,7 +210,7 @@ class VueService  implements VueServiceInterface
 
 
 
-
+    // FUNÇÕES A SEREM IMPLEMENTADAS 
     
     public function  ValidarAtualizacao( $entity ){}
     public function  ValidarExclusao( $entity ){}
