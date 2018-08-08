@@ -87,6 +87,15 @@ class User extends Authenticatable  implements JWTSubject
         ];
     }
 
+
+
+     public function logCompleto( )
+    {
+        return [
+            'usuario' =>   $this->toArray()   
+        ];
+    }
+
     /**
     * Busca os perfis do usuario no banco de dados
     * 
