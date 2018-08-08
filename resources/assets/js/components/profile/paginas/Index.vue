@@ -27,10 +27,17 @@
 							<li class="list-group-item">
 								<b>NF</b> <a class="float-right">{{user.nf}}</a>
 							</li>
+							<li class="list-group-item">
+								<b>Quadro</b> <a class="float-right">{{user.quadro_dsc}}</a>
+							</li>
+							<li class="list-group-item">
+								<b>OME</b> <a class="float-right">{{user.ome_qdi_dsc}}</a>
+							</li>
+							 
 							
 						</ul>
 
-						<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+						<a href="#" class="btn btn-primary btn-block"><b>Atualizar dados no RH</b></a>
 
 						<router-link to="/notificacoes" exact class="btn btn-primary btn-block"><a>Notificações</a></router-link>
 					</div>

@@ -34,7 +34,7 @@ class Perfil extends Model
             'perfil' => [ 
                 'id' => $this->id,
                  'nome' => $this->nome , 
-                // 'descricao' => $this->descricao , 
+                 'descricao' => $this->descricao , 
             ]       
         ];
     }
@@ -70,6 +70,20 @@ class Perfil extends Model
  
 
 
+    public function delete()
+    {
+        $cacheKey = $this->cacheKey . $this->id;
+        if(Cache::getStore() instanceof TaggableStore){
+            Cache::tags(Perfil::$cacheTag)->forget($cacheKey);
+        }
+        else{
+            Cache::forget($cacheKey);
+        }  
+        return parent::delete();      
+    }
+
+
+
      
     public static function boot()
     {
@@ -79,6 +93,7 @@ class Perfil extends Model
                 $perfil->usuarios()->sync([]);
                 $perfil->permissoes()->sync([]);
             }
+
             return true;
         });
     }

@@ -36,7 +36,7 @@ class LoginSuccessMail extends Mailable implements ShouldQueue
     }
 
 
-     public $tries = 1 ;
+    public $tries = 1 ;
 
 
     /**

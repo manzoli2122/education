@@ -26,11 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // Auth::provider('token', function ($app, array $config) {
-        //     return new TokenUserProvider();
-        // });
-
-        //
+ 
     }
 }

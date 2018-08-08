@@ -23,10 +23,7 @@ class User extends Authenticatable  implements JWTSubject
     public static $cacheTag = 'usuario';
 
     private $cacheKey = 'todos_perfis_para_usuario_' ;
-
-
-
-
+ 
 
 
     /**
@@ -36,9 +33,7 @@ class User extends Authenticatable  implements JWTSubject
      */
     protected $fillable = [
         'name', 'email', 'password', 'id', 'rg', 'nf', 'quadro_dsc', 'post_grad_dsc', 'ome_qdi_id', 
-        'ome_qdi_dsc', 'ome_qdi_lft', 'ome_qdi_rgt', 'status','obs',
-        
-
+        'ome_qdi_dsc', 'ome_qdi_lft', 'ome_qdi_rgt', 'status', 'obs', 
     ];
 
 
@@ -52,29 +47,14 @@ class User extends Authenticatable  implements JWTSubject
         'password', 'remember_token',   'deleted_at' ,  'updated_at' ,  'created_at' , 'pivot'
     ];
 
+
+
+
     protected $casts = [
         'id' => 'string' , 
     ];
 
-
-    // /**
-    //  * Get the entity's notifications.
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-    //  */
-    // public function notifications()
-    // {
-    //     return strlen($this->id);
-    //     return DB::table('notifications')->where('notifiable_id' , '=' , '1' )->get();
-    //     return $this->morphMany(DatabaseNotification::class, 'notifiable')->orderBy('created_at', 'desc');
-    // }
-
-
-
-   
-
-
-
+ 
 
     public function log( )
     {

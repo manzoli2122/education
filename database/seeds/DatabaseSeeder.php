@@ -68,6 +68,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+        DB::table('permissoes')->insert([
+            'nome' => 'perfis',
+            'descricao' =>  'perfis', 
+        ]);
+
 
 
         DB::table('mailable')->insert([ 

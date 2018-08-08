@@ -113,6 +113,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -190,7 +197,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -473,6 +480,22 @@ var render = function() {
                         _c("a", { staticClass: "float-right" }, [
                           _vm._v(_vm._s(_vm.user.nf))
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _c("b", [_vm._v("Quadro")]),
+                        _vm._v(" "),
+                        _c("a", { staticClass: "float-right" }, [
+                          _vm._v(_vm._s(_vm.user.quadro_dsc))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _c("b", [_vm._v("OME")]),
+                        _vm._v(" "),
+                        _c("a", { staticClass: "float-right" }, [
+                          _vm._v(_vm._s(_vm.user.ome_qdi_dsc))
+                        ])
                       ])
                     ]
                   ),
@@ -483,7 +506,7 @@ var render = function() {
                       staticClass: "btn btn-primary btn-block",
                       attrs: { href: "#" }
                     },
-                    [_c("b", [_vm._v("Follow")])]
+                    [_c("b", [_vm._v("Atualizar dados no RH")])]
                   ),
                   _vm._v(" "),
                   _c(

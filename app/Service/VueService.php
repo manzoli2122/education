@@ -4,10 +4,10 @@ namespace App\Service ;
 
 use App\Exceptions\ModelNotFoundException; 
 use Illuminate\Http\Request; 
-use App\Jobs\CrudProcessJob;
+use App\Jobs\FIlaElasticSearchLog;
 use Auth;
 use Log;
-
+use Exception;
 
 class VueService  implements VueServiceInterface  
 {
@@ -28,7 +28,7 @@ class VueService  implements VueServiceInterface
         $model = $this->model->find($id)  ;
         /* 
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request,  get_class( $this->model ), 'Visualizacao' ,  $model->log() );
+            $this->EnviarFilaElasticSearchLog( $request,  get_class( $this->model ), 'Visualizacao' ,  $model->log() );
         } 
         */
         return   $model   ; 
@@ -65,7 +65,7 @@ class VueService  implements VueServiceInterface
         throw_if(!$model = $this->model->find($id) , ModelNotFoundException::class); 
         throw_if( !$update = $model->update($request->all()) , Exception::class); 
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, get_class( $this->model ), 'Atualizacao', $model->log());
+            $this->EnviarFilaElasticSearchLog( $request, get_class( $this->model ), 'Atualizacao', $model->log());
         }
         return $model;
     }
@@ -86,7 +86,7 @@ class VueService  implements VueServiceInterface
         throw_if( !$insert  = $this->model->create( $request->all() ) , Exception::class); 
 
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request,  get_class( $this->model ), 'Cadastro' ,  $insert->log() );
+            $this->EnviarFilaElasticSearchLog( $request,  get_class( $this->model ), 'Cadastro' ,  $insert->log() );
         }
         return $insert ;  
     }
@@ -124,21 +124,21 @@ class VueService  implements VueServiceInterface
         $dados = $model->log(); 
         throw_if( !$delete = $model->delete()  , Exception::class);   
         if(env('LOG_ELASTIC_LOG')){
-           $this->EnviarFilaLog( $request ,  get_class( $this->model ), 'Exclusão' ,  $dados ); 
+           $this->EnviarFilaElasticSearchLog( $request ,  get_class( $this->model ), 'Exclusão' ,  $dados ); 
         }
     }
 
 
 
 
-    protected function  EnviarFilaLog( Request $request , $model, $acao ,  $dados   ){  
+    protected function  EnviarFilaElasticSearchLog( Request $request , $model, $acao ,  $dados   ){  
         $info =   [   
             'ip'   => $request->server('REMOTE_ADDR') ,
             'host' => $request->header('host'),
             'usuario' => Auth::user()->log()['usuario'],
         ] ; 
         dispatch( 
-            new CrudProcessJob($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
+            new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
         );   
     }
 

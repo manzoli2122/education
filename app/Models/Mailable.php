@@ -9,14 +9,10 @@ use Illuminate\Cache\TaggableStore;
 
 class Mailable extends Model
 {    
-
-    //public static $cacheTag = 'perfis';
-
-   //private $cacheKey = 'todas_permissoes_para_perfil_' ;
-
-    protected $table = 'mailable'; 
  
 
+    protected $table = 'mailable'; 
+  
     
     protected $fillable = [
               'descricao', 'nome'

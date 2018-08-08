@@ -4,11 +4,7 @@
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+| 
 */
  
 
@@ -19,15 +15,15 @@ Route::get('/home', function () {    return view('welcome');})->middleware('auth
  
 // Rotas para autenticação
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+//Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 Route::get('login/token', 'Auth\LoginController@authenticate');//->middleware('auth:api');
 
 
 
 
-Route::post('profile/ativacao/{mailable_id}',      'ProfileController@Ativar') ;  
-Route::delete('profile/desativacao/{mailable_id}', 'ProfileController@Desativar') ; 
+Route::post('profile/ativacao/{mailable_id}',      'ProfileController@AtivarNotificacaoEmail') ;  
+Route::delete('profile/desativacao/{mailable_id}', 'ProfileController@DesativarNotificacaoEmail') ; 
 
 
 Route::get('profile/notificacoes',  'ProfileController@notifications') ; 

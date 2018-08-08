@@ -42,7 +42,13 @@ class PermissaoService extends VueService  implements PermissaoServiceInterface
     public function  Apagar( Request $request , $id ){  
         parent::Apagar( $request , $id ) ;  
         //Limpa a cache dos perfis que tem essa permissao
-        Cache::tags(Perfil::$cacheTag)->flush(); 
+        if(Cache::getStore() instanceof TaggableStore){
+            Cache::tags(Perfil::$cacheTag)->flush();
+        }
+        else{
+            Cache::flush( );
+        }  
+         
     }
 
 

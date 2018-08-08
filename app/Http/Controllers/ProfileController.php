@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers ;
 
-use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Log; 
-use Auth;
-use App\User; 
+use Illuminate\Http\Request;  
+use Auth; 
 use Yajra\DataTables\DataTables; 
 use App\Models\Mailable;
 
 
 class ProfileController extends Controller
 {
- 
-    
+
+
     protected $dataTable;
+
     protected $mailable;
 
-    public function __construct(   DataTables $dataTable  ,Mailable $mailable ){  
+
+
+    public function __construct(   DataTables $dataTable  , Mailable $mailable ){  
         $this->dataTable = $dataTable ;
         $this->mailable = $mailable ;
         $this->middleware('auth');  
@@ -26,13 +27,11 @@ class ProfileController extends Controller
 
 
     /**
-    * Função para buscar um model
+    * Função para buscar dados do usuario logado
     *
     * @param Request $request
-    *  
-    * @param int  $id
-    *    
-    * @return json
+    *   
+    * @return view
     */
     public function profile(Request $request ){
         $user = Auth::user();
@@ -41,31 +40,11 @@ class ProfileController extends Controller
 
 
 
-    /**
-    * Função para buscar um model
-    *
-    * @param Request $request
-    *  
-    * @param int  $id
-    *    
-    * @return json
-    */
-    public function getNotificacaoDatatable_ori(Request $request ){
-        //$usuario = User::find(Auth); 
-        $models = Auth::user()->mailable( ); 
-        return $this->dataTable->eloquent($models)
-        ->addColumn('action', function($linha) {
-            return  
-            '<button data-id="'.$linha->mailable_id.'" btn-ativar class="btn btn-danger btn-sm" title="Ativar"><i class="fa fa-trash"></i></button>' 
-            ;
-        })
-        ->make(true);  
-    }
-    
- 
+
+
 
     /**
-    * Função para buscar um model
+    * Função para buscar as notificações por email datatable
     *
     * @param Request $request
     *  
@@ -80,13 +59,11 @@ class ProfileController extends Controller
         return $this->dataTable->eloquent($models)
         ->addColumn('action', function($linha) use($usuario ) { 
             if($usuario->hasMailable($linha->nome)){
-                 return  
-                    '<button data-id="'.$linha->id.'" btn-desativar class="btn btn-danger btn-sm" title="Desativar"> Desativar </button>' 
-                    ;
-            }
-            return  
-                '<button data-id="'.$linha->id.'" btn-ativar class="btn btn-success btn-sm" title="Ativar">Ativar </button>' 
+                return  '<button data-id="'.$linha->id.'" btn-desativar class="btn btn-danger btn-sm" title="Desativar"> Desativar </button>' 
                 ;
+            }
+            return  '<button data-id="'.$linha->id.'" btn-ativar class="btn btn-success btn-sm" title="Ativar">Ativar </button>' 
+            ;
         })
         ->make(true);  
     }
@@ -96,6 +73,7 @@ class ProfileController extends Controller
 
 
     /**
+     * FIX-ME FAZER LOG
     * Função para ativar 
     *
     * @param Request $request
@@ -104,7 +82,7 @@ class ProfileController extends Controller
     *    
     * @return void
     */
-    public function  Ativar( Request $request , $mailable_id ){ 
+    public function  AtivarNotificacaoEmail( Request $request , $mailable_id ){ 
         $usuario =  Auth::user();  
         $mailable = $this->mailable->find( $mailable_id );
         $usuario->attachMailable($mailable);  
@@ -123,7 +101,7 @@ class ProfileController extends Controller
     *    
     * @return void
     */
-    public function  Desativar( Request $request , $mailable_id ){
+    public function  DesativarNotificacaoEmail( Request $request , $mailable_id ){
         $usuario =  Auth::user();  
         $mailable = $this->mailable->find( $mailable_id );
         $usuario->detachMailable($mailable);  
@@ -136,11 +114,9 @@ class ProfileController extends Controller
 
 
     /**
-    *  
+    *  Função que busca as notificações no banco de dados
     *
     * @param Request $request
-    *  
-    * @param int  $id
     *    
     * @return void
     */
@@ -149,10 +125,10 @@ class ProfileController extends Controller
         return response()->json( $notifications , 200 );
     }
 
- 
+
 
     /**
-    *  
+    *  Função para marcar como lida todas as notificações
     *
     * @param Request $request
     *  
@@ -163,4 +139,6 @@ class ProfileController extends Controller
     public function  limparNotifications( Request $request  ){ 
         $request->user()->unreadNotifications->markAsRead(); 
     }
+
+    
 }

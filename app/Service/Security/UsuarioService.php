@@ -10,12 +10,11 @@ use App\Service\VueService;
 use Auth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables; 
-use App\Jobs\CrudProcessJob; 
+use App\Jobs\FIlaElasticSearchLog; 
 use Log;
 use Exception;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PerfilAdicionado; 
-use App\Notifications\PerfilAdicionado as PerfilAdicionadoNotification ; 
+use Illuminate\Support\Facades\Mail; 
+use App\Notifications\PerfilAdicionadoNotification  ; 
 use App\Mail\PerfilRemovido; 
 
 
@@ -63,7 +62,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	$model->save();
         
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, get_class($this->model), 'Ativar', $model->log() ); 
+            $this->EnviarFilaElasticSearchLog( $request, get_class($this->model), 'Ativar', $model->log() ); 
         }
     	return 'Ativado';
     }
@@ -86,7 +85,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	$model->status = 'I';
     	$model->save();
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, get_class($this->model), 'Desativar', $model->log() ); 
+            $this->EnviarFilaElasticSearchLog( $request, get_class($this->model), 'Desativar', $model->log() ); 
         }
     	return 'Destivado';
     }
@@ -205,17 +204,16 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     		abort(403, 'Você não tem permissão para adicionar o perfil Admin.');
     	}
     	$usuario->attachPerfil($perfil);
+ 
+        $usuario->notify( new PerfilAdicionadoNotification( $perfil ) );
 
-
-
-        if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
-            Mail::to($usuario->email)->send(new PerfilAdicionado( $perfil->nome ));
-            $usuario->notify( new PerfilAdicionadoNotification( $perfil ) ); 
-        }
+        // if($usuario->hasMailable('Perfil') and  $usuario->email!== ''  ){
+        //    Mail::to($usuario->email)->send(new PerfilAdicionado( $perfil->nome ));             
+        // }
 
 
     	if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, 'Perfil_Usuario', 'adicionarPerfilAoUsuario',['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]); 
+            $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'adicionarPerfilAoUsuario',['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]); 
     	} 
     	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' ,$request->server('REMOTE_ADDR') , $request->header('host') );  
     }
@@ -260,7 +258,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
         }
         
     	if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, 'Perfil_Usuario', 'excluirPerfilDoUsuario', ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]);  
+            $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'excluirPerfilDoUsuario', ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]);  
     	}
     	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir'  ,$request->server('REMOTE_ADDR') , $request->header('host') ); 
     }

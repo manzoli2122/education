@@ -7,14 +7,18 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Security\Perfil;
+use App\User;
 
-class PerfilAdicionado extends Notification implements ShouldQueue
+
+class PerfilAdicionadoNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    public $tries = 1 ;
+    
+    //public $tries = 1 ; // Não funciona aqui, feito atrave do comando --tries=1
 
     public $perfil  ;
+
+    public $user  ;
 
 
 
@@ -26,6 +30,7 @@ class PerfilAdicionado extends Notification implements ShouldQueue
     public function __construct(Perfil $perfil)
     {
         $this->perfil = $perfil;
+        
     }
 
  
@@ -38,6 +43,9 @@ class PerfilAdicionado extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
+        if($notifiable->hasMailable('Perfil')){
+            return ['database' , 'mail'];
+        }
         return ['database'];
     }
 
@@ -51,11 +59,21 @@ class PerfilAdicionado extends Notification implements ShouldQueue
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+    {   
+        
+
+        return (new MailMessage) 
+                    ->subject('Perfil Adicionado')
+                    ->markdown('emails.perfil.adicionar' , ['perfil' =>$this->perfil->nome  ]);
+
+                    // ->greeting('Perfil adicionado no ' . config('app.name')  ) 
+                    // ->line('Agora você possui o perfil ' .$this->perfil->nome ) 
+                    // ->line('Mensagem enviada automaticamente.' )
+
+                    // ->line('Para desativar esta notificação entre no sistema e na parte de profile do usuário selecione gerenciar notificações.' )
+                     
+                    // ->salutation('Obrigado, ' .config('app.name') );
+                    
     }
 
 

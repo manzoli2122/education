@@ -6,12 +6,11 @@ use App\Models\Security\Perfil;
 use App\Models\Security\Permissao;
 use Yajra\DataTables\DataTables;
 use App\Service\VueService;
-use App\Models\Security\LogPerfilPermissao;
-use Auth;
-use Cache;
+use App\Models\Security\LogPerfilPermissao;  
 use Illuminate\Http\Request; 
-use App\Jobs\CrudProcessJob; 
-
+use App\Jobs\FIlaElasticSearchLog; 
+use App\User;
+use Cache;
 
 class PerfilService extends VueService  implements PerfilServiceInterface 
 {
@@ -31,21 +30,28 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $this->logSeguranca = $log ;  
     }
 
-
-
+ 
 
     /**
     * Função para excluir um model  e limpar a cache
+    * neccesário pois um perfil pode ficar com a permissao 
+    * mesmo depois dela ser excluida
     *
     * @param int $id
     *    
     * @return void
     */
-    public function  Apagar( Request $request , $id ){ 
+    public function  Apagar( Request $request , $id ){  
         parent::Apagar( $request , $id ) ;  
-        Cache::flush(); 
+        //Limpa a cache 
+        if(Cache::getStore() instanceof TaggableStore){
+            Cache::tags(User::$cacheTag)->flush(); 
+        }
+        else{
+            Cache::flush( );
+        }  
+        
     }
-
 
 
     /**
@@ -68,9 +74,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $permissao = $this->permissao->find( $permissaoId ); 
         $perfil->attachPermissao($permissao);
         if(env('LOG_ELASTIC_LOG')){
-            $this->EnviarFilaLog( $request, 'Permissao_Perfil', 'adicionarPermissaoAoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
+            $this->EnviarFilaElasticSearchLog( $request, 'Permissao_Perfil', 'adicionarPermissaoAoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
         }
-        $this->Log( $perfilId , $permissaoId , $permissao->nome  , Auth::user()->id , 'Adicionar' , $request->server('REMOTE_ADDR') ,  $request->header('host') );
+        $this->Log( $perfilId , $permissaoId , $permissao->nome  , $request->user()->id , 'Adicionar' , $request->server('REMOTE_ADDR') ,  $request->header('host') );
     }
 
     
@@ -100,9 +106,9 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $permissao = $this->permissao->find($permissaoId);  
         $perfil->detachPermissao($permissao); 
         if(env('LOG_ELASTIC_LOG')){ 
-            $this->EnviarFilaLog( $request, 'Permissao_Perfil', 'excluirPermissaoDoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
+            $this->EnviarFilaElasticSearchLog( $request, 'Permissao_Perfil', 'excluirPermissaoDoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
         } 
-        $this->Log( $perfilId  , $permissaoId , $permissao->nome , Auth::user()->id , 'Excluir' , $request->server('REMOTE_ADDR') ,  $request->header('host') ); 
+        $this->Log( $perfilId  , $permissaoId , $permissao->nome , $request->user()->id , 'Excluir' , $request->server('REMOTE_ADDR') ,  $request->header('host') ); 
     }
 
 
