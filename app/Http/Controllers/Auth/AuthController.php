@@ -120,6 +120,9 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
 
+        return '<a href="' . env('APP_URL') .'login/token?token=' .$token . '" target="_blank">link</a>' ;
+
+
         return response()->json([
             'access_token' => env('APP_URL') .'login/token?token=' .$token ,  
             //'token_type' => 'bearer',

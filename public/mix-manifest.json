@@ -1,12 +1,12 @@
 {
-    "/js/vendor.js": "/js/vendor.js?id=c581dd0b367a0c8d4040",
-    "/js/app.js": "/js/app.js?id=95299f244df667b3eeb5",
-    "/js/perfil.js": "/js/perfil.js?id=bad1753484355ea6cce1",
-    "/js/usuario.js": "/js/usuario.js?id=430d14aaeb05d87f2d5f",
-    "/js/permissao.js": "/js/permissao.js?id=b84d33182b80e16657f2",
-    "/js/profile.js": "/js/profile.js?id=1c809f9db2b0509b152f",
-    "/css/bootstrap.css": "/css/bootstrap.css?id=78741621eaee42bace4d",
+    "/js/vendor.js": "/js/vendor.js?id=74f052c59a458eb4d0ea",
+    "/js/app.js": "/js/app.js?id=077af49000a95acbe8ef",
+    "/js/perfil.js": "/js/perfil.js?id=084acf06f8653a542c3b",
+    "/js/usuario.js": "/js/usuario.js?id=b2311bb7ab4423e2495a",
+    "/js/permissao.js": "/js/permissao.js?id=d9b543569a7a91be9a4d",
+    "/js/profile.js": "/js/profile.js?id=47cb74ecef74a714a80f",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=e2aa2ac70762fdaab70a",
     "/css/select2.css": "/css/select2.css?id=fd9fe49d3d919d631d3e",
-    "/css/fonts.css": "/css/fonts.css?id=0ff9b3d1902637f31598",
-    "/css/bootstrap.css.map": "/css/bootstrap.css.map?id=b2f407b1aa09ede22e8a"
+    "/css/fonts.css": "/css/fonts.css?id=fba04555e8676937903a",
+    "/css/bootstrap.css.map": "/css/bootstrap.css.map?id=0ab7c5a3c60c431b89b5"
 }

@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'manzoli.elisandra@gmail.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sistemas.dtic@pm.es.gov.br'),
         'name' => env('MAIL_FROM_NAME', '[PMES] ') . env('APP_NAME'),
     ],
 
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', ''),
 
     /*
     |--------------------------------------------------------------------------
