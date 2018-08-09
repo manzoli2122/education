@@ -10,10 +10,7 @@ let routes = [
         path: '/:id/perfil',
         component: require('./paginas/Perfil') 
     },   
-    {
-        path: '/:id/perfil/historico',
-        component: require('./paginas/HistoricoPerfil') 
-    },    
+      
     
 ];
  

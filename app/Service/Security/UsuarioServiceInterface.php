@@ -137,4 +137,29 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     * @return json
     */
     public function  BuscarUsuarioMinhaOMEDataTable( $request );
+
+
+
+    /**
+    * Função para buscar os Perfis que um usuario não possui; 
+    *  
+    * @param int  $userId 
+    *
+    * @return List $pefis
+    */
+    public function BuscarPerfisParaTransferir(   string $userId  );
+
+
+
+    /**
+    * Função para buscar os perfis de um usuario pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function  BuscarPerfilTransferirDataTable( $request , $userId );
+    
 } 

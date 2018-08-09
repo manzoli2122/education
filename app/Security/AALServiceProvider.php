@@ -23,9 +23,10 @@ class AALServiceProvider extends ServiceProvider
     
     private function mapWebRoutes()
     {        
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/security.php')); 
+        Route::prefix('admin/seguranca')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/security.php')); 
     } 
     
 

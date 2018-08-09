@@ -42,7 +42,7 @@ Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue'));
 export default {
  
 	props:[ 
-	'url' 
+	'url' , 'url_usuario'
 	],  
 
 	data() {
@@ -76,7 +76,7 @@ export default {
 
 	created() { 
 		alertProcessando();
-		axios.get(this.url + '/' + this.$route.params.id)
+		axios.get(this.url_usuario + '/' + this.$route.params.id)
 		.then(response => {
 			this.usuario = response.data;
 			alertProcessandoHide();

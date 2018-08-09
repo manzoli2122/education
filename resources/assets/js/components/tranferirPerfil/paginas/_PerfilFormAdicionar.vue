@@ -1,6 +1,6 @@
 <template> 
 	<form action="#" @submit.prevent="AdicionarPerfil" @keydown="form.errors.clear($event.target.name)">
-		<h3>Adicionar Perfil</h3>
+		<h3>Transferir Perfil</h3>
 		<crudCard>
 			<div class="card-body">
 				<crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')">
@@ -12,7 +12,7 @@
 				</crudFormElemento>
 			</div>
 			<div class="card-footer text-right">
-				<crudBotaoSalvar :disabled="form.errors.any()" texto="Adicionar"/>
+				<crudBotaoSalvar :disabled="form.errors.any()" texto="Transferir"/>
 			</div>
 		</crudCard>
 	</form> 

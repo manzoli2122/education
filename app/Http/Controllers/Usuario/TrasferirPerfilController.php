@@ -60,6 +60,16 @@ class TrasferirPerfilController extends VueController
 
 
 
+
+
+
+
+
+
+
+
+
+
     /**
     * Função para Adicionar um Perfil a um usuario atraves do UsuarioServiceInterface
     *
@@ -74,7 +84,7 @@ class TrasferirPerfilController extends VueController
         if( $request->get('perfil') != '' ){  
            $this->service->adicionarPerfilAoUsuario( $request->get('perfil'), $userId, $request); 
         }   
-        return response()->json($this->service->BuscarPerfisParaAdicionar( $userId ),200);
+        return response()->json($this->service->BuscarPerfisParaTransferir( $userId ),200);
     }
 
 
@@ -99,15 +109,29 @@ class TrasferirPerfilController extends VueController
     public function excluirPerfilDoUsuario( Request $request , $userId , $perfilId )
     {        
         $this->service->excluirPerfilDoUsuario($perfilId , $userId ,  $request  );  
-        return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId )  , 200);  
+        return response()->json( $this->service->BuscarPerfisParaTransferir( $userId )  , 200);  
     }
 
 
 
 
-
-
-
+    /**
+    * Função para buscar os perfis que o usuario ainda não tem
+    * 
+    * @param int  $userId 
+    *
+    * @return List $perfis
+    */
+    public function BuscarPerfisParaAdicionar($userId)
+    {    
+        try {            
+            return response()->json( $this->service->BuscarPerfisParaTransferir( $userId ) , 200);
+        }         
+        catch(Exception $e) {           
+            return response()->json( $e, 500);    
+        }   
+    }
+    
 
 
 
@@ -121,38 +145,10 @@ class TrasferirPerfilController extends VueController
     *
     * @return json
     */
-    // public function BuscarPerfilDataTable( Request $request , $userId )
-    // {     
-    //     try {            
-    //         return  $this->service->BuscarPerfilDataTable( $request , $userId);
-    //     }         
-    //     catch (Exception $e) {           
-    //         return response()->json( $e->getMessage() , 500);
-    //     }   
-    // }
-
-
-
-
-
-
-
-
-
-
-    /**
-    * Função para buscar os logs de perfis de um usuario pelo datatable
-    *
-    * @param Request $request 
-    *  
-    * @param int  $userId 
-    *
-    * @return json
-    */
-    public function BuscarPerfilDataTableLog( Request $request , $userId )
+    public function BuscarPerfilDataTable( Request $request , $userId )
     {     
         try {            
-            return  $this->service->BuscarPerfilDataTableLog( $request , $userId);
+            return  $this->service->BuscarPerfilTransferirDataTable( $request , $userId);
         }         
         catch (Exception $e) {           
             return response()->json( $e->getMessage() , 500);
@@ -160,59 +156,7 @@ class TrasferirPerfilController extends VueController
     }
 
  
-
-
-
-
-
-
-
-
-     /**
-    * Função para buscar os perfis que o usuario ainda não tem
-    * 
-    * @param int  $userId 
-    *
-    * @return List $perfis
-    */
-    public function BuscarPerfisParaAdicionar($userId)
-    {    
-        try {            
-            return response()->json( $this->service->BuscarPerfisParaAdicionar( $userId ) , 200);
-        }         
-        catch(Exception $e) {           
-            return response()->json( $e, 500);    
-        }   
-    }
-    
  
-
-
-
-
-
-
-
-    /**
-    * Função para buscar log de perfis do usuario
-    *
-    * @param Request $request
-    *  
-    * @param int  $userId 
-    *
-    * @return json
-    */
-    public function elasticsearch( Request $request , $userId  )
-    {        
-        $response = $this->service->elasticsearch(   $request , $userId  ); 
- 
-        return response()->json( $response  , 200); 
-         
-    }
-
-
-
-
 
     
 }

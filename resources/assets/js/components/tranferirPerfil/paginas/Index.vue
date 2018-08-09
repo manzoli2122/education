@@ -27,7 +27,7 @@
 	export default {
 
 		props:[
-		'url' 
+		'url' , 'url_usuario'
 		],  
 
 		data() {

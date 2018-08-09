@@ -35,6 +35,14 @@ Route::post('profile/limpar/notificacoes',  'ProfileController@limparNotificatio
 Route::get('profile',                         'ProfileController@profile')->name('profile'); 
 
 
+
+
+
+
 //TRANFERIR PERFIL
+Route::post('tranferir/perfil/{userId}/perfil/datatable',            'Usuario\TrasferirPerfilController@BuscarPerfilDataTable') ; 
+Route::delete('tranferir/perfil/{userId}/delete/perfil/{perfilId}',  'Usuario\TrasferirPerfilController@excluirPerfilDoUsuario') ; 
+Route::post('tranferir/perfil/{userId}/adicionar/perfil',            'Usuario\TrasferirPerfilController@adicionarPerfilAoUsuario') ;
+Route::get('tranferir/perfil/{userId}/perfil/adicionar',   'Usuario\TrasferirPerfilController@BuscarPerfisParaAdicionar') ;
 Route::post('tranferir/perfil/datatable',       'Usuario\TrasferirPerfilController@getDatatable') ;
 Route::get('tranferir/perfil', 'Usuario\TrasferirPerfilController@index')->name('tranferir.perfil.index');

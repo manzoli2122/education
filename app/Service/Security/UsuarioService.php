@@ -187,6 +187,35 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
+    /**
+    * Função para buscar os perfis de um usuario pelo datatable
+    *
+    * @param Request $request 
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function  BuscarPerfilTransferirDataTable( $request , $userId ){ 
+    	$usuario = $this->model->find($userId); 
+    	$models = $usuario->perfis( ); 
+    	return $this->dataTable->eloquent($models)
+    	->addColumn('action', function($linha) use( $request) {
+            if($request->user()->hasPerfil($linha->nome)){
+                return  
+                    '<button data-id="'.$linha->perfil_id.'" btn-excluir class="btn btn-danger btn-sm" title="Excluir"><i class="fa fa-trash"></i></button>' 
+                    ;
+            }
+            return  
+                    '';
+    	})
+    	->make(true);  
+    }
+
+
+
+
+
 
 
 
@@ -347,18 +376,34 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
-      /**
+    /**
     * Função para buscar os Perfis que um usuario não possui; 
     *  
     * @param int  $userId 
     *
     * @return List $pefis
     */
-      public function BuscarPerfisParaAdicionar(   string $userId  ){ 
+    public function BuscarPerfisParaAdicionar(   string $userId  ){ 
       	return  $this->perfil->perfisParaAdicionarAoUsuario( $userId ,  Auth::user()->hasPerfil('Admin') );
-      }
+    }
 
 
+
+
+    /**
+    * Função para buscar os Perfis que um usuario não possui; 
+    *  
+    * @param int  $userId 
+    *
+    * @return List $pefis
+    */
+    public function BuscarPerfisParaTransferir(   string $userId  ){ 
+        
+        $user = $this->model->find($userId);
+        //$user->perfis->diff();
+        $diff = Auth::user()->perfis->diff($user->perfis);
+        return  $diff;
+    }
 
 
 
