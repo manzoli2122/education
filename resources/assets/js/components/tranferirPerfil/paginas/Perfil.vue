@@ -1,5 +1,5 @@
 <template>             
-	<div>  
+	<div v-if="usuario"	>  
 		<crudHeader :texto="'Usuário - ' + usuario.name ">
 			<li class="breadcrumb-item"><router-link to="/" exact><a>Usuários</a></router-link></li> 
 			<li class="breadcrumb-item">Perfis</li>
@@ -11,7 +11,7 @@
 						<h2 class="card-title">Perfis</h2>  
 					</div>
 					<div class="card-body  table-responsive"> 
-						<datatableService :config="config" id="datatableUsuariosPerfis" :reload="reloadDatatable" v-on:perfilRemovido="perfilRemovido($event)"> 
+						<datatableService  :config="config" id="datatableUsuariosPerfis" :reload="reloadDatatable" v-on:perfilRemovido="perfilRemovido($event)"> 
 							<th style="max-width:30px">ID</th>
                         	<th pesquisavel>Nome</th>
                         	<th pesquisavel>Descrição</th>
@@ -21,9 +21,6 @@
 					</div>    
 					<div class="card-footer text-right">
         				<crudBotaoVoltar url="/" />   
-        				<router-link :to="'/' + this.$route.params.id + '/perfil/historico'" exact  class="btn btn-warning">
-							<i class="fa fa-database"></i> Historico
-						</router-link>
         			</div>
 				</crudCard>  
  
@@ -76,7 +73,7 @@ export default {
 
 	created() { 
 		alertProcessando();
-		axios.get(this.url_usuario + '/' + this.$route.params.id)
+		axios.get(this.url + '/' + this.$route.params.id)
 		.then(response => {
 			this.usuario = response.data;
 			alertProcessandoHide();
@@ -84,6 +81,7 @@ export default {
 		.catch(error => {
 			toastErro('Não foi possivel achar o Usuário', error.response.data);
 			alertProcessandoHide();
+			this.$router.push('/')
 		}); 
 
 		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar")

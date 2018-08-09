@@ -18,7 +18,7 @@ class AuthController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'carrega']]);
     }
 
 
@@ -39,7 +39,7 @@ class AuthController extends Controller
         $credentials = request(['id', 'password']);
  
         $user = User::first();
-        // $user = User::find('10000000000');
+        $user = User::find('10000000000');
         if (! $token = $this->guard()->claims( 
             [ 
                'id' => '10000000000',
@@ -136,6 +136,63 @@ class AuthController extends Controller
 
     protected function guard(){
         return Auth::guard('api');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function carregaBanco(   ){
+ 
+         
+
+        $ch = curl_init();
+        $options = array(
+            CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo', 
+            //CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+            //CURLOPT_POSTFIELDS => $postString
+        );
+        if (defined('CURLOPT_SAFE_UPLOAD')) {
+            $options[CURLOPT_SAFE_UPLOAD] = true;
+        } 
+        curl_setopt_array($ch, $options); 
+
+        $result = curl_exec($ch) ;
+        if ( $result === false) {
+            $curlErrno = curl_errno($ch); 
+            $curlError = curl_error($ch); 
+            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
+            curl_close($ch); 
+            return  $result  ;
+        }  else{ 
+            $resultJson = json_decode( $result );  
+            if( isset($resultJson->error)  ){
+                //Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
+            }
+            curl_close($ch);  
+            return  $resultJson  ;
+        }
+
+        
     }
 
     

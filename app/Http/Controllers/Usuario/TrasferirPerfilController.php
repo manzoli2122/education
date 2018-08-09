@@ -19,8 +19,8 @@ class TrasferirPerfilController extends VueController
     public function __construct( UsuarioServiceInterface $service    ){ 
         $this->service = $service ;   
         $this->middleware('auth'); 
-        $this->middleware('permissao:usuarios');  
-        $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 
+        // $this->middleware('permissao:usuarios');  
+        // $this->middleware('perfil:Admin')->only('update', 'destroy' , 'excluirPerfilDoUsuario' , 'adicionarPerfilAoUsuario'); 
  
     }
 
@@ -30,6 +30,30 @@ class TrasferirPerfilController extends VueController
     }
      
 
+
+    /**
+    * Função para buscar um model
+    *
+    * @param Request $request
+    *  
+    * @param int  $id
+    *    
+    * @return json
+    */
+    public function show(Request $request , $id){
+        try {  
+            if( !$model = $this->service->BuscarPeloId(  $request , $id ) ){       
+                return response()->json('Item não encontrado.', 404 );    
+            } 
+            return response()->json( $model , 200);
+        }         
+        catch(Exception $e) {  
+            return response()->json( 'Erro interno'  , 500);    
+        }
+    }
+
+
+    
     /**
     * Função para buscar models para datatable
     *

@@ -155,9 +155,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/components/tranferirPerfil/paginas/_PerfilFormAdicionar.vue"));
@@ -190,12 +187,13 @@ Vue.component('formAdicionarPerfil', __webpack_require__("./resources/assets/js/
 		var _this = this;
 
 		alertProcessando();
-		axios.get(this.url_usuario + '/' + this.$route.params.id).then(function (response) {
+		axios.get(this.url + '/' + this.$route.params.id).then(function (response) {
 			_this.usuario = response.data;
 			alertProcessandoHide();
 		}).catch(function (error) {
 			toastErro('Não foi possivel achar o Usuário', error.response.data);
 			alertProcessandoHide();
+			_this.$router.push('/');
 		});
 
 		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar").then(function (response) {
@@ -305,7 +303,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -610,120 +608,109 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("crudHeader", { attrs: { texto: "Usuário - " + _vm.usuario.name } }, [
-        _c(
-          "li",
-          { staticClass: "breadcrumb-item" },
-          [
-            _c("router-link", { attrs: { to: "/", exact: "" } }, [
-              _c("a", [_vm._v("Usuários")])
-            ])
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Perfis")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "content" }, [
-        _c(
-          "div",
-          { staticClass: "container-fluid" },
-          [
-            _c("crudCard", [
-              _c("div", { staticClass: "card-header text-center" }, [
-                _c("h2", { staticClass: "card-title" }, [_vm._v("Perfis")])
-              ]),
-              _vm._v(" "),
+  return _vm.usuario
+    ? _c(
+        "div",
+        [
+          _c(
+            "crudHeader",
+            { attrs: { texto: "Usuário - " + _vm.usuario.name } },
+            [
               _c(
-                "div",
-                { staticClass: "card-body  table-responsive" },
+                "li",
+                { staticClass: "breadcrumb-item" },
                 [
-                  _c(
-                    "datatableService",
-                    {
-                      attrs: {
-                        config: _vm.config,
-                        id: "datatableUsuariosPerfis",
-                        reload: _vm.reloadDatatable
-                      },
-                      on: {
-                        perfilRemovido: function($event) {
-                          _vm.perfilRemovido($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("th", { staticStyle: { "max-width": "30px" } }, [
-                        _vm._v("ID")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Nome")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Descrição")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { attrs: { pesquisavel: "" } }, [
-                        _vm._v("Responsável")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-center" }, [
-                        _vm._v("Ações")
-                      ])
-                    ]
-                  )
+                  _c("router-link", { attrs: { to: "/", exact: "" } }, [
+                    _c("a", [_vm._v("Usuários")])
+                  ])
                 ],
                 1
               ),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "card-footer text-right" },
-                [
-                  _c("crudBotaoVoltar", { attrs: { url: "/" } }),
+              _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Perfis")])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "content" }, [
+            _c(
+              "div",
+              { staticClass: "container-fluid" },
+              [
+                _c("crudCard", [
+                  _c("div", { staticClass: "card-header text-center" }, [
+                    _c("h2", { staticClass: "card-title" }, [_vm._v("Perfis")])
+                  ]),
                   _vm._v(" "),
                   _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-warning",
-                      attrs: {
-                        to: "/" + this.$route.params.id + "/perfil/historico",
-                        exact: ""
-                      }
-                    },
+                    "div",
+                    { staticClass: "card-body  table-responsive" },
                     [
-                      _c("i", { staticClass: "fa fa-database" }),
-                      _vm._v(" Historico\n\t\t\t\t\t\t")
-                    ]
+                      _c(
+                        "datatableService",
+                        {
+                          attrs: {
+                            config: _vm.config,
+                            id: "datatableUsuariosPerfis",
+                            reload: _vm.reloadDatatable
+                          },
+                          on: {
+                            perfilRemovido: function($event) {
+                              _vm.perfilRemovido($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("th", { staticStyle: { "max-width": "30px" } }, [
+                            _vm._v("ID")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { pesquisavel: "" } }, [
+                            _vm._v("Nome")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { pesquisavel: "" } }, [
+                            _vm._v("Descrição")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { pesquisavel: "" } }, [
+                            _vm._v("Responsável")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { staticClass: "text-center" }, [
+                            _vm._v("Ações")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-footer text-right" },
+                    [_c("crudBotaoVoltar", { attrs: { url: "/" } })],
+                    1
                   )
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _vm.perfis.length > 0
-              ? _c("formAdicionarPerfil", {
-                  attrs: { perfis: _vm.perfis, url: _vm.url },
-                  on: {
-                    perfilAdicionado: function($event) {
-                      _vm.perfilAdicionado($event)
-                    }
-                  }
-                })
-              : _vm._e()
-          ],
-          1
-        )
-      ])
-    ],
-    1
-  )
+                ]),
+                _vm._v(" "),
+                _vm.perfis.length > 0
+                  ? _c("formAdicionarPerfil", {
+                      attrs: { perfis: _vm.perfis, url: _vm.url },
+                      on: {
+                        perfilAdicionado: function($event) {
+                          _vm.perfilAdicionado($event)
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
+          ])
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
