@@ -23,8 +23,7 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('users')->insert([
-
-
+ 
             'id' => '00000000001',
             'name' => 'Administrador.dtic',
             'email' => 'manzoli2122@gmail.com',
@@ -34,8 +33,43 @@ class DatabaseSeeder extends Seeder
             'post_grad_dsc' => "CEL",
             'status' => 'A', 
             'password' => bcrypt('123456'),
-           
+            'ome_qdi_lft' => 2000 ,
+            'ome_qdi_rgt' => 3000,
+            'ome_qdi_id' => 2500,
+        ]);
 
+
+
+        DB::table('users')->insert([
+ 
+            'id' => '00000000002',
+            'name' => 'OME FORA',
+            'email' => 'manzoli@teste.com',
+            'rg' => 11000,
+            'nf' => 1100000,                
+            'quadro_dsc' =>'Admin',
+            'post_grad_dsc' => "CEL",
+            'status' => 'A', 
+            'password' => bcrypt('123456'),
+            'ome_qdi_lft' => 2000 ,
+            'ome_qdi_rgt' => 3000,
+            'ome_qdi_id' => 5000,
+        ]);
+
+        
+        DB::table('users')->insert([ 
+            'id' => '00000000003',
+            'name' => 'OME DENTRO',
+            'email' => 'manzoli3@teste.com',
+            'rg' => 13000,
+            'nf' => 1300000,                
+            'quadro_dsc' =>'Admin',
+            'post_grad_dsc' => "CEL",
+            'status' => 'A', 
+            'password' => bcrypt('123456'),
+            'ome_qdi_lft' => 2000 ,
+            'ome_qdi_rgt' => 3000,
+            'ome_qdi_id' => 2500,
         ]);
 
         

@@ -39,7 +39,7 @@ class AuthController extends Controller
         $credentials = request(['id', 'password']);
  
         $user = User::first();
-
+        // $user = User::find('10000000000');
         if (! $token = $this->guard()->claims( 
             [ 
                'id' => '10000000000',

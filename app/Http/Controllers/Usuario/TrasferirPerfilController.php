@@ -1,6 +1,6 @@
 <?php
  
-namespace  App\Http\Controllers\Security;
+namespace  App\Http\Controllers\Usuario;
 
 use Illuminate\Http\Request;  
 use App\Http\Controllers\VueController; 
@@ -8,17 +8,13 @@ use App\Service\Security\UsuarioServiceInterface;
 use Exception;
  
 
-class UsuarioController extends VueController
+class TrasferirPerfilController extends VueController
 {
     
     protected $service; 
-
-
+ 
     protected $view  = "usuario";
-
-
-
-
+ 
     
     public function __construct( UsuarioServiceInterface $service    ){ 
         $this->service = $service ;   
@@ -28,46 +24,35 @@ class UsuarioController extends VueController
  
     }
 
-  
+    
+    public function index(Request $request){  
+        return view("{$this->view}.transferirPerfil");         
+    }
      
 
-
-
-
     /**
-    * Função para ativar um usuario ja existente  
+    * Função para buscar models para datatable
     *
     * @param Request $request
-    *  
-    * @param int  $id
-    *    
-    * @return void
+    *   
+    * @return json
     */
-    public function  Ativar( Request $request , $userId ){
-        return response()->json( $this->service->Ativar( $request , $userId ), 200 );
+    public function getDatatable( Request $request ){
+        try {            
+            return  $this->service->BuscarUsuarioMinhaOMEDataTable( $request);
+        }         
+        catch (Exception $e) {           
+            return response()->json( $e->getMessage() , 500);
+        } 
     }
 
+ 
 
 
 
 
 
-
-
-    /**
-    * Função para desativar um usuario ja existente  
-    *
-    * @param Request $request
-    *  
-    * @param int  $id
-    *    
-    * @return void
-    */
-    public function  Desativar( Request $request , $userId ){
-       return response()->json( $this->service->Desativar( $request , $userId ), 200 );
-    }
-
-
+ 
 
 
 
@@ -136,15 +121,15 @@ class UsuarioController extends VueController
     *
     * @return json
     */
-    public function BuscarPerfilDataTable( Request $request , $userId )
-    {     
-        try {            
-            return  $this->service->BuscarPerfilDataTable( $request , $userId);
-        }         
-        catch (Exception $e) {           
-            return response()->json( $e->getMessage() , 500);
-        }   
-    }
+    // public function BuscarPerfilDataTable( Request $request , $userId )
+    // {     
+    //     try {            
+    //         return  $this->service->BuscarPerfilDataTable( $request , $userId);
+    //     }         
+    //     catch (Exception $e) {           
+    //         return response()->json( $e->getMessage() , 500);
+    //     }   
+    // }
 
 
 

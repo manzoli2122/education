@@ -74,7 +74,13 @@
 				</li>
 				@endperfil
 
- 
+				<li class="nav-item">
+					<a href="{{ route('tranferir.perfil.index')}}" class="nav-link">
+						<i class="nav-icon fa fa-send  "></i>
+						<p>Transferir Perfil</p>
+					</a>
+				</li>
+
 			</ul>
 		</nav>
 	</div>

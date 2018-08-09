@@ -232,6 +232,20 @@ class User extends Authenticatable  implements JWTSubject
 
 
 
+    /**
+     * Buscar os usuarios para exibir na datatable
+     * 
+     * @return Query $query
+    */
+    public function getUsuarioMinhaOMEDatatable()
+    {
+    	return $this->select([
+    		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' ,
+        ])  ->where('ome_qdi_id', '>=', $this->ome_qdi_lft)
+            ->where('ome_qdi_id', '<=', $this->ome_qdi_rgt);        
+    }
+
+
 
 
 
@@ -415,12 +429,12 @@ class User extends Authenticatable  implements JWTSubject
     *
     * @return void
     */
-    public function attachPerfil($perfil)
+    public function attachPerfil($perfil , $responsavel_id = '00000000001')
     {
     	if(is_object($perfil)) {
     		$perfil = $perfil->getKey();
     	}
-    	$this->perfis()->attach($perfil);
+    	$this->perfis()->attach($perfil , ['responsavel_id' => $responsavel_id]);
     	$this->cachedPerfisAtualizar();
     }
 

@@ -246,7 +246,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	if( $perfil->nome == 'Admin' and !Auth::user()->hasPerfil('Admin')){
     		abort(403, 'Você não tem permissão para adicionar o perfil Admin.');
     	}
-    	$usuario->attachPerfil($perfil);
+    	$usuario->attachPerfil($perfil, Auth::user()->id );
  
         $usuario->notify( new PerfilAdicionadoNotification( $perfil ) );
 
@@ -427,6 +427,23 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
 
 
 
+
+
+    /**
+    * Funcao para buscar os usuario pelo datatable  
+    *
+    * @param Request $request 
+    *
+    * @return json
+    */
+    public function  BuscarUsuarioMinhaOMEDataTable( $request ){
+    	$models = $request->user()->getUsuarioMinhaOMEDatatable();
+    	return $this->dataTable->eloquent($models)
+    	->addColumn('action', function($linha) { 
+    		return '<a href="#/'.$linha->id.'/perfil" class="btn btn-primary btn-sm" title="Perfis"><i class="fa fa-id-card"></i></a> '  ; 
+    	}) 
+    	->make(true); 
+    }
 
 
 

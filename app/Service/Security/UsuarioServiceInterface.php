@@ -125,4 +125,16 @@ interface UsuarioServiceInterface  extends VueServiceInterface
     public function elasticsearch( Request $request , $userId  );
 
 
+
+
+
+
+    /**
+    * Funcao para buscar os usuario pelo datatable  
+    *
+    * @param Request $request 
+    *
+    * @return json
+    */
+    public function  BuscarUsuarioMinhaOMEDataTable( $request );
 } 

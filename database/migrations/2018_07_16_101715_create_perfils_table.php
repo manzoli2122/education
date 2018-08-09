@@ -26,14 +26,15 @@ class CreatePerfilsTable extends Migration
         Schema::create('perfils_users', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->unsignedInteger('perfil_id');
-            //$table->unsignedInteger('user_id');
-            $table->char('user_id',11);
-
-
+            $table->unsignedInteger('perfil_id'); 
+            $table->char('user_id',11); 
+            $table->char('responsavel_id',11)->default('00000000001');
 
             $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('responsavel_id')->references('id')->on('users')->onDelete('restrict');
+
+
         });
 
     }
