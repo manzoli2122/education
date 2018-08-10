@@ -385,7 +385,7 @@ class LoginController extends Controller
     			'usuario' => $usuario->log()['usuario'],
     		] ; 
     		dispatch( 
-    			new FIlaElasticSearchLog('App\User', 'Atualizacao', $user->logCompleto(), $info, now()->format('Y-m-d\TH:i:s.u') )
+    			new FIlaElasticSearchLog('App\User', 'Atualizacao', $usuario->logCompleto(), $info, now()->format('Y-m-d\TH:i:s.u') )
     		);  
     	}
 
