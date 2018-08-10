@@ -38,7 +38,7 @@ class CreateUsuarioPerfilLogTable extends Migration
             $table->timestamps();
 
 
-            $table->string('ip_v4', 15)->nullable();
+            $table->string('ip_v4', 45)->nullable();
             $table->string('sistema_operacional', 15)->nullable();
             $table->string('navegador', 15)->nullable();
             $table->string('navegador_versao', 15)->nullable();

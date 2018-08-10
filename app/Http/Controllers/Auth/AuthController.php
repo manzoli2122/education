@@ -72,6 +72,12 @@ class AuthController extends Controller
                 'ome_qdi_lft' => 1, 
                 'ome_qdi_rgt' => 10000,  
 
+                'setor_qdi_id' =>1 ,    
+                'setor_qdi_dsc'=> 'PMES' ,    
+                'setor_qdi_lft' => 1 ,   
+                'setor_qdi_rgt' => 10000 , 
+
+
             ] )->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

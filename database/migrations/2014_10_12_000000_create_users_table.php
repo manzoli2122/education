@@ -22,10 +22,20 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();  
             $table->string('quadro_dsc', 50);
             $table->string('post_grad_dsc', 50);
+            
+            
             $table->integer('ome_qdi_id')->default('1')->unsigned()->comment('ID QDI OME DO EFETIVO');
             $table->string('ome_qdi_dsc', 50)->default('PMES')->comment('OME DO EFTIVO');
             $table->integer('ome_qdi_lft')->default('1')->unsigned()->comment('LFT de ACESSO');
             $table->integer('ome_qdi_rgt')->default('10000')->unsigned()->comment('RGT de ACESSO');            
+            
+            $table->integer('setor_qdi_id')->default('1')->unsigned()->comment('ID QDI OME DO EFETIVO');
+            $table->string('setor_qdi_dsc', 50)->default('PMES')->comment('OME DO EFTIVO');
+            $table->integer('setor_qdi_lft')->default('1')->unsigned()->comment('LFT de ACESSO');
+            $table->integer('setor_qdi_rgt')->default('10000')->unsigned()->comment('RGT de ACESSO');            
+            
+            
+            
             $table->enum('status', ['A', 'I'])->default('A')->comment('A->ATIVO, I-> INATIVO');
             $table->string('image', 200)->default('default.jpg');
             $table->string('obs', 200)->nullable();

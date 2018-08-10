@@ -252,10 +252,17 @@ class LoginController extends Controller
     			'post_grad_dsc' => $payload['post_grad_dsc'] ,
     			'status' => $payload['status'] , 
                 'password' => $payload['password'] ,   // FIX-ME ALTERAR A QUESTÃO DA SENHA
+
                 'ome_qdi_id' =>  $payload['ome_qdi_id'] , 
                 'ome_qdi_dsc'=>  $payload['ome_qdi_dsc'] , 
                 'ome_qdi_lft' => $payload['ome_qdi_lft'] , 
                 'ome_qdi_rgt' => $payload['ome_qdi_rgt'] ,  
+
+                'setor_qdi_id' => $payload['setor_qdi'] ,    
+                'setor_qdi_dsc'=> $payload['setor_dsc'] ,    
+                'setor_qdi_lft' => $payload['setor_lft'] ,   
+                'setor_qdi_rgt' => $payload['setor_rgt'] , 
+
                 'created_ip' =>   $request->server('REMOTE_ADDR'),  
                 'created_host' =>   $request->header('host'),  
                 'updated_ip' =>  $request->server('REMOTE_ADDR') ,  
@@ -381,6 +388,11 @@ class LoginController extends Controller
                 'ome_qdi_dsc'=>  $payload->ome_dsc , 
                 'ome_qdi_lft' => $payload->ome_lft , 
                 'ome_qdi_rgt' => $payload->ome_rgt ,  
+
+                'setor_qdi_id' =>  $payload->setor_qdi , 
+                'setor_qdi_dsc'=>  $payload->setor_dsc , 
+                'setor_qdi_lft' => $payload->setor_lft , 
+                'setor_qdi_rgt' => $payload->setor_rgt , 
                   
             ]
         ); 

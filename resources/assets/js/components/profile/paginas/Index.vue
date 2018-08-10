@@ -33,7 +33,9 @@
 							<li class="list-group-item">
 								<b>OME</b> <a class="float-right">{{user.ome_qdi_dsc}}</a>
 							</li>
-							 
+							<li class="list-group-item">
+								<b>Setor</b> <a class="float-right">{{user.setor_qdi_dsc}}</a>
+							</li>
 							
 						</ul>
 
