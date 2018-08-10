@@ -1,13 +1,13 @@
 {
-    "/js/vendor.js": "/js/vendor.js?id=c581dd0b367a0c8d4040",
-    "/js/app.js": "/js/app.js?id=90999a349dfbf1cee7ed",
-    "/js/perfil.js": "/js/perfil.js?id=e30cfc3f1c92abf3b846",
-    "/js/usuario.js": "/js/usuario.js?id=a546e10a244f819fdff6",
-    "/js/permissao.js": "/js/permissao.js?id=9dc1941a1895ee202af1",
-    "/js/tranferirPerfil.js": "/js/tranferirPerfil.js?id=d4fb0b2948fd8252a758",
-    "/js/profile.js": "/js/profile.js?id=5eb8fc5eee5915258f36",
-    "/css/bootstrap.css": "/css/bootstrap.css?id=78741621eaee42bace4d",
+    "/js/vendor.js": "/js/vendor.js?id=74f052c59a458eb4d0ea",
+    "/js/app.js": "/js/app.js?id=436722cfc690f0570636",
+    "/js/perfil.js": "/js/perfil.js?id=901b146689de6c85090c",
+    "/js/usuario.js": "/js/usuario.js?id=9f91868dbebcae0688e2",
+    "/js/permissao.js": "/js/permissao.js?id=d0a7356174e5c964dcb6",
+    "/js/tranferirPerfil.js": "/js/tranferirPerfil.js?id=13b85536269e73df54f5",
+    "/js/profile.js": "/js/profile.js?id=8b068fd57747dbe4384b",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=e2aa2ac70762fdaab70a",
     "/css/select2.css": "/css/select2.css?id=fd9fe49d3d919d631d3e",
-    "/css/fonts.css": "/css/fonts.css?id=0ff9b3d1902637f31598",
-    "/css/bootstrap.css.map": "/css/bootstrap.css.map?id=b2f407b1aa09ede22e8a"
+    "/css/fonts.css": "/css/fonts.css?id=fba04555e8676937903a",
+    "/css/bootstrap.css.map": "/css/bootstrap.css.map?id=0ab7c5a3c60c431b89b5"
 }

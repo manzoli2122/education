@@ -46,6 +46,12 @@ mix.styles([ 'node_modules/font-awesome/css/font-awesome.css',  'node_modules/io
 mix.copy('node_modules/font-awesome/fonts', 'public/fonts');
 mix.copy('node_modules/bootstrap/dist/css/bootstrap.css.map', 'public/css');
 
+mix.copy('resources/assets/css/adminlte.css', 'public/css');
+mix.copy('resources/assets/css/adminlte.css.map', 'public/css');
+mix.copy('resources/assets/js/adminlte.js', 'public/js');
+
+
+
 
 // Fontes Ionicons
 mix.copy('node_modules/ionicons/dist/fonts', 'public/fonts');
