@@ -102,7 +102,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaElasticSearchLog( $request, 'Permissao_Perfil', 'adicionarPermissaoAoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
         }
-        $this->Log( $perfilId , $permissaoId , $permissao->nome  , $request->user()->id , 'Adicionar' , $request->server('REMOTE_ADDR') ,  $request->header('host') );
+        $this->Log( $perfilId , $permissaoId , $permissao->nome  , $request->user()->id , 'Adicionar'  );
     }
 
     
@@ -134,7 +134,7 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         if(env('LOG_ELASTIC_LOG')){ 
             $this->EnviarFilaElasticSearchLog( $request, 'Permissao_Perfil', 'excluirPermissaoDoPerfil',['dado1' => $perfil->log() , 'dado2' => $permissao->log() ] ); 
         } 
-        $this->Log( $perfilId  , $permissaoId , $permissao->nome , $request->user()->id , 'Excluir' , $request->server('REMOTE_ADDR') ,  $request->header('host') ); 
+        $this->Log( $perfilId  , $permissaoId , $permissao->nome , $request->user()->id , 'Excluir'  ); 
     }
 
 
@@ -305,8 +305,8 @@ class PerfilService extends VueService  implements PerfilServiceInterface
         $log->autor_id = $autorId;
         $log->perfil_id = $perfilId;
         $log->acao = $acao ;
-        $log->ip_v4 = $ip_v4;
-        $log->host = $host; 
+        $log->ip_v4 = getenv("REMOTE_ADDR");
+        $log->host =gethostbyaddr(getenv("REMOTE_ADDR")); 
         $log->save(); 
     }
 

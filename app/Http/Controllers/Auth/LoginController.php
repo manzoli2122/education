@@ -53,6 +53,7 @@ class LoginController extends Controller
 
 
 
+
     /**
      * Create a new controller instance.
      *
@@ -60,9 +61,13 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-    	//$this->middleware('guest')->except('logout' );
-        $this->middleware('guest')->except('logout' ,'authenticate' , 'carregaBanco', 'carregaBancoCpf');
+    	$this->middleware('guest')->except('logout' );
+        // $this->middleware('guest')->except('logout' ,'authenticate' );
     }
+
+
+
+
 
 
 
@@ -89,6 +94,9 @@ class LoginController extends Controller
 
 
 
+
+
+
     /**
      *  Retorna o nome do campo usuado para localizar um usuário
      * 
@@ -104,22 +112,23 @@ class LoginController extends Controller
 
 
 
+
+
+
     /**
      * Função para autenticar um usuario via token
      *
      * @param  \Illuminate\Http\Request $request
      *
      * @return Response
-     */
+    */
     public function authenticate(Request $request)
     {
 
     	$credentials = $request->only('token');
 
     	if(!$credentials){
-            if(env('LOG_ELASTIC_LOG')){
-                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token vazio!!']  );
-            } 
+            $this->enviarFalharFilaElasticSearxh( $request, 'Falha de Autenticação - token vazio!!' );            
             abort(401 , "Falha de Autenticação - token vazio!!" );
     	}
 
@@ -128,7 +137,10 @@ class LoginController extends Controller
 
     		if(!$user = User::withoutGlobalScope('ativo')->find($payload['id'])){
     			$user = $this->cadastro( $request, $payload);
-    		}
+            }
+            else{
+                $this->atualizarCadastro( $request, $payload , $user );
+            }
 
     		//FIX-ME TESTAR VIA TOKEN DO SCA
     		//Auth::guard('web')->loginUsingId( $user->id );
@@ -140,30 +152,46 @@ class LoginController extends Controller
 
     	}
     	catch(TokenInvalidException $e){
-            if(env('LOG_ELASTIC_LOG')){
-                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token Invalido!!']  );
-            } 
-    		abort(401 , "Falha de Autenticação - Token Invalido!!" );
+            $this->enviarFalharFilaElasticSearxh( $request, 'Falha de Autenticação - token Invalido!!' );
+            abort(401 , "Falha de Autenticação - Token Invalido!!" );
     	}
     	catch(TokenExpiredException $e){
-            if(env('LOG_ELASTIC_LOG')){
-                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token expirado!!']  );
-            } 
-    		abort(401 , "Falha de Autenticação - Token expirado!!" );
+            $this->enviarFalharFilaElasticSearxh( $request, 'Falha de Autenticação - token expirado!!' );
+            abort(401 , "Falha de Autenticação - Token expirado!!" );
     	}
     	catch(JWTException $e){
-            if(env('LOG_ELASTIC_LOG')){
-                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação !!']  );
-            } 
+            $this->enviarFalharFilaElasticSearxh( $request, 'Falha de Autenticação !!' ); 
     		abort(401 , "Falha de Autenticação - Token vazio!!" );
     	} 
     	catch(Exception $e){
-            if(env('LOG_ELASTIC_LOG')){
-                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação !!']  );
-            } 
+            $this->enviarFalharFilaElasticSearxh( $request, 'Falha de Autenticação !!' ); 
     		abort(401 , "Falha de Autenticação!!" );
     	} 
 
+    }
+
+
+
+
+
+    
+    /**
+     *  Enviar falha para o elastic
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @param   App\User $usuario 
+     * 
+     */
+    protected function enviarFalharFilaElasticSearxh(Request $request,  $causa)
+    { 
+    	if(env('LOG_ELASTIC_LOG')){
+            $this->EnviarFilaElasticSearchLog( 
+                $request,  
+                'App\User', 
+                'FalhaLogin' ,
+                ['causa' => $causa ]  );
+        } 
     }
 
 
@@ -208,15 +236,23 @@ class LoginController extends Controller
     	
         if($request->user()){
             $info =   [   
-                'ip'   => $request->server('REMOTE_ADDR') ,
-                'host' => $request->header('host'),
+                //Pega a IP do usuário 
+                'ip'   => getenv("REMOTE_ADDR") ,
+                 //Pega o nome da Máquina do usuário
+                'host' => gethostbyaddr(getenv("REMOTE_ADDR")),
                 'usuario' => $request->user()->log()['usuario'],
+
+                // 'ip'   => $request->server('REMOTE_ADDR') ,
+                // 'host' => $request->header('host'),
+                // 'usuario' => $request->user()->log()['usuario'],
             ] ; 
         }
         else{
             $info =   [   
-                'ip'   => $request->server('REMOTE_ADDR') ,
-                'host' => $request->header('host'), 
+                //Pega a IP do usuário 
+                'ip'   => getenv("REMOTE_ADDR") ,
+                 //Pega o nome da Máquina do usuário
+                'host' => gethostbyaddr(getenv("REMOTE_ADDR")), 
             ] ; 
         }
         
@@ -224,6 +260,10 @@ class LoginController extends Controller
     		new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
     	);   
     }
+
+
+
+
 
 
 
@@ -273,8 +313,12 @@ class LoginController extends Controller
         // envia dados do cadastro para o elasticsearch
     	if(env('LOG_ELASTIC_LOG')){
     		$info =   [   
-    			'ip'   => $request->server('REMOTE_ADDR') ,
-    			'host' => $request->header('host'),
+                //Pega a IP do usuário 
+                'ip'   => getenv("REMOTE_ADDR") ,
+                 //Pega o nome da Máquina do usuário
+                'host' => gethostbyaddr(getenv("REMOTE_ADDR")),
+    			// 'ip'   => $request->server('REMOTE_ADDR') ,
+    			// 'host' => $request->header('host'),
     			'usuario' => $user->log()['usuario'],
     		] ; 
     		dispatch( 
@@ -297,70 +341,9 @@ class LoginController extends Controller
 
 
 
-        /**
-    * Função para buscar log de perfis do usuario
-    *
-    * @param Request $request
-    *  
-    * @param int  $userId 
-    *
-    * @return json
-    */
-    public function carregaBanco(   ){
- 
-         
-
-        $ch = curl_init();
-        $options = array(
-            // CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/228/qdi', 
-            CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo', 
-            
-            //CURLOPT_POST => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-            //CURLOPT_POSTFIELDS => $postString
-        );
-        if (defined('CURLOPT_SAFE_UPLOAD')) {
-            $options[CURLOPT_SAFE_UPLOAD] = true;
-        } 
-        curl_setopt_array($ch, $options); 
-
-        $result = curl_exec($ch) ;
-        if ( $result === false) {
-            $curlErrno = curl_errno($ch); 
-            $curlError = curl_error($ch); 
-            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
-            curl_close($ch); 
-            return  $result  ;
-        }  else{ 
-            $resultJson = json_decode( $result );  
-            foreach($resultJson as $me ){
-                if( $me->cpf!='' and $me->usuario_email !=''){
-                    $me->id =  $me->cpf;
-                    $this->cadastroTeste(   $me);
-                }
-                
-            }
-            
 
 
-
-
-            if( isset($resultJson->error)  ){
-                //Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
-            }
-            curl_close($ch);  
-            return  $resultJson  ;
-        }
-
-        
-    }
-
-
-
-
-
-     /**
+    /**
      * FIX-ME ADICIONAR ENVIO DE EMAIL DE CADASTRO
      *  Função para realizar o cadastro de um usuario no sistema
      *
@@ -370,112 +353,46 @@ class LoginController extends Controller
      *
      * @return Response
     */
-    public function cadastroTeste(  $payload)
+    public function atualizarCadastro( Request $request, $payload , User $usuario )
     {
         //cria o usuario
-    	$user = User::create(
-    		[
-    			'id' => $payload->id ,
-    			'name' => $payload->nome,
-    			'rg' => $payload->rg,
-    			'email' => $payload->usuario_email,
-    			'nf' =>$payload->num_funcional,                
-    			'quadro_dsc' =>$payload->quadro_dsc ,
-    			'post_grad_dsc' => $payload->post_grad_dsc ,
-    			'status' => 'A', 
-                'password' => bcrypt('123456') ,   // FIX-ME ALTERAR A QUESTÃO DA SENHA
-                'ome_qdi_id' =>  $payload->ome_qdi , 
-                'ome_qdi_dsc'=>  $payload->ome_dsc , 
-                'ome_qdi_lft' => $payload->ome_lft , 
-                'ome_qdi_rgt' => $payload->ome_rgt ,  
+        
+        $usuario->email = $payload['email'];
+        $usuario->quadro_dsc = $payload['quadro_dsc'] ;
+        $usuario->post_grad_dsc = $payload['post_grad_dsc'] ;
+        $usuario->ome_qdi_id =  $payload['ome_qdi_id'] ; 
+        $usuario->ome_qdi_dsc =  $payload['ome_qdi_dsc'] ; 
+        $usuario->ome_qdi_lft = $payload['ome_qdi_lft'] ; 
+        $usuario->ome_qdi_rgt = $payload['ome_qdi_rgt'] ; 
+        $usuario->setor_qdi_id = $payload['setor_qdi'] ;    
+        $usuario->setor_qdi_dsc = $payload['setor_dsc'] ;    
+        $usuario->setor_qdi_lft = $payload['setor_lft'] ;   
+        $usuario->setor_qdi_rgt = $payload['setor_rgt'] ; 
+        $usuario->updated_ip =  $request->server('REMOTE_ADDR') ; 
+        $usuario->updated_host =  $request->header('host') ;  
+        $usuario->save();
 
-                'setor_qdi_id' =>  $payload->setor_qdi , 
-                'setor_qdi_dsc'=>  $payload->setor_dsc , 
-                'setor_qdi_lft' => $payload->setor_lft , 
-                'setor_qdi_rgt' => $payload->setor_rgt , 
-                  
-            ]
-        ); 
 
         // envia dados do cadastro para o elasticsearch
     	if(env('LOG_ELASTIC_LOG')){
     		$info =   [   
-    			'ip'   => '0.0.0.0',
-    			'host' => '0.0.0.0',
-    			'usuario' => '00000000001',
+                //Pega a IP do usuário 
+                'ip'   => getenv("REMOTE_ADDR") ,
+                 //Pega o nome da Máquina do usuário
+                'host' => gethostbyaddr(getenv("REMOTE_ADDR")),
+    			// 'ip'   => $request->server('REMOTE_ADDR') ,
+    			// 'host' => $request->header('host'),
+    			'usuario' => $usuario->log()['usuario'],
     		] ; 
     		dispatch( 
-    			new FIlaElasticSearchLog('App\User', 'Cadastro', $user->logCompleto(), $info, now()->format('Y-m-d\TH:i:s.u') )
+    			new FIlaElasticSearchLog('App\User', 'Atualizacao', $user->logCompleto(), $info, now()->format('Y-m-d\TH:i:s.u') )
     		);  
     	}
 
 
-    	return $user;
-
     }
 
 
-
-
-
-
-
-
-    
-        /**
-    * Função para buscar log de perfis do usuario
-    *
-    * @param Request $request
-    *  
-    * @param int  $userId 
-    *
-    * @return json
-    */
-    public function carregaBancoCpf( $cpf  ){
- 
-         
-
-        $ch = curl_init();
-        $options = array(
-            // CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/228/qdi', 
-            CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/' . $cpf .'/registro', 
-            
-            //CURLOPT_POST => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-            //CURLOPT_POSTFIELDS => $postString
-        );
-        if (defined('CURLOPT_SAFE_UPLOAD')) {
-            $options[CURLOPT_SAFE_UPLOAD] = true;
-        } 
-        curl_setopt_array($ch, $options); 
-
-        $result = curl_exec($ch) ;
-        if ( $result === false) {
-            $curlErrno = curl_errno($ch); 
-            $curlError = curl_error($ch); 
-            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
-            curl_close($ch); 
-            return  $result  ;
-        }  else{ 
-            $resultJson = json_decode( $result );  
-            foreach($resultJson as $me ){
-                if( $me->cpf!='' and $me->usuario_email !=''){
-                    $me->id =  $me->cpf;
-                    $this->cadastroTeste(   $me);
-                }
-                
-            }
-             
-            if( isset($resultJson->error)  ){
-                //Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
-            }
-            curl_close($ch);  
-            return  $resultJson  ;
-        }
-
-        
-    }
 
 
 

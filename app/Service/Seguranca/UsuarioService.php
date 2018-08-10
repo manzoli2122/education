@@ -297,7 +297,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'adicionarPerfilAoUsuario',['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]); 
     	} 
-    	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' ,$request->server('REMOTE_ADDR') , $request->header('host') );  
+    	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Adicionar' );  
     }
 
 
@@ -340,7 +340,7 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     	if(env('LOG_ELASTIC_LOG')){
             $this->EnviarFilaElasticSearchLog( $request, 'Perfil_Usuario', 'excluirPerfilDoUsuario', ['dado1' => $usuario->log() , 'dado2' => $perfil->log() ]);  
     	}
-    	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir'  ,$request->server('REMOTE_ADDR') , $request->header('host') ); 
+    	$this->Log( $perfilId , $userId  , Auth::user()->id , 'Excluir' ); 
     }
 
 
@@ -373,15 +373,15 @@ class UsuarioService extends VueService  implements UsuarioServiceInterface
     *
     * @return void
     */
-    private function  Log( int $perfilId , string $userId  , string $autorId , string $acao , string $ip_v4 , string $host )
+    private function  Log( int $perfilId , string $userId  , string $autorId , string $acao  )
     {         
     	$log =  new LogUsuarioPerfil();
     	$log->user_id = $userId;
     	$log->autor_id = $autorId;
     	$log->perfil_id = $perfilId;
     	$log->acao = $acao ;
-    	$log->ip_v4 = $ip_v4;
-    	$log->host = $host; 
+    	$log->ip_v4 = getenv("REMOTE_ADDR");
+    	$log->host = gethostbyaddr(getenv("REMOTE_ADDR")); 
     	$log->save(); 
     }
 

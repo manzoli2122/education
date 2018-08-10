@@ -18,7 +18,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-
-
-Route::post('login', 'Auth\AuthController@login');
-Route::get('login/{cpf?}', 'Auth\AuthController@login');

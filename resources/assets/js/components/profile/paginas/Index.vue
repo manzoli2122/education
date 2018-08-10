@@ -39,7 +39,7 @@
 							
 						</ul>
 
-						<a href="#" class="btn btn-primary btn-block"><b>Atualizar dados no RH</b></a>
+						<a href="#" class="btn btn-primary btn-block disabled"><b>Atualizar dados no RH</b></a>
 
 						<router-link to="/notificacoes" exact class="btn btn-primary btn-block"><a>Notificações</a></router-link>
 					</div>

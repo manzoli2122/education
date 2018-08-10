@@ -171,8 +171,12 @@ class VueService  implements VueServiceInterface
     */
     protected function  EnviarFilaElasticSearchLog( Request $request , $model, $acao ,  $dados   ){  
         $info =   [   
-            'ip'   => $request->server('REMOTE_ADDR') ,
-            'host' => $request->header('host'),
+            //Pega a IP do usuário 
+            'ip'   => getenv("REMOTE_ADDR") ,
+            //Pega o nome da Máquina do usuário
+           'host' => gethostbyaddr(getenv("REMOTE_ADDR")),
+            // 'ip'   => $request->server('REMOTE_ADDR') ,
+            // 'host' => $request->header('host'),
             'usuario' => Auth::user()->log()['usuario'],
         ] ; 
         dispatch( 
