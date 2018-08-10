@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Exception ;
 use App\Exceptions\ModelNotFoundException;
 use Illuminate\Database\QueryException;  
- 
+use App\User;
+use Auth;
 
 class TemporarioController extends Controller
 {

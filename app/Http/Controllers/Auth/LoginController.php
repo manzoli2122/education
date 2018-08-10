@@ -364,10 +364,10 @@ class LoginController extends Controller
         $usuario->ome_qdi_dsc =  $payload['ome_qdi_dsc'] ; 
         $usuario->ome_qdi_lft = $payload['ome_qdi_lft'] ; 
         $usuario->ome_qdi_rgt = $payload['ome_qdi_rgt'] ; 
-        $usuario->setor_qdi_id = $payload['setor_qdi'] ;    
-        $usuario->setor_qdi_dsc = $payload['setor_dsc'] ;    
-        $usuario->setor_qdi_lft = $payload['setor_lft'] ;   
-        $usuario->setor_qdi_rgt = $payload['setor_rgt'] ; 
+        $usuario->setor_qdi_id = $payload['setor_qdi_id'] ;    
+        $usuario->setor_qdi_dsc = $payload['setor_qdi_dsc'] ;    
+        $usuario->setor_qdi_lft = $payload['setor_qdi_lft'] ;   
+        $usuario->setor_qdi_rgt = $payload['setor_qdi_rgt'] ; 
         $usuario->updated_ip =  $request->server('REMOTE_ADDR') ; 
         $usuario->updated_host =  $request->header('host') ;  
         $usuario->save();

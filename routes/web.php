@@ -43,5 +43,5 @@ Route::get('/admin/carrega/rh', 'TemporarioController@carregaBanco');//->middlew
 Route::get('/admin/carrega/rh/{cpf}', 'TemporarioController@carregaBancoCpf');//->middleware('auth:api');
 
 //Route::post('login', 'Auth\AuthController@login');
-Route::get('/admin/login/{cpf?}', 'Auth\AuthController@login');
+Route::get('/admin/login/{cpf?}', 'TemporarioController@login');
 
