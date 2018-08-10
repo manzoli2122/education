@@ -9,6 +9,7 @@
  
 
 Route::get('/carrega', 'Auth\LoginController@carregaBanco');//->middleware('auth:api');
+Route::get('/carrega/cpf', 'Auth\LoginController@carregaBancoCpf');//->middleware('auth:api');
 
 Route::get('/', function () {    return view('welcome');})->name('inicio');
 Route::get('/home', function () {    return view('welcome');})->middleware('auth')->name('inicio');

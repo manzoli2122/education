@@ -61,7 +61,7 @@ class LoginController extends Controller
     public function __construct()
     {
     	//$this->middleware('guest')->except('logout' );
-        $this->middleware('guest')->except('logout' ,'authenticate' , 'carregaBanco');
+        $this->middleware('guest')->except('logout' ,'authenticate' , 'carregaBanco', 'carregaBancoCpf');
     }
 
 
@@ -404,6 +404,66 @@ class LoginController extends Controller
 
 
 
+
+
+
+
+
+    
+        /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function carregaBancoCpf( $cpf  ){
+ 
+         
+
+        $ch = curl_init();
+        $options = array(
+            // CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/228/qdi', 
+            CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/' . $cpf .'/registro', 
+            
+            //CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+            //CURLOPT_POSTFIELDS => $postString
+        );
+        if (defined('CURLOPT_SAFE_UPLOAD')) {
+            $options[CURLOPT_SAFE_UPLOAD] = true;
+        } 
+        curl_setopt_array($ch, $options); 
+
+        $result = curl_exec($ch) ;
+        if ( $result === false) {
+            $curlErrno = curl_errno($ch); 
+            $curlError = curl_error($ch); 
+            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
+            curl_close($ch); 
+            return  $result  ;
+        }  else{ 
+            $resultJson = json_decode( $result );  
+            foreach($resultJson as $me ){
+                if( $me->cpf!='' and $me->usuario_email !=''){
+                    $me->id =  $me->cpf;
+                    $this->cadastroTeste(   $me);
+                }
+                
+            }
+             
+            if( isset($resultJson->error)  ){
+                //Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
+            }
+            curl_close($ch);  
+            return  $resultJson  ;
+        }
+
+        
+    }
 
 
 

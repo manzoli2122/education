@@ -33,21 +33,26 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login( $cpf='' )
     {
         
         $credentials = request(['id', 'password']);
  
+        if($cpf){
+            $user = User::find($cpf);
+        }
+        else{
+            $user = User::find('10000000000');
         
-        $user = User::find('10000000000');
+            $user = User::find('81780486715'); // 1 bpm
+
+            // $user = User::find('02453087762'); //cpoe
+            // $user = User::find('99801620749'); // cpom
+            // $user = User::find('00266899790'); // bpma
+
+            $user = User::first();
+        }
         
-        $user = User::find('81780486715'); // 1 bpm
-
-        // $user = User::find('02453087762'); //cpoe
-        // $user = User::find('99801620749'); // cpom
-        // $user = User::find('00266899790'); // bpma
-
-       $user = User::first();
 
 
 
