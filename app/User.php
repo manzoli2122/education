@@ -225,7 +225,7 @@ class User extends Authenticatable  implements JWTSubject
     {
     	return $this->withoutGlobalScope('ativo')
     	->select([
-    		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' , 
+    		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' ,   'nf',
     		DB::raw("CASE status  	WHEN 'A' THEN 'Ativo'	WHEN 'I' THEN 'Inativo' END AS status "),
     	]);        
     }
@@ -240,9 +240,9 @@ class User extends Authenticatable  implements JWTSubject
     public function getUsuarioMinhaOMEDatatable()
     {
     	return $this->select([
-    		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' ,
-        ])  ->where('ome_qdi_id', '>=', $this->ome_qdi_lft)
-            ->where('ome_qdi_id', '<=', $this->ome_qdi_rgt);        
+    		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' , 'nf'
+        ])  ->where('ome_qdi_lft', '>=', $this->ome_qdi_lft)
+            ->where('ome_qdi_rgt', '<=', $this->ome_qdi_rgt);        
     }
 
 
@@ -258,8 +258,8 @@ class User extends Authenticatable  implements JWTSubject
     public function getUsuarioMinhaOME( $id )
     {
         $model =  $this->where('id', '=', $id )
-                ->where('ome_qdi_id', '>=', $this->ome_qdi_lft)
-                ->where('ome_qdi_id', '<=', $this->ome_qdi_rgt)
+                ->where('ome_qdi_lft', '>=', $this->ome_qdi_lft)
+                ->where('ome_qdi_rgt', '<=', $this->ome_qdi_rgt)
                 // ->firstOrFail();
                 ->first();
 

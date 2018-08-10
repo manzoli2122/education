@@ -61,7 +61,7 @@ class LoginController extends Controller
     public function __construct()
     {
     	//$this->middleware('guest')->except('logout' );
-        $this->middleware('guest')->except('logout' ,'authenticate');
+        $this->middleware('guest')->except('logout' ,'authenticate' , 'carregaBanco');
     }
 
 
@@ -283,6 +283,125 @@ class LoginController extends Controller
     	return $user;
 
     }
+
+
+
+
+
+
+
+        /**
+    * Função para buscar log de perfis do usuario
+    *
+    * @param Request $request
+    *  
+    * @param int  $userId 
+    *
+    * @return json
+    */
+    public function carregaBanco(   ){
+ 
+         
+
+        $ch = curl_init();
+        $options = array(
+            // CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo/228/qdi', 
+            CURLOPT_URL => 'http://sgpm.rh.dcpm.es.gov.br/api/v1/efetivoativo', 
+            
+            //CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+            //CURLOPT_POSTFIELDS => $postString
+        );
+        if (defined('CURLOPT_SAFE_UPLOAD')) {
+            $options[CURLOPT_SAFE_UPLOAD] = true;
+        } 
+        curl_setopt_array($ch, $options); 
+
+        $result = curl_exec($ch) ;
+        if ( $result === false) {
+            $curlErrno = curl_errno($ch); 
+            $curlError = curl_error($ch); 
+            Log::error( sprintf('Curl error (code %s): %s', $curlErrno, $curlError) );
+            curl_close($ch); 
+            return  $result  ;
+        }  else{ 
+            $resultJson = json_decode( $result );  
+            foreach($resultJson as $me ){
+                if( $me->cpf!='' and $me->usuario_email !=''){
+                    $me->id =  $me->cpf;
+                    $this->cadastroTeste(   $me);
+                }
+                
+            }
+            
+
+
+
+
+            if( isset($resultJson->error)  ){
+                //Log::warning( 'Error de inserção de dados no elastic -> ' .  $result . ' Dados -> ' .  $postString );
+            }
+            curl_close($ch);  
+            return  $resultJson  ;
+        }
+
+        
+    }
+
+
+
+
+
+     /**
+     * FIX-ME ADICIONAR ENVIO DE EMAIL DE CADASTRO
+     *  Função para realizar o cadastro de um usuario no sistema
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @param  Array  $payload
+     *
+     * @return Response
+    */
+    public function cadastroTeste(  $payload)
+    {
+        //cria o usuario
+    	$user = User::create(
+    		[
+    			'id' => $payload->id ,
+    			'name' => $payload->nome,
+    			'rg' => $payload->rg,
+    			'email' => $payload->usuario_email,
+    			'nf' =>$payload->num_funcional,                
+    			'quadro_dsc' =>$payload->quadro_dsc ,
+    			'post_grad_dsc' => $payload->post_grad_dsc ,
+    			'status' => 'A', 
+                'password' => bcrypt('123456') ,   // FIX-ME ALTERAR A QUESTÃO DA SENHA
+                'ome_qdi_id' =>  $payload->ome_qdi , 
+                'ome_qdi_dsc'=>  $payload->ome_dsc , 
+                'ome_qdi_lft' => $payload->ome_lft , 
+                'ome_qdi_rgt' => $payload->ome_rgt ,  
+                  
+            ]
+        ); 
+
+        // envia dados do cadastro para o elasticsearch
+    	if(env('LOG_ELASTIC_LOG')){
+    		$info =   [   
+    			'ip'   => '0.0.0.0',
+    			'host' => '0.0.0.0',
+    			'usuario' => '00000000001',
+    		] ; 
+    		dispatch( 
+    			new FIlaElasticSearchLog('App\User', 'Cadastro', $user->logCompleto(), $info, now()->format('Y-m-d\TH:i:s.u') )
+    		);  
+    	}
+
+
+    	return $user;
+
+    }
+
 
 
 

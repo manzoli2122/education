@@ -8,6 +8,8 @@
 */
  
 
+Route::get('/carrega', 'Auth\LoginController@carregaBanco');//->middleware('auth:api');
+
 Route::get('/', function () {    return view('welcome');})->name('inicio');
 Route::get('/home', function () {    return view('welcome');})->middleware('auth')->name('inicio');
  
@@ -18,8 +20,6 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 //Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 Route::get('login/token', 'Auth\LoginController@authenticate');//->middleware('auth:api');
-
-Route::get('carrega', 'Auth\AuthController@carregaBanco');//->middleware('auth:api');
 
 
 

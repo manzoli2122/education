@@ -67,7 +67,7 @@ window.alertErro = function(titulo, texto = "", posicao = "center", funcao = fun
         message: texto,
         messageColor: '#fff',
          timeout: 10000,
-        timeout: false,
+       
         icon: 'fa fa-ban',
         iconColor: '#fff',
         closeOnEscape: true,
@@ -88,7 +88,7 @@ window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = 
     iziToast.show({
         theme: 'dark',
         timeout: 10000,
-        timeout: false,
+       
         position: posicao,
         color: '#1F5688',
         title: titulo,

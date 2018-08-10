@@ -9,9 +9,10 @@
 					<div class="card-body  table-responsive"> 
 						<datatableService :config="config" id="datatableUsuarios"> 
 							<th pesquisavel style="max-width:90px">CPF</th>
-							<th pesquisavel>RG</th> 
-							<th pesquisavel>Post/Grad</th> 
-							<th pesquisavel>Nome</th> 
+							<th pesquisavel>Nome</th>
+							<th pesquisavel style="max-width:70px">RG</th> 
+							<th pesquisavel style="max-width:70px">NF</th>
+							<th pesquisavel style="max-width:70px">P/G</th>  
 							<th pesquisavel>OME</th>  
 							<th style="min-width:90px" class="text-center">Ações</th>
 						</datatableService> 
@@ -34,15 +35,16 @@
 			return {                
 				config: {
 					 
-					order: [[ 1, "asc" ]],
+					order: [[ 2, "asc" ]],
 					ajax: { 
 						url: this.url + '/datatable'
 					},
 					columns: [
 					{ data: 'id', name: 'id'  },
-					{ data: 'rg', name: 'rg'  }, 
-					{ data: 'post_grad_dsc', name: 'post_grad_dsc'  }, 
 					{ data: 'name', name: 'name' }, 
+					{ data: 'rg', name: 'rg'  }, 
+					{ data: 'nf', name: 'nf'  },
+					{ data: 'post_grad_dsc', name: 'post_grad_dsc'  },  
 					{ data: 'ome_qdi_dsc', name: 'ome_qdi_dsc' }, 	
 					{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
 					],

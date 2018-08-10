@@ -46,7 +46,9 @@ mix.styles([ 'node_modules/font-awesome/css/font-awesome.css',  'node_modules/io
 mix.copy('node_modules/font-awesome/fonts', 'public/fonts');
 mix.copy('node_modules/bootstrap/dist/css/bootstrap.css.map', 'public/css');
 
+
 // Fontes Ionicons
 mix.copy('node_modules/ionicons/dist/fonts', 'public/fonts');
  
+
 mix.version();
