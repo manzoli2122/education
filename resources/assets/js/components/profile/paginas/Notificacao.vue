@@ -13,6 +13,9 @@
 							<th pesquisavel>Descrição</th>  
 							<th style="min-width:90px" class="text-center">Ações</th>
 						</datatableService> 
+					</div>  
+					<div class="card-footer text-right">  
+						<crudBotaoVoltar url="/" />  
 					</div>    
 				</crudCard>   
 			</div> 

@@ -155,7 +155,7 @@ return [
         
 
         
-        App\Security\AALServiceProvider::class,
+        App\Seguranca\AALServiceProvider::class,
 
         Yajra\Datatables\DatatablesServiceProvider::class,
         /*
@@ -216,7 +216,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        "AAL" => App\Security\AALFacade::class,
+        "AAL" => App\Seguranca\AALFacade::class,
          
 
     ],

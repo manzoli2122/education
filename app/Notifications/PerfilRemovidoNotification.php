@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Security\Perfil; 
+use App\Models\Seguranca\Perfil; 
 
 
 class PerfilRemovidoNotification extends Notification implements ShouldQueue

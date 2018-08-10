@@ -117,7 +117,7 @@ class User extends Authenticatable  implements JWTSubject
     */
     public function perfis()
     {
-    	return $this->belongsToMany('App\Models\Security\Perfil','perfils_users', 'user_id', 'perfil_id');
+    	return $this->belongsToMany('App\Models\Seguranca\Perfil','perfils_users', 'user_id', 'perfil_id');
     }
 
 
@@ -243,6 +243,27 @@ class User extends Authenticatable  implements JWTSubject
     		'id', 'name' ,'rg' , 'post_grad_dsc' , 'ome_qdi_dsc' ,
         ])  ->where('ome_qdi_id', '>=', $this->ome_qdi_lft)
             ->where('ome_qdi_id', '<=', $this->ome_qdi_rgt);        
+    }
+
+
+
+
+
+
+     /**
+     * Buscar os usuarios para exibir na datatable
+     * 
+     * @return Query $query
+    */
+    public function getUsuarioMinhaOME( $id )
+    {
+        $model =  $this->where('id', '=', $id )
+                ->where('ome_qdi_id', '>=', $this->ome_qdi_lft)
+                ->where('ome_qdi_id', '<=', $this->ome_qdi_rgt)
+                // ->firstOrFail();
+                ->first();
+
+        return $model; 
     }
 
 

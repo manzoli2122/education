@@ -13299,6 +13299,7 @@ module.exports = g;
 /***/ "./resources/assets/js/app.js":
 /***/ (function(module, exports, __webpack_require__) {
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13346,10 +13347,13 @@ window.alertProcessandoHide = function () {
 
 window.alertErro = function (titulo) {
     var texto = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
+    var _iziToast$show;
+
     var posicao = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "center";
     var funcao = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
-    iziToast.show({
+    iziToast.show((_iziToast$show = {
         theme: 'dark',
         position: posicao,
         color: '#DD4B39',
@@ -13358,13 +13362,8 @@ window.alertErro = function (titulo) {
         titleSize: '14',
         message: texto,
         messageColor: '#fff',
-        // timeout: 5000,
-        timeout: false,
-        icon: 'fa fa-ban',
-        iconColor: '#fff',
-        closeOnEscape: true,
-        onClosed: funcao
-    });
+        timeout: 10000
+    }, _defineProperty(_iziToast$show, 'timeout', false), _defineProperty(_iziToast$show, 'icon', 'fa fa-ban'), _defineProperty(_iziToast$show, 'iconColor', '#fff'), _defineProperty(_iziToast$show, 'closeOnEscape', true), _defineProperty(_iziToast$show, 'onClosed', funcao), _iziToast$show));
 };
 
 window.toastErro = function (titulo) {
@@ -13376,26 +13375,16 @@ window.toastErro = function (titulo) {
 
 window.alertSucesso = function (titulo) {
     var texto = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
+    var _iziToast$show2;
+
     var posicao = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "center";
     var funcao = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
-    iziToast.show({
+    iziToast.show((_iziToast$show2 = {
         theme: 'dark',
-        // timeout: 2000,
-        timeout: false,
-        position: posicao,
-        color: '#1F5688',
-        title: titulo,
-        titleColor: '#fff',
-        titleSize: '14',
-        message: texto,
-        messageColor: '#fff',
-
-        icon: 'fa fa-check',
-        iconColor: '#fff',
-        closeOnEscape: true,
-        onClosed: funcao
-    });
+        timeout: 10000
+    }, _defineProperty(_iziToast$show2, 'timeout', false), _defineProperty(_iziToast$show2, 'position', posicao), _defineProperty(_iziToast$show2, 'color', '#1F5688'), _defineProperty(_iziToast$show2, 'title', titulo), _defineProperty(_iziToast$show2, 'titleColor', '#fff'), _defineProperty(_iziToast$show2, 'titleSize', '14'), _defineProperty(_iziToast$show2, 'message', texto), _defineProperty(_iziToast$show2, 'messageColor', '#fff'), _defineProperty(_iziToast$show2, 'icon', 'fa fa-check'), _defineProperty(_iziToast$show2, 'iconColor', '#fff'), _defineProperty(_iziToast$show2, 'closeOnEscape', true), _defineProperty(_iziToast$show2, 'onClosed', funcao), _iziToast$show2));
 };
 
 window.toastSucesso = function (titulo) {

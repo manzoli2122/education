@@ -15,15 +15,15 @@ mix.js('resources/assets/js/vendor.js', 'public/js');
     
 mix.js('resources/assets/js/app.js', 'public/js');
   
-mix.js('resources/assets/js/components/permissao/rotas.js', 'public/js/permissao.js');
+mix.js('resources/assets/js/components/seguranca/permissao/rotas.js', 'public/js/permissao.js');
 
-mix.js('resources/assets/js/components/perfil/rotas.js', 'public/js/perfil.js');
+mix.js('resources/assets/js/components/seguranca/perfil/rotas.js', 'public/js/perfil.js');
 
-mix.js('resources/assets/js/components/usuario/rotas.js', 'public/js/usuario.js');
+mix.js('resources/assets/js/components/seguranca/usuario/rotas.js', 'public/js/usuario.js');
 
 mix.js('resources/assets/js/components/profile/rotas.js', 'public/js/profile.js');
 
-mix.js('resources/assets/js/components/tranferirPerfil/rotas.js', 'public/js/tranferirPerfil.js');
+mix.js('resources/assets/js/components/seguranca/tranferirPerfil/rotas.js', 'public/js/tranferirPerfil.js');
 
 /*
 ==========================================================================================================

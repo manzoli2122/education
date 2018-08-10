@@ -117,7 +117,10 @@ class LoginController extends Controller
     	$credentials = $request->only('token');
 
     	if(!$credentials){
-    		abort(401 , "Falha de Autenticação - token vazio!!" );
+            if(env('LOG_ELASTIC_LOG')){
+                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token vazio!!']  );
+            } 
+            abort(401 , "Falha de Autenticação - token vazio!!" );
     	}
 
     	try{
@@ -137,15 +140,27 @@ class LoginController extends Controller
 
     	}
     	catch(TokenInvalidException $e){
+            if(env('LOG_ELASTIC_LOG')){
+                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token Invalido!!']  );
+            } 
     		abort(401 , "Falha de Autenticação - Token Invalido!!" );
     	}
     	catch(TokenExpiredException $e){
+            if(env('LOG_ELASTIC_LOG')){
+                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação - token expirado!!']  );
+            } 
     		abort(401 , "Falha de Autenticação - Token expirado!!" );
     	}
     	catch(JWTException $e){
+            if(env('LOG_ELASTIC_LOG')){
+                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação !!']  );
+            } 
     		abort(401 , "Falha de Autenticação - Token vazio!!" );
     	} 
     	catch(Exception $e){
+            if(env('LOG_ELASTIC_LOG')){
+                $this->EnviarFilaElasticSearchLog( $request,  'App\User', 'FalhaLogin' , ['causa' => 'Falha de Autenticação !!']  );
+            } 
     		abort(401 , "Falha de Autenticação!!" );
     	} 
 
@@ -190,11 +205,21 @@ class LoginController extends Controller
     * 
     */
     protected function  EnviarFilaElasticSearchLog( Request $request , $model, $acao ,  $dados   ){  
-    	$info =   [   
-    		'ip'   => $request->server('REMOTE_ADDR') ,
-    		'host' => $request->header('host'),
-    		'usuario' => Auth::user()->log()['usuario'],
-    	] ; 
+    	
+        if($request->user()){
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'),
+                'usuario' => $request->user()->log()['usuario'],
+            ] ; 
+        }
+        else{
+            $info =   [   
+                'ip'   => $request->server('REMOTE_ADDR') ,
+                'host' => $request->header('host'), 
+            ] ; 
+        }
+        
     	dispatch( 
     		new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
     	);   

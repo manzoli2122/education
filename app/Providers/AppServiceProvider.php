@@ -30,18 +30,18 @@ class AppServiceProvider extends ServiceProvider
         );
   
         $this->app->bind(
-            'App\Service\Security\PermissaoServiceInterface',
-            'App\Service\Security\PermissaoService'
+            'App\Service\Seguranca\PermissaoServiceInterface',
+            'App\Service\Seguranca\PermissaoService'
         );
 
         $this->app->bind(
-            'App\Service\Security\PerfilServiceInterface',
-            'App\Service\Security\PerfilService'
+            'App\Service\Seguranca\PerfilServiceInterface',
+            'App\Service\Seguranca\PerfilService'
         );
 
         $this->app->bind(
-            'App\Service\Security\UsuarioServiceInterface',
-            'App\Service\Security\UsuarioService'
+            'App\Service\Seguranca\UsuarioServiceInterface',
+            'App\Service\Seguranca\UsuarioService'
         );
 
     }
