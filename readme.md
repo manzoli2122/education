@@ -3,6 +3,19 @@
 
 # Sobre o SGPM-TEMPLATE
 
+
+## Instalação
+
+ - Baixar o projeto
+ - composer update
+ - npm install
+ - npm run dev ou npm run prod
+ - configurar o arquivo .env ( APP_URL , APP_URL_LOGIN_BAON , LOG_ELASTIC_LOG, LOG_ELASTIC_SEARCH_URL, conexão com o banco, redis, email )
+ - configurar o envio de fila (php artisan queue:work --tries=1 )
+
+
+
+
 ## ACL
 
  - Baseado no Projeto ENTRUST disponivel em [ENTRUST](https://github.com/Zizaco/entrust).
