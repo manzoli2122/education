@@ -12,20 +12,20 @@
 					</div>
 					<div class="card-body  table-responsive"> 
 						<datatableService  :config="config" id="datatableUsuariosPerfis" :reload="reloadDatatable" v-on:perfilRemovido="perfilRemovido($event)"> 
-							<th style="max-width:30px">ID</th>
-                        	<th pesquisavel>Nome</th>
-                        	<th pesquisavel>Descrição</th>
+							<th style="max-width:50px">ID</th>
+							<th pesquisavel>Nome</th>
+							<th pesquisavel>Descrição</th>
 							<th pesquisavel>Responsável</th>  
-                        	<th class="text-center">Ações</th>
+							<th class="text-center">Ações</th>
 						</datatableService> 
 					</div>    
 					<div class="card-footer text-right">
-        				<crudBotaoVoltar url="/" />   
-        			</div>
+						<crudBotaoVoltar url="/" />   
+					</div>
 				</crudCard>  
- 
+
 				<formAdicionarPerfil v-if="perfis.length > 0" v-on:perfilAdicionado="perfilAdicionado($event)" :perfis="perfis" :url="url"> </formAdicionarPerfil>    
-				  
+
 			</div> 
 		</div>  
 	</div>
@@ -33,84 +33,92 @@
 
 
 <script>
-  
-Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue'));  
 
-export default {
- 
-	props:[ 
-	'url' , 'url_usuario'
-	],  
+	Vue.component('formAdicionarPerfil', require('./_PerfilFormAdicionar.vue'));  
 
-	data() {
-		return {    
-			usuario:'',
-			perfis:'', 
-			reloadDatatable: false , 
-			config: {
-				exclusao:{
-					url:this.url + '/' + this.$route.params.id + '/delete/perfil'  ,
-					evento:'perfilRemovido',
-					item:'Perfil',
-				},
-				order: [[ 1, "asc" ]],
-				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/perfil/datatable'
-				},
-				columns: [
-				{ data: 'perfil_id', name: 'perfils_users.perfil_id'  },
-				{ data: 'nome', name: 'perfils.nome' },
-				{ data: 'descricao', name: 'perfils.descricao' }, 
-				{ data: 'responsavel_id', name: 'perfils.pivot.responsavel_id' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
-				],
-			} ,  
+	export default {
 
-			  
-		}
-	},
-  
+		props:[ 
+		'url' , 'url_usuario'
+		],  
 
-	created() { 
-		alertProcessando();
-		axios.get(this.url + '/' + this.$route.params.id)
-		.then(response => {
-			this.usuario = response.data;
-			alertProcessandoHide();
-		})
-		.catch(error => {
-			toastErro('Não foi possivel achar o Usuário', error.response.data);
-			alertProcessandoHide();
-			this.$router.push('/')
-		}); 
+		data() {
+			return {    
+				usuario:'',
+				perfis:'', 
+				reloadDatatable: false , 
+				config: {
+					exclusao:{
+						url:this.url + '/' + this.$route.params.id + '/delete/perfil'  ,
+						evento:'perfilRemovido',
+						item:'Perfil',
+					},
+					order: [[ 1, "asc" ]],
+					ajax: { 
+						url: this.url + '/' + this.$route.params.id + '/perfil/datatable'
+					},
+					columns: [
+					{ data: 'perfil_id', name: 'perfils_users.perfil_id'  },
+					{ data: 'nome', name: 'perfils.nome' },
+					{ data: 'descricao', name: 'perfils.descricao' }, 
+					{ data: 'responsavel_id', name: 'perfils.pivot.responsavel_id' }, 
+					{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+					],
+				} ,  
 
-		axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar")
-		.then(response => {
-			this.perfis = response.data;
-		})
-		.catch(error => {
-			toastErro("Não foi possivel achar os Perfis para adiocionar", error.response.data);
-		});  
- 
-		  
-	}, 
 
-	methods: {
-
-		perfilRemovido(event) {
-			this.perfis = event;  
+			}
 		},
 
-		perfilAdicionado(event) {
-			this.perfis = event;
-			this.reloadDatatable = !this.reloadDatatable; 
+		watch: { 
+			usuario: function (newQuestion, oldQuestion) {
+				this.buscarPerfis();
+			}
 		},
  
-	},
+		created() { 
+			alertProcessando();
+			axios.get(this.url + '/' + this.$route.params.id)
+			.then(response => {
+				alertProcessandoHide();
+				this.usuario = response.data; 
+			})
+			.catch(error => {
+				toastErro('Não foi possivel achar o Usuário', error.response.data);
+				alertProcessandoHide();
+				this.$router.push('/');
+			});  
+		}, 
 
- }
- 
- </script>
- 
- <style scoped>  
- </style>
+		methods: {
+
+			perfilRemovido(event) {
+				this.perfis = event;  
+			},
+
+			perfilAdicionado(event) {
+				this.perfis = event;
+				this.reloadDatatable = !this.reloadDatatable; 
+			},
+
+			buscarPerfis() {
+				alertProcessando();
+				axios.get(this.url + "/" + this.$route.params.id + "/perfil/adicionar")
+				.then(response => {
+					this.perfis = response.data;
+					alertProcessandoHide();
+				})
+				.catch(error => {
+					toastErro("Não foi possivel achar os Perfis para adiocionar", error.response.data);
+					alertProcessandoHide();
+				}); 
+			},
+
+		},
+
+	}
+
+</script>
+
+<style scoped>  
+</style>

@@ -33,12 +33,7 @@
 
 		data() {
 			return {                
-				config: {
-					exclusao:{
-						url:this.url,
-						evento:'usuarioRemovido',
-						item:'Usuário',
-					},
+				config: { 
 					ativacao:{
 						url:this.url , 
 						item:'Usuário',

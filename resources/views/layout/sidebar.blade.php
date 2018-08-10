@@ -34,8 +34,9 @@
 						<p>Principal</p>
 					</a>
 				</li>
-
-				@perfil('Admin')
+				
+				@if( Auth::user() )
+				
 				<li class="nav-item has-treeview ">
 					<a href="#" class="nav-link active">
 						<i class="nav-icon fa fa-lock"></i>
@@ -44,6 +45,8 @@
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
+						
+						@perfil('Admin')
 
 						@if(Route::getRoutes()->hasNamedRoute('permissao.index'))
 						<li class="nav-item">
@@ -54,14 +57,18 @@
 								</p>
 							</a>
 						</li>
-						@endif @if(Route::getRoutes()->hasNamedRoute('perfil.index'))
+						@endif 
+
+						@if(Route::getRoutes()->hasNamedRoute('perfil.index'))
 						<li class="nav-item">
 							<a href="{{ route('perfil.index')}}" class="nav-link ">
 								<i class="nav-icon fa fa-id-card fa-lg fa-2x "></i>
 								<p>Perfil</p>
 							</a>
 						</li>
-						@endif @if(Route::getRoutes()->hasNamedRoute('usuario.index'))
+						@endif 
+
+						@if(Route::getRoutes()->hasNamedRoute('usuario.index'))
 						<li class="nav-item">
 							<a href="{{ route('usuario.index')}}" class="nav-link ">
 								<i class="nav-icon fa fa-users fa-lg fa-2x  "></i>
@@ -69,17 +76,25 @@
 							</a>
 						</li>
 						@endif
+						
+						@endperfil
+
+						
+						@if(Route::getRoutes()->hasNamedRoute('tranferir.perfil.index'))
+						<li class="nav-item">
+							<a href="{{ route('tranferir.perfil.index')}}" class="nav-link ">
+								<i class="nav-icon fa fa-send fa-lg fa-2x"></i>
+								<p>Transferir Perfil</p>
+							</a>
+						</li>
+						@endif
+
 
 					</ul>
 				</li>
-				@endperfil
-
-				<li class="nav-item">
-					<a href="{{ route('tranferir.perfil.index')}}" class="nav-link">
-						<i class="nav-icon fa fa-send  "></i>
-						<p>Transferir Perfil</p>
-					</a>
-				</li>
+				
+				@endif
+				 
 
 			</ul>
 		</nav>

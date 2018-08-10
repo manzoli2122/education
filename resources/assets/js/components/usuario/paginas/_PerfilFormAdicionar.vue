@@ -3,17 +3,14 @@
 		<h3>Adicionar Perfil</h3>
 		<crudCard>
 			<div class="card-body">
-				<crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')">
-
-					<select2 v-model="form.perfil" class="form-control" v-bind:class="{ 'is-invalid': form.errors.has('perfil') }">
+				<crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')"> 
+					<select2 v-model="form.perfil" class="form-control col-9" v-bind:class="{ 'is-invalid': form.errors.has('perfil') }">
 						<option value=""> Selecione o Perfil </option>
 						<option v-for="p in perfis" :key="p.id" :value="p.id"> {{p.nome}} </option>
 					</select2>
+					<crudBotaoSalvar :disabled="form.errors.any()" texto="Adicionar"/>
 				</crudFormElemento>
-			</div>
-			<div class="card-footer text-right">
-				<crudBotaoSalvar :disabled="form.errors.any()" texto="Adicionar"/>
-			</div>
+			</div> 
 		</crudCard>
 	</form> 
 </template>

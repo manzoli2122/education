@@ -1,5 +1,5 @@
 <template>             
-	<div> 
+	<div v-if="permissao"> 
 		<crudHeader :texto="'Permissão - ' + permissao.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Permissões </a></router-link> 

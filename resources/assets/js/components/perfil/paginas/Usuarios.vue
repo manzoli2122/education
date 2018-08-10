@@ -1,5 +1,5 @@
 <template>             
-	<div> 
+	<div v-if="perfil"> 
 		<crudHeader :texto="'Perfil - ' + perfil.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
@@ -72,7 +72,8 @@ export default {
  		})
  		.catch(error => { 
 			alertProcessandoHide();
- 			toastErro('Não foi possivel achar a Perfil' , error.response.data); 
+ 			toastErro('Não foi possivel achar a Perfil' , error.response.data);
+ 			this.$router.push('/'); 
          });   
 	 }, 
 	 

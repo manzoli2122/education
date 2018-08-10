@@ -1,5 +1,5 @@
 <template>             
-	<div> 
+	<div v-if="perfil"> 
 		<crudHeader :texto="'Perfil - ' + perfil.nome">
 			<li class="breadcrumb-item">
 				<router-link   to="/" exact><a>Perfis </a></router-link> 
@@ -35,82 +35,98 @@
 
 
 <script>
- 
-Vue.component('formAdicionarPermissao', require('./_PermissaoFormAdicionar.vue'));
- 
-export default {
 
-	props:[
-	'url' 
-	], 
+	Vue.component('formAdicionarPermissao', require('./_PermissaoFormAdicionar.vue'));
 
-	data() {
-		return {        
-			perfil:'', 
-			permissoes:'',
-			reloadDatatable: false ,
-			reloadDatatableLog: false ,
-			config: {
-				exclusao:{
-					url:this.url + '/' + this.$route.params.id + '/delete/permissao'  ,
-					evento:'permissaoRemovida',
-					item:'Permissão',
-				},
-				order: [[ 1, "asc" ]],
-				ajax: { 
-					url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
-				},
-				columns: [
-				{ data: 'id', name: 'id'  },
-				{ data: 'nome', name: 'nome' },
-				{ data: 'descricao', name: 'descricao' }, 
-				{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
-				],
-			} ,
- 
-		}
-	},
+	export default {
 
- 
+		props:[
+		'url' 
+		], 
 
-	created() {
-		alertProcessando();
-		axios.get(this.url + '/' + this.$route.params.id )
-		.then(response => {
-			this.perfil = response.data ;
-			alertProcessandoHide();
-		})
-		.catch(error => { 
-			alertProcessandoHide();
- 			toastErro('Não foi possivel achar a Perfil' , error.response.data);
- 		});  
+		data() {
+			return {        
+				perfil:'', 
+				permissoes:'',
+				reloadDatatable: false ,
+				reloadDatatableLog: false ,
+				config: {
+					exclusao:{
+						url:this.url + '/' + this.$route.params.id + '/delete/permissao'  ,
+						evento:'permissaoRemovida',
+						item:'Permissão',
+					},
+					order: [[ 1, "asc" ]],
+					ajax: { 
+						url: this.url + '/' + this.$route.params.id + '/permissao/datatable'
+					},
+					columns: [
+					{ data: 'id', name: 'id'  },
+					{ data: 'nome', name: 'nome' },
+					{ data: 'descricao', name: 'descricao' }, 
+					{ data: 'action', name: 'action', orderable: false, searchable: false, class: 'text-center'}
+					],
+				} ,
 
-		axios.get(this.url + '/' + this.$route.params.id +'/permissao/adicionar')
-		.then(response => {
-			this.permissoes = response.data ;
-		})
-		.catch(error => {
-			toastErro('Não foi possivel achar a Permissoes' , error.response.data);
-		});  
-	}, 
-
-
-
-
-	methods: {
-
-		permissaoRemovida(event) {
-			this.permissoes = event;  
+			}
 		},
 
-		permissaoAdicionada(event) {
-			this.permissoes = event;
-			this.reloadDatatable = !this.reloadDatatable; 
+		watch: { 
+			perfil: function (newQuestion, oldQuestion) {
+				this.buscarPermissoes();
+			}
 		},
 
-	},
 
-}
+
+		created() {
+			alertProcessando();
+			axios.get(this.url + '/' + this.$route.params.id )
+			.then(response => {
+				alertProcessandoHide();
+				this.perfil = response.data ;  
+			})
+			.catch(error => { 
+				alertProcessandoHide();
+				toastErro('Não foi possivel achar a Perfil' , error.response.data);
+				this.$router.push('/');
+			});   
+
+		}, 
+
+
+
+
+		methods: {
+
+			permissaoRemovida(event) {
+				this.permissoes = event;  
+			},
+
+			permissaoAdicionada(event) {
+				this.permissoes = event;
+				this.reloadDatatable = !this.reloadDatatable; 
+			},
+
+			buscarPermissoes() {
+				alertProcessando();
+				axios.get(this.url + '/' + this.$route.params.id +'/permissao/adicionar')
+				.then(response => {
+					this.permissoes = response.data ;
+					alertProcessandoHide();
+				})
+				.catch(error => {
+					toastErro('Não foi possivel achar a Permissoes' , error.response.data);
+					alertProcessandoHide();
+				});
+ 
+			},
+
+
+
+		},
+
+	}
 
 </script>
 

@@ -3,17 +3,14 @@
 		<h3>Transferir Perfil</h3>
 		<crudCard>
 			<div class="card-body">
-				<crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')">
-
-					<select2 v-model="form.perfil" class="form-control" v-bind:class="{ 'is-invalid': form.errors.has('perfil') }">
+				<crudFormElemento :errors="form.errors.has('perfil')" :errors_texto="form.errors.get('perfil')"> 
+					<select2 v-model="form.perfil" class="col-9" v-bind:class="{ 'is-invalid': form.errors.has('perfil') }">
 						<option value=""> Selecione o Perfil </option>
 						<option v-for="p in perfis" :key="p.id" :value="p.id"> {{p.nome}} </option>
 					</select2>
-				</crudFormElemento>
-			</div>
-			<div class="card-footer text-right">
-				<crudBotaoSalvar :disabled="form.errors.any()" texto="Transferir"/>
-			</div>
+					<crudBotaoSalvar :disabled="form.errors.any()" texto="Transferir"/>
+				</crudFormElemento> 
+			</div> 
 		</crudCard>
 	</form> 
 </template>
