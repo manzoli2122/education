@@ -106,8 +106,12 @@ return [
 
     'redis' => [
 
+
+
     	//'client' => 'phpredis',
         'client' => 'predis',
+
+
 
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
@@ -115,6 +119,9 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
+
+
+
 
     ],
 

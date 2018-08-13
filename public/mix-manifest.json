@@ -1,16 +1,16 @@
 {
-    "/js/vendor.js": "/js/vendor.js?id=74f052c59a458eb4d0ea",
-    "/js/app.js": "/js/app.js?id=436722cfc690f0570636",
-    "/js/perfil.js": "/js/perfil.js?id=901b146689de6c85090c",
-    "/js/usuario.js": "/js/usuario.js?id=9f91868dbebcae0688e2",
-    "/js/permissao.js": "/js/permissao.js?id=d0a7356174e5c964dcb6",
-    "/js/tranferirPerfil.js": "/js/tranferirPerfil.js?id=13b85536269e73df54f5",
-    "/js/profile.js": "/js/profile.js?id=8b068fd57747dbe4384b",
-    "/css/bootstrap.css": "/css/bootstrap.css?id=e2aa2ac70762fdaab70a",
+    "/js/vendor.js": "/js/vendor.js?id=5eb7aed0a3ec76d209f5",
+    "/js/app.js": "/js/app.js?id=851dfbb644a36d333e4d",
+    "/js/perfil.js": "/js/perfil.js?id=f1d958bcb1a923a89fdc",
+    "/js/usuario.js": "/js/usuario.js?id=a7d6b7853d34f02dae8a",
+    "/js/permissao.js": "/js/permissao.js?id=6f5b857a6d6c6e9f5157",
+    "/js/tranferirPerfil.js": "/js/tranferirPerfil.js?id=f8c4e8134f85639666d0",
+    "/js/profile.js": "/js/profile.js?id=abec0d9d1959a47be271",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=5f06109dc225ce6dc649",
     "/css/select2.css": "/css/select2.css?id=fd9fe49d3d919d631d3e",
     "/css/fonts.css": "/css/fonts.css?id=fba04555e8676937903a",
     "/css/bootstrap.css.map": "/css/bootstrap.css.map?id=0ab7c5a3c60c431b89b5",
-    "/css/adminlte.css": "/css/adminlte.css?id=786d4dae6b981e441fa2",
-    "/css/adminlte.css.map": "/css/adminlte.css.map?id=bafe584086c239667abf",
-    "/js/adminlte.js": "/js/adminlte.js?id=7fbfc5e71e6352224593"
+    "/css/adminlte.css": "/css/adminlte.css?id=d6d54ed97e8fad954d64",
+    "/css/adminlte.css.map": "/css/adminlte.css.map?id=a9cee6dbf75d53270705",
+    "/js/adminlte.js": "/js/adminlte.js?id=27c4358ace203c201c41"
 }

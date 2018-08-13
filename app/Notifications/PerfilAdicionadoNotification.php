@@ -7,25 +7,26 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Seguranca\Perfil; 
-
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class PerfilAdicionadoNotification extends Notification implements ShouldQueue
 {
+ 
 
 
     use Queueable;
-    
+     
 
 
     //public $tries = 1 ; // Não funciona aqui, feito atrave do comando --tries=1
-
+ 
 
 
 
     public $perfil  ;
-
-   
-
+    public $title  ;
+    public $message  ;
+ 
 
 
 
@@ -37,6 +38,8 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
     public function __construct(Perfil $perfil)
     {
         $this->perfil = $perfil;
+        $this->title =  'Perfil ' . $perfil->nome .  ' Adicionado';
+        $this->message =  'Parabéns!! agora você tem o perfil ' . $perfil->nome . '.';
         
     }
 
@@ -56,9 +59,9 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         if($notifiable->hasMailable('Perfil')){
-            return ['database' , 'mail'];
+            return ['database' , 'mail' , 'broadcast' ];
         }
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
 
@@ -79,16 +82,29 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
         return (new MailMessage) 
                     ->subject('Perfil Adicionado')
                     ->markdown('emails.perfil.adicionar' , ['perfil' =>$this->perfil->nome  ]);
-
-                    // ->greeting('Perfil adicionado no ' . config('app.name')  ) 
-                    // ->line('Agora você possui o perfil ' .$this->perfil->nome ) 
-                    // ->line('Mensagem enviada automaticamente.' )
-                    // ->line('Para desativar esta notificação entre no sistema e na parte de profile do usuário selecione gerenciar notificações.' )
-                    // ->salutation('Obrigado, ' .config('app.name') );
     }
 
 
 
+
+
+
+
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return ( new BroadcastMessage([
+                    'title' => $this->title  ,
+                    'message' => $this->message ,
+                ])
+        )->onQueue('realtime');
+    }
 
 
 
@@ -122,7 +138,9 @@ class PerfilAdicionadoNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'perfil' => $this->perfil 
+            'perfil' => $this->perfil ,
+            'title' => $this->title  ,
+            'message' => $this->message ,
         ];
     }
 

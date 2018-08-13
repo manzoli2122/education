@@ -12,6 +12,9 @@ use App\Mail\LoginSuccessMail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\FIlaElasticSearchLog;
 
+use App\Events\LoginEvent;
+
+
 
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -216,7 +219,8 @@ class LoginController extends Controller
     	}
     	if(env('LOG_ELASTIC_LOG')){
     		$this->EnviarFilaElasticSearchLog( $request,  'App\User', 'Login' , $usuario->log()  );
-    	} 
+    	}  
+        event(new LoginEvent($usuario)); 
     }
 
 

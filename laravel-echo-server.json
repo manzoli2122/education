@@ -1,0 +1,36 @@
+{
+	"authHost": "http://sgpm.edu.desenvolvimento/",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [
+		{
+			"appId": "05da489fb67ec2bf",
+			"key": "5e1a79d5b06e9cd7e8d2fd0f5479a9b9"
+		},
+		{
+			"appId": "c17ebeb69146682b",
+			"key": "59c9ecf0fafef5240a34554f6ae0838a"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {},
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": null,
+	"port": "6001",
+	"protocol": "http",
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": "",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"apiOriginAllow": {
+		"allowCors": true,
+		"allowOrigin": "http://sgpm.edu.desenvolvimento/",
+		"allowMethods": "GET, POST",
+		"allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+	}
+}

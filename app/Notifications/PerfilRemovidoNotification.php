@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Seguranca\Perfil; 
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 
 class PerfilRemovidoNotification extends Notification implements ShouldQueue
@@ -20,7 +21,8 @@ class PerfilRemovidoNotification extends Notification implements ShouldQueue
 
 
     public $perfil  ;
-
+    public $title  ;
+    public $message  ;
 
 
 
@@ -33,6 +35,8 @@ class PerfilRemovidoNotification extends Notification implements ShouldQueue
     public function __construct(Perfil $perfil)
     {
         $this->perfil = $perfil;
+        $this->title =  'Perfil ' . $perfil->nome .  ' Removido';
+        $this->message =  'Agora você não tem mais o perfil ' . $perfil->nome . '.';
     }
 
 
@@ -51,9 +55,9 @@ class PerfilRemovidoNotification extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         if($notifiable->hasMailable('Perfil')){
-            return ['database' , 'mail'];
+            return ['database' , 'mail', 'broadcast'];
         }
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
 
@@ -102,7 +106,20 @@ class PerfilRemovidoNotification extends Notification implements ShouldQueue
 
 
 
-
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return ( new BroadcastMessage([
+            'title' => $this->title  ,
+            'message' => $this->message ,
+        ])
+        )->onQueue('realtime');
+    }
 
 
 
@@ -117,7 +134,9 @@ class PerfilRemovidoNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'perfil' => $this->perfil 
+            'perfil' => $this->perfil ,
+            'title' => $this->title  ,
+            'message' => $this->message ,
         ];
     }
 

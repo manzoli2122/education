@@ -274,6 +274,7 @@ class TemporarioController extends Controller
      */
     protected function respondWithToken($token)
     {
+        return '<a href="' . url('/') .'/login/token?token=' .$token . '" target="_blank">link</a>' ;
         return '<a href="' . env('APP_URL') .'login/token?token=' .$token . '" target="_blank">link</a>' ;
     }
 

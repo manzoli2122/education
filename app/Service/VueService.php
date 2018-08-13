@@ -180,7 +180,9 @@ class VueService  implements VueServiceInterface
             'usuario' => Auth::user()->log()['usuario'],
         ] ; 
         dispatch( 
-            new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') )
+            (new FIlaElasticSearchLog($model, $acao , $dados, $info , now()->format('Y-m-d\TH:i:s.u') ) )
+            //->onConnection('redis_log')
+           // ->onQueue('log')
         );   
     }
 

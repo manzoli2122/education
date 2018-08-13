@@ -1,4 +1,6 @@
 <template>
+	 
+	 
 	<li class="nav-item dropdown">
 
 		<a class="nav-link" data-toggle="dropdown" href="#">
@@ -14,10 +16,10 @@
 			<div class="dropdown-divider"></div>
 			
 
-    		<perfilAdicionadoNotification  v-for="notification in perfilAdicionado" :key="notification.id" :notification="notification">  
+    		<perfilAdicionadoNotification v-on:visualizado="loadNotifications(  )" v-for="notification in perfilAdicionado" :key="notification.id" :notification="notification">  
     		</perfilAdicionadoNotification>
  		
- 			<perfilRemovidoNotification  v-for="notification in perfilRemovido" :key="notification.id" :notification="notification">  
+ 			<perfilRemovidoNotification v-on:visualizado="loadNotifications(  )"  v-for="notification in perfilRemovido" :key="notification.id" :notification="notification">  
     		</perfilRemovidoNotification>
 			 
 			
@@ -27,6 +29,10 @@
 			</a>
 		</div>
 	</li>
+	
+
+	
+ 
 </template>
 
 
@@ -39,9 +45,20 @@
 
 	export default {
 
+		props:[
+			'usuario'
+		],
 
 		created(){
 			this.loadNotifications();
+
+			Echo.private( "App.User." + this.usuario.id )
+				.notification((notification) => {
+					this.loadNotifications(  );
+					toastSucesso( notification.title , notification.message, function() {} , false );
+					//console.log(notification.type);
+					//console.log(notification); 
+				});
 		},
 
 
@@ -65,10 +82,10 @@
 		},
 
 
-
 		data() {
 			return {          
 				notifications:[],
+				
 			}
 		},
 

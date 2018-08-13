@@ -57,6 +57,9 @@ return [
             'region' => env('SQS_REGION', 'us-east-1'),
         ],
 
+
+
+
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
@@ -64,6 +67,8 @@ return [
             'retry_after' => 90,
             'block_for' => null,
         ],
+ 
+
 
     ],
 

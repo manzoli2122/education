@@ -112,9 +112,14 @@ class ProfileController extends Controller
     * @return void
     */
     public function  DesativarNotificacaoEmail( Request $request , $mailable_id ){
+
         $usuario =  Auth::user();  
         $mailable = $this->mailable->find( $mailable_id );
         $usuario->detachMailable($mailable);  
+
+
+        
+
         return response()->json( 'Destivado' , 200 );
     }
 
@@ -150,9 +155,7 @@ class ProfileController extends Controller
     *  Função para marcar como lida todas as notificações
     *
     * @param Request $request
-    *  
-    * @param int  $id
-    *    
+    *   
     * @return void
     */
     public function  limparNotifications( Request $request  ){ 
@@ -160,7 +163,21 @@ class ProfileController extends Controller
     }
 
     
-
+    /**
+    *  Função para marcar como lida todas as notificações
+    *
+    * @param Request $request
+    *   
+    *    
+    * @return void
+    */
+    public function  readNotifications( Request $request  ){ 
+        if($notification = $request->user()->unreadNotifications()->where('id', $request->input('id') )->first() ){
+            $notification->markAsRead(); 
+            return response()->json( $request->input('id') , 201 );
+        }
+        return response()->json( $request->input('id') , 200 );
+    }
 
 
 

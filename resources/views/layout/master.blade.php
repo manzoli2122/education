@@ -56,7 +56,19 @@
  
 	<script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
 
-  
+	@if(Auth::user())
+		@if(Auth::user()->hasPerfil('Admin'))
+			<script  type="text/javascript">
+				Echo.private('login')
+				.listen('LoginEvent', (e) => {
+					toastSucesso(e.user.name , ' Logou no sistema', function() {} , false );
+					//console.log(e.user);  
+				}); 
+			</script> 
+		@endif
+	@endif
+	
+	 
 
 	@stack('script')
 

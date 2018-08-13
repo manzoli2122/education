@@ -36,8 +36,11 @@ Vue.component('notification', require('./components/notification/Notification'))
 
 
 
-const header = new Vue({
-    el: '#header',      
+window.headerVue = new Vue({
+    el: '#header',     
+    // data: {
+    //    notificacoes:[]
+    // }, 
 });
  
 
@@ -66,8 +69,7 @@ window.alertErro = function(titulo, texto = "", posicao = "center", funcao = fun
         titleSize: '14',
         message: texto,
         messageColor: '#fff',
-         timeout: 10000,
-       
+        timeout: 10000,
         icon: 'fa fa-ban',
         iconColor: '#fff',
         closeOnEscape: true,
@@ -84,11 +86,10 @@ window.toastErro = function(titulo, texto = "", funcao = function() {}) {
 
 
 
-window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = function() {}) {
+window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = function() {} , timeout = 10000 ) {
     iziToast.show({
         theme: 'dark',
-        timeout: 10000,
-       
+        timeout: timeout, 
         position: posicao,
         color: '#1F5688',
         title: titulo,
@@ -104,8 +105,8 @@ window.alertSucesso = function(titulo, texto = "", posicao = "center", funcao = 
     });
 }
 
-window.toastSucesso = function(titulo, texto = "", funcao = function() {}) {
-    alertSucesso(titulo, texto, 'bottomRight', funcao);
+window.toastSucesso = function(titulo, texto = "", funcao = function() {} ,  timeout = 10000   ) {
+    alertSucesso(titulo, texto, 'bottomRight', funcao , timeout );
 }
 
  
@@ -146,3 +147,6 @@ window.alertConfimacao = function( titulo , texto , funcaoSIM  ) {
         id: 'iziToastConfirmacao'
     });
 }
+
+
+        

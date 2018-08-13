@@ -29,6 +29,7 @@ Route::delete('profile/desativacao/{mailable_id}', 'ProfileController@DesativarN
 Route::post('profile/mailable/datatable',  'ProfileController@getNotificacaoDatatable') ;
 
 Route::get('profile/notificacoes',  'ProfileController@notifications') ; 
+Route::post('profile/notificacoes',  'ProfileController@readNotifications') ; 
 Route::post('profile/limpar/notificacoes',  'ProfileController@limparNotifications') ; 
 
 Route::get('profile',   'ProfileController@profile')->name('profile'); 

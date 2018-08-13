@@ -18,16 +18,10 @@
       </a>
     </li> 
     @else
+ 
+    <notifications :usuario="{{Auth::user()}}">      </notifications>
 
-
-    <notifications>      </notifications>
-
-
-    
-
-
-
-
+ 
     <li class="nav-item">
       <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         Sair
@@ -40,3 +34,4 @@
     @endguest
   </ul>
 </nav>
+ 
